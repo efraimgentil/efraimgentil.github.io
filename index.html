@@ -1,8 +1,35 @@
-<html>
-<head>
-	<title>Hello</title>
-</head>
-<body>
- HELO
-</body>
-</html>
+---
+title: Teste Titulo
+author: Efraim Gentil
+description: Just for Fun
+cover: false
+layout: default
+---
+
+
+<div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      {% for post in site.posts  %}
+      <div class="post-preview">
+        <a href="{{ post.url }}">
+            <h2 class="post-title">
+                {{post.title}}
+            </h2>
+            <h3 class="post-subtitle">
+                {{post.resume}}
+            </h3>
+        </a>
+        <p class="post-meta">Posted by <a href="#">{{post.author}}</a> on {{post.date | date: '%B %d , %Y'}}</p>
+        </div>
+        <hr>
+    {% endfor %}
+    <ul class="pager">
+        <li class="next">
+            <a href="#">Older Posts &rarr;</a>
+        </li>
+    </ul>
+</div>
+<!-- Pager -->
+
+</div>
+
