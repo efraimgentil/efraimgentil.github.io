@@ -1,0 +1,29 @@
+
+# Build settings
+name: efraimgentil.github.io
+description: Just for Fun
+
+
+markdown: kramdown
+highlighter: pygments
+
+logo: false
+paginate: 15
+
+# Details for the RSS feed generator
+url:       '???'
+author:    'Efraim Gentil'
+permalink: /posts/:categories/:title
+archive: false
+disqus: false
+
+baseurl: "" 
+
+languages: ["pt_BR", "en"]
+
+exclude_from_localizations: ["assets", "javascript", "images", "css"]
+
+
+gems: 
+  - jekyll-multiple-languages-plugin
+
