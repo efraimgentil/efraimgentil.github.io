@@ -1,0 +1,14 @@
+global:
+  about: SObre
+  twitter: Twitter
+  github: GitHub
+  blog-title: Efraim Gentil
+  blog-subtitle: Just for Fun
+  posted: Postado por
+menu:
+  home: Home
+  about: Sobre
+  contact: Contato
+langs:
+  en: Ingles
+  pt_BR: Português

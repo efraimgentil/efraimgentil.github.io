@@ -24,6 +24,7 @@ languages: ["pt_BR", "en"]
 exclude_from_localizations: ["Gemfile" , "Gemfile.lock" ,"assets", "javascript", "images", "css"]
 
 
+
 gems: 
   - jekyll-multiple-languages-plugin
 
