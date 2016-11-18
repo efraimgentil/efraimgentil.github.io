@@ -5,6 +5,8 @@ global:
   blog-title: Efraim Gentil
   blog-subtitle: Just for Fun
   posted: Postado por
+  on: em
+  older-posts: POSTS ANTERIORES
 menu:
   home: Home
   about: Sobre

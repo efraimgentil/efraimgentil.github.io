@@ -8,12 +8,13 @@ markdown: kramdown
 highlighter: pygments
 
 logo: false
-paginate: 15
+paginate: 5
+paginate_path: "/posts/:num/"
 
 # Details for the RSS feed generator
 url:       '???'
 author:    'Efraim Gentil'
-permalink: /posts/:categories/:title
+permalink: /post/:categories/:title
 archive: false
 disqus: false
 
@@ -27,4 +28,5 @@ exclude_from_localizations: ["Gemfile" , "Gemfile.lock" ,"assets", "javascript",
 
 gems: 
   - jekyll-multiple-languages-plugin
+  - jekyll-paginate
 

@@ -4,7 +4,9 @@ global:
   github: GitHub
   blog-title: Efraim Gentil
   blog-subtitle: Just for Fun
-  posted: Posted by {0}
+  posted: Posted by
+  on: on
+  older-posts: OLDER POSTS
 menu:
   home: Home
   about: About

@@ -1,0 +1,52 @@
+---
+title: Efraim Gentil - Just fo Fun
+author: Efraim Gentil
+resume: 
+date:   2016-11-15 18:00:00
+cover: false
+layout: default
+categories: ['jekyll']
+tags: jekyll,html,blog,posts
+---
+
+
+<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+  {% for post in paginator.posts %}
+  <div class="post-preview">
+    <a href="{{ post.url |  prepend: site.baseurl }}">
+      <h2 class="post-title">
+        {{ post.title }}
+      </h2>
+      <h3 class="post-subtitle">
+        {{ post.description }}
+      </h3>
+    </a>
+    <p class="post-meta">{% t global.posted  %}<a href="#"> {{post.author}}</a> {% t global.on %} {{ post.date | date: "%B %d, %Y"  }}</p>
+  </div>
+  <hr>
+  {% endfor %}
+  <!-- Pager -->
+  <ul class="pager">
+    {% if paginator.previous_page %}
+      <li class="previous">
+      <a href="{{ paginator.previous_page_path |  prepend: site.baseurl }}" class="previous">Previous</a>
+      </li>
+    {% else %}
+      <li class="previous">
+        <a   >Previous</a>
+      </li>
+    {% endif %}
+    <li>
+     <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+   </li>
+      {% if paginator.next_page %}
+        <li class="next">
+          <a href="{{ paginator.next_page_path |  prepend: site.baseurl  }}" class="next">Next</a>
+        </li>
+      {% else %}
+        <li class="next">
+          <a class="next">Next</a>
+        </li>
+      {% endif %}
+  </ul>
+</div>
