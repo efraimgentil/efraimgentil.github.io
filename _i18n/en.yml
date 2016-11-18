@@ -7,6 +7,10 @@ global:
   posted: Posted by
   on: on
   older-posts: OLDER POSTS
+  about: About me
+  about-subheading: This is what I do
+  contact-me: Contact Me
+  contact-me-subheading: Have questions? I have answers (maybe).
 menu:
   home: Home
   about: About

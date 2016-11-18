@@ -7,6 +7,10 @@ global:
   posted: Postado por
   on: em
   older-posts: POSTS ANTERIORES
+  about: Sobre mim
+  about-subheading: Isso é o que  eu faço
+  contact-me: Contato
+  contact-me-subheading: Tem uma pergunta? Eu tenho a resposta (talvez =D).
 menu:
   home: Home
   about: Sobre

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="{{site.lang}}">
+<head>
+
+
+   {% include metas.html %}
+    <title>{{page.title}}</title>
+
+    {% include links.html %}
+</head>
+
+<body>
+
+   {% include nav.html %}
+
+   <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('/assets/img/home-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>{{ page.title }}</h1>
+                        <h2 class="subheading">{{ page.resume }}</h2>
+                        <span class="meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                {{content}}
+            </div>
+        </div>
+    </div>
+    <hr>
+    
+
+    {% include footer.html %}
+    {% include analitics.html %}
+    {% include scripts.html %}
+</body>
+</html>
