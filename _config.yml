@@ -3,9 +3,9 @@
 name: efraimgentil.github.io
 description: Just for Fun
 
-
-markdown: kramdown
-highlighter: pygments
+#markdown: redcarpet
+#markdown: kramdown
+#highlighter: pygments
 
 logo: false
 paginate: 5
@@ -29,4 +29,5 @@ exclude_from_localizations: ["Gemfile" , "Gemfile.lock" ,"assets", "javascript",
 gems: 
   - jekyll-multiple-languages-plugin
   - jekyll-paginate
+  - redcarpet
 
