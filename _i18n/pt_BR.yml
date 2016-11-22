@@ -4,13 +4,15 @@ global:
   github: GitHub
   blog-title: Efraim Gentil
   blog-subtitle: Just for Fun
+  blog-description: Blog pessoal voltado para a área de desenvolvimento de software, abordando linguagens como Java, Javascrip, Python, Ruby e o que mais de na telha.
   posted: Postado por
-  on: em
   older-posts: POSTS ANTERIORES
   about: Sobre mim
   about-subheading: Isso é o que  eu faço
   contact-me: Contato
   contact-me-subheading: Tem uma pergunta? Eu tenho a resposta (talvez =D).
+  next: Proxíma
+  previous: Anterior
 menu:
   home: Home
   about: Sobre
@@ -18,3 +20,18 @@ menu:
 langs:
   en: Ingles
   pt_BR: Português
+
+#MONTHS
+month: Mês
+january: Janeiro
+february: Fevereiro
+march: Março
+april: Abril
+may: Maio
+june: Junho
+july: Julio
+august: Agosto
+september: Setembro
+october: Outubro
+november: Novembro
+december: Dezembro

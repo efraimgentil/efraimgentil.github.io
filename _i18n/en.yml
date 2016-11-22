@@ -4,13 +4,15 @@ global:
   github: GitHub
   blog-title: Efraim Gentil
   blog-subtitle: Just for Fun
+  blog-description: Personal blog
   posted: Posted by
-  on: on
   older-posts: OLDER POSTS
   about: About me
   about-subheading: This is what I do
   contact-me: Contact Me
   contact-me-subheading: Have questions? I have answers (maybe).
+  next: Next
+  previous: Previous
 menu:
   home: Home
   about: About
@@ -18,3 +20,18 @@ menu:
 langs:
   en: English
   pt_BR: Portuguese
+
+#MONTHS
+month: Month
+january: January
+february: February
+march: March
+april: April
+may: May
+june: June
+july: July
+august: August
+september: September
+october: October
+november: November
+december: December

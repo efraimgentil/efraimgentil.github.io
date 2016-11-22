@@ -2,17 +2,16 @@
 <html lang="{{site.lang}}">
 <head>
 
-
-   {% include metas.html %}
-    <title>{{page.title}}</title>
-
-    {% include links.html %}
+{% include metas.html %}
+<meta name="description" content="{% t page.description  %}">
+<title>{{page.title}}</title>
+{% include links.html %}
 </head>
 
 <body>
 
-   {% include nav.html %}
 
+   {% include nav.html %}
 
    <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
@@ -30,7 +29,7 @@
         </div>
     </header>
 
-
+    {% assign months = "january|february|march|april|may|june|july|august|september|october|november|december" | split: "|" %}
     <!-- Main Content -->
     <div class="container">
         <div class="row">

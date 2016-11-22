@@ -1,7 +1,7 @@
 ---
 title: Efraim Gentil - Just fo Fun
 author: Efraim Gentil
-description: 
+description: global.blog-description
 date:   2016-11-15 18:00:00
 cover: false
 layout: default-template
@@ -9,7 +9,14 @@ categories: ['jekyll']
 keywords: java,javascript,python,blog,programming,development
 ---
 
+{% assign months = "january|february|march|april|may|june|july|august|september|october|november|december" | split: "|" %}
+
 {% for post in site.posts limit:5 %}
+{% assign m = post.date | date: "%-m" | minus: 1 %}
+{% assign day = post.date | date: "%d" %}
+{% assign month = months[m] %}
+{% assign year = post.date | date: "%Y" %}
+
 <div class="post-preview">
   <a href="{{ post.url |  prepend: site.baseurl }}">
     <h2 class="post-title">
@@ -19,7 +26,13 @@ keywords: java,javascript,python,blog,programming,development
       {{ post.description }}
     </h3>
   </a>
-  <p class="post-meta">{% t global.posted  %}<a href="{{ "/about.html" |  prepend: site.baseurl }}"> {{post.author}}</a> {% t global.on %} {{ post.date | date: "%B %d, %Y"  }}</p>
+  <p class="post-meta">{% t global.posted  %}<a href="{{ "/about.html" |  prepend: site.baseurl }}"> {{post.author}}</a>
+  {% if site.lang  == 'en'  %}
+    on {% t month %} {{day}}, {{year}}
+  {% else %}
+    em {{day}} de {% t month %}, {{year}}
+  {% endif %}
+  </p>
 </div>
 <hr>
 {% endfor %}
