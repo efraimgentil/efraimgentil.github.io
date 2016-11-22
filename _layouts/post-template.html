@@ -8,7 +8,16 @@
 </head>
 <body>
 
+
+
+    {% assign months = "january|february|march|april|may|june|july|august|september|october|november|december" | split: "|" %}
    {% include nav.html %}
+
+   {% assign m = page.date | date: "%-m" | minus: 1 %}
+    {% assign day = page.date | date: "%d" %}
+    {% assign month = months[m] %}
+    {% assign year = page.date | date: "%Y" %}
+
 
    <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
@@ -18,8 +27,14 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
                         <h1>{{ page.title }}</h1>
-                        <h2 class="subheading">{{ page.resume }}</h2>
-                        <span class="meta">Posted by <a href="#">Start Bootstrap</a> on August 24, 2014</span>
+                        <h2 class="subheading">{{ page.description }}</h2>
+                        <span class="meta">{% t global.posted %} <a href="#">{{ page.author }}</a>
+                        {% if site.lang  == 'en'  %}
+                          on {% t month %} {{day}}, {{year}}
+                        {% else %}
+                          em {{day}} de {% t month %}, {{year}}
+                        {% endif %}
+                        </span>
                     </div>
                 </div>
             </div>

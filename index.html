@@ -2,14 +2,12 @@
 title: Efraim Gentil - Just fo Fun
 author: Efraim Gentil
 description: global.blog-description
-date:   2016-11-15 18:00:00
 cover: false
 layout: default-template
-categories: ['jekyll']
-keywords: java,javascript,python,blog,programming,development
+keywords: java,javascript,python,ruby,blog,programming,development,efraimgentil
 ---
 
-{% assign months = "january|february|march|april|may|june|july|august|september|october|november|december" | split: "|" %}
+
 
 {% for post in site.posts limit:5 %}
 {% assign m = post.date | date: "%-m" | minus: 1 %}
