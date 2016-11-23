@@ -117,3 +117,51 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 <p>Nossa classe WebInitializer extende a classe AbstractAnnotationConfigDispatcherServletInitializer do Spring, e me obriga a implementar 3 metodos, o primeiro "getRootConfigClasses" estou retornando as classes que possuem minha configuração do Spring por anotação, no segundo metodo especifico as classes de configuração que fazem alterações no ServletContext, no caso a classe SpringMvcConfig faz alterações e cofigurações do dispatcher padrão do Spring. E o ultimo metodo "getServletMappings" especifica o caminho do meu Servlet padrão, no caso vamos usar o raiz "/", para que toda requisição passe pelo meu Dispatcher do Spring MVC</p>
 
 <p class="bg-warning">Note que vocẽ pode ver configurações que retornal null no metodo "getServletConfigClasses", e todas as classes de configuração no metodo "getRootConfigClasses", essa forma também funciona sem problema ( faça o teste =D )</p>
+
+<p>Com isso temos nossa configuração do Spring MVC somente com anotações pronta, para testarmos vamos criar um Controller simples no pacote 
+"me.efraimgentil.springannotationexample.controller" como a seguir:</p>
+
+{% highlight java %}
+package me.efraimgentil.springannotationexample.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+@Controller
+public class HelloController {
+  
+  @RequestMapping(value= {"/"} , method = RequestMethod.GET )
+  public String hello(){
+    return "hello";
+  }
+  
+}
+{% endhighlight %}
+
+<p>Esse controller cria uma rota na raiz da aplicação, então esse metodo sera chamado quando fizermos um request para o endereço "http://localhost:8080/spring-annotation-example/", esse endereço pode variar dependendo da configuração do seu Tomcat. O metodo "hello" retorna a String "hello", como fizemos a configuração do InternalResourceViewResolver, o Spring vai buscar uma arquivo de nome "hello.jsp" na pasta que configuramos para o resolver, então dentro da pasta "WEB-INF/views/" crie o arquivo "hello.jsp", como a seguir por exemplo:</p>
+
+
+{% highlight java %}
+webapp
+- WEB-INF
+- - views
+- - - hello.jsp
+{% endhighlight %}
+
+{% highlight html %}
+<!-- Arquivo hello.jsp -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<title>Hello</title>
+</head>
+<body>
+Hello
+</body>
+</html>
+{% endhighlight %}
+
+<p>Agora basta rodar seu projeto no Tomcat e acessar o endereço para ver o resultado</p>
+
+<p>Essa é apenas uma configuração basica do Spring com Anotações, vocẽ pode acessar os fontes do projeto no endereço: https://github.com/efraimgentil/spring-annotation-example</p>
