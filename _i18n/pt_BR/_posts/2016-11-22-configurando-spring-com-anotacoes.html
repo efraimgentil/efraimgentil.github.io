@@ -8,12 +8,11 @@ categories: ['java' , 'spring']
 keywords: java,spring,springmvc,tomcat,configuration,configuração,anotações,annotation,efraimgentil
 ---
 
-<p>Hoje vamos aprender a configurar um preotjo Spring MVC utilizando apenas anotações e classes Java, nesse projeto vamos utilizar o a versão 4.X.X do Spring, utilizaremos o Maven para resolução de dependências,Tomcat como container para rodar nosso projeto e o Eclipse( estou utilizando a versão Luna ) como IDE.</p>
+<p>Hoje vamos aprender a configurar um projeto Spring MVC utilizando apenas anotações e classes Java, nesse projeto vamos utilizar a versão 4.X.X do Spring, utilizaremos o Maven para resolução de dependências,Tomcat como container para rodar nosso projeto e o Eclipse( estou utilizando a versão Luna ) como IDE.</p>
 
-<p>Vamo começar criando o projeto Maven, utilize o atalho "Alt + Shift + N" e selecioner Maven Project, ou selecioner no menu File > New > Maven Project. Agora na janela de criação do projeto selecione a opção "Create a simple project ( skip archetype selection ) e clique em "Next". Para o Group Id teremos o valor "me.efraimgentil", para Artifact Id o valor "spring-annotation-example", no Packaging vamos selecionar "War" e clicar em "Finish" </p>
+<p>Vamo começar criando o projeto Maven, utilize o atalho "Alt + Shift + N" e selecione Maven Project, ou selecione no menu File > New > Maven Project. Agora na janela de criação do projeto selecione a opção "Create a simple project ( skip archetype selection ) e clique em "Next". Para o Group Id teremos o valor "me.efraimgentil", para Artifact Id o valor "spring-annotation-example", no Packaging vamos selecionar "War" e clicar em "Finish"</p>
 
-
-<p>Com o projeto criado, vamos colocar as dependencias necessárias para configurar e rodar o projeto com Spring MVC, veja as dependencias necessárias a seguir:</p>
+<p>Com o projeto criado, vamos colocar as dependências necessárias para configurar e rodar o projeto com Spring MVC, veja as dependências necessárias a seguir:</p>
 
 {% highlight xml %}
 <dependency>
@@ -36,7 +35,7 @@ keywords: java,spring,springmvc,tomcat,configuration,configuração,anotações,
 </dependency>
 {% endhighlight %}
 
-<p>Com essas dependencias já podemos iniciar nossa configuração do Spring MVC, para iniciar vamos criar a classe SpringCofing no pacote "me.efraimgentil.springannotationexample.config", como a seguir:</p>
+<p>Com essas dependências já podemos iniciar nossa configuração do Spring MVC, para iniciar vamos criar a classe SpringCofing no pacote "me.efraimgentil.springannotationexample.config", como a seguir:</p>
 
 {% highlight java %}
 package me.efraimgentil.springannotationexample.config;
@@ -51,10 +50,9 @@ public class SpringConfig {
 }
 {% endhighlight %}
 
-<p>A classe vai ficar vazia, estamos apenas sinalizando para o Spring que pacotes queremos que ele scaneie para identificar seus componentes</p>
+<p>A classe vai ficar vazia, estamos apenas sinalizando para o Spring que pacotes queremos que ele escaneie para identificar seus componentes</p>
 
 <p>A próxima classe que vamos criar é a SpringMvcConfig, selecione o mesmo pacote da classe anterior, como a seguir:</p>
-
 
 {% highlight java %}
 package me.efraimgentil.springannotationexample.config;
@@ -85,7 +83,7 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 }
 {% endhighlight %}
 
-<p>A anotação @EnableWebMvc habilita as configurações padrão do Spring MVC, e registra os componentes basicos necessários. Note o @Bean que estamos registrando InternalResourceViewResolver, precisamos dele para que o Spring MVC encontre nossas paginas JSP no caminho que especificamos, no caso "/WEB-INF/views/", então não se esqueça de criar a pasta "views" dentro do seus diretorio "WEB-INF", para esse objeto também especificamos o sufixo dos arquivos que serão considerados como views</p>
+<p>A anotação @EnableWebMvc habilita as configurações padrão do Spring MVC, e registra os componentes básicos necessários. Note o @Bean que estamos registrando InternalResourceViewResolver, precisamos dele para que o Spring MVC encontre nossas páginas JSP no caminho que especificamos, no caso "/WEB-INF/views/", então não se esqueça de criar a pasta "views" dentro do seus diretório "WEB-INF", para esse objeto também especificamos o sufixo dos arquivos que serão considerados como views</p>
 
 <p>Agora precisamos criar o nosso inicializador, basicamente ele funciona como nosso arquivo web.xml, veja a seguir como fica a classe WebInitializer</p>
 
@@ -114,9 +112,9 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 }
 {% endhighlight %}
 
-<p>Nossa classe WebInitializer extende a classe AbstractAnnotationConfigDispatcherServletInitializer do Spring, e me obriga a implementar 3 metodos, o primeiro "getRootConfigClasses" estou retornando as classes que possuem minha configuração do Spring por anotação, no segundo metodo especifico as classes de configuração que fazem alterações no ServletContext, no caso a classe SpringMvcConfig faz alterações e cofigurações do dispatcher padrão do Spring. E o ultimo metodo "getServletMappings" especifica o caminho do meu Servlet padrão, no caso vamos usar o raiz "/", para que toda requisição passe pelo meu Dispatcher do Spring MVC</p>
+<p>Nossa classe WebInitializer extende a classe AbstractAnnotationConfigDispatcherServletInitializer do Spring, e me obriga a implementar 3 metodos, o primeiro "getRootConfigClasses" estou retornando as classes que possuem minha configuração do Spring por anotação, no segundo metodo especifico as classes de configuração que fazem alterações no ServletContext, no caso a classe SpringMvcConfig faz alterações e cofigurações do dispatcher padrão do Spring. E o último método "getServletMappings" especifica o caminho do meu Servlet padrão, no caso vamos usar o raiz "/", para que toda requisição passe pelo meu Dispatcher do Spring MVC</p>
 
-<p class="bg-warning">Note que vocẽ pode ver configurações que retornal null no metodo "getServletConfigClasses", e todas as classes de configuração no metodo "getRootConfigClasses", essa forma também funciona sem problema ( faça o teste =D )</p>
+<p class="bg-warning">Note que vocẽ pode ver configurações que retorna null no método "getServletConfigClasses", e todas as classes de configuração no método "getRootConfigClasses", essa forma também funciona sem problema ( faça o teste =D )</p>
 
 <p>Com isso temos nossa configuração do Spring MVC somente com anotações pronta, para testarmos vamos criar um Controller simples no pacote 
 "me.efraimgentil.springannotationexample.controller" como a seguir:</p>
@@ -139,8 +137,7 @@ public class HelloController {
 }
 {% endhighlight %}
 
-<p>Esse controller cria uma rota na raiz da aplicação, então esse metodo sera chamado quando fizermos um request para o endereço "http://localhost:8080/spring-annotation-example/", esse endereço pode variar dependendo da configuração do seu Tomcat. O metodo "hello" retorna a String "hello", como fizemos a configuração do InternalResourceViewResolver, o Spring vai buscar uma arquivo de nome "hello.jsp" na pasta que configuramos para o resolver, então dentro da pasta "WEB-INF/views/" crie o arquivo "hello.jsp", como a seguir por exemplo:</p>
-
+<p>Esse controller cria uma rota na raiz da aplicação, então esse método será chamado quando fizermos um request para o endereço "http://localhost:8080/spring-annotation-example/", esse endereço pode variar dependendo da configuração do seu Tomcat. O método "hello" retorna a String "hello", como fizemos a configuração do InternalResourceViewResolver, o Spring vai buscar uma arquivo de nome "hello.jsp" na pasta que configuramos para o resolver, então dentro da pasta "WEB-INF/views/" crie o arquivo "hello.jsp", como a seguir por exemplo:</p>
 
 {% highlight java %}
 webapp
