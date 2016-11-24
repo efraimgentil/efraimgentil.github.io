@@ -1,0 +1,133 @@
+---
+title: Beginning with Jekyll
+author: Efraim Gentil
+description: Learn the firsts steps to use Jekyll, how to start, basic structures, and some basic commands.
+date:   2016-11-21 21:00:00
+cover: false
+layout: post-template
+categories: ['jekyll']
+keywords: jekyll,ruby,html,blog,posts,efraimgentil
+---
+
+
+<p>
+For a while i been wanting to create a blog, something that for me looked kind of impossible, because i not a big fan of writing
+, but with the constant necessity to test new technologies and to document what i learned, concepts or code, finally i took the courage and decide to create my blog ( hehe if you are reading this, it not just a plan anymore ). Then i found Jekyll, a tool/framework that creates static sites from the content you create and put in it, following the Jekyll convention, then it gets the content, apply the templates and the necessary processing and will generate the static content. The fun part is that you can can host your content anywhere, you can host even in the github.io FOR FREE.
+</p>
+
+<p>
+So let's start to see how to use the Jekyll, first you need to have the Ruby installed, we will not see how to install it so good luck, in this tutorial i am using the version 2.2.2. You also need the RubyGems installed. Let's start installing the Jekyll and the bundler gems, you can achieve that running the following command in your terminal on the folder of the project:
+</p>
+
+{% highlight shell %}
+$ gem install jekyll bundler
+{% endhighlight %}
+
+<p>After installed you will have at your disposal the jekyll command in the terminal, so let's run the following instruction to create a new Jekyll project</p>
+
+{% highlight shell %}
+$ jekyll new . --force
+{% endhighlight %}
+
+<p>This command will create the folders structure and the Jekyll configuration file, also will create some example files showing how to use the Jekyll, what is really useful for who is starting to use the tool now</p>
+
+<p class="bg-warning">See that the --force option is just for the case that your folder is not empty</p>
+
+<p>Let's explain a little about the folders structure of Jekyll, first the folder "_layout", in this folder you will put all the files that you want to use as a layout (DUH!), and in the pages you can reference one layout by the name of the file. See a example of layout:</p>
+
+{% highlight html %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- ... -->
+  </head>
+  <body>
+      {{ "{{ "}}content }}
+  </body>
+</html>
+{% endhighlight %}
+
+<p>The instruction {{ "{{ content" }} }}, is a instruction from Liquid template, that is used by Jekyll to render the templates, this instruction is responsible for taking the content of the page and putting in the template. See an example of a page using the previous template:</p>
+
+
+{% highlight html %}
+---
+title: Beginning with Jekyll
+layout: my-template
+---
+<h1>Hello world</h1>
+<h2>{{ page.title }}</h2>
+{% endhighlight %}
+
+<p>See the instructions between the characters "---", they are like declarations, some of them you can create others are specific for Jekyll use, for example the layout, in the value you put the name without the extension of the template you want to use, you can access the variables through the prefix "page", as you can see in the expression "" the variables will be disponible in the current file or in the template that the current file references</p>
+
+<p>On the "_include" folder, we can create the files that can be included in other pages using the expression {{ "{%" }} include file_name.html %}, With that we can reuse some partials pages into different layouts or pages. See an example:</p>
+
+{% highlight html %}
+---
+title: Beginning with Jekyll
+layout: my-template
+---
+<h1>Hello world</h1>
+<h2>{{ page.title }}</h2>
+
+{{ "{%" }} include contact-form.html %}
+{% endhighlight %}
+
+<p>On the "_sass" folder, you can store your partial .sass/.scss files, by default Jekyll comes with support for sass files, lets say that you have a "main.scss" file in the "css" folder ( "css/main.scss" ), when you build the project, you will have the file processed to "css/main.css", and the files in the _sass folder you can use to include to yours main files.</p>
+
+<p>Now the main folder of the project, the _post folder, in this page you will create your blog posts, following the Jekyll convention of "year-month-day-name-of-the-file", for instance the file of this post is "2016-11-21-beginning-with-jekyll.html". This convention need to be followed, because the Jekyll will only consider your posts that follows the convention. See a post example:</p>
+
+{% highlight html %}
+---
+layout: my-post-layout
+title:  Beginning with Jekyll
+date:   2016-11-21 20:20:33 -0300
+categories: jekyll
+---
+My html post content....
+{% endhighlight %}
+
+<p>Note a variável date, ela não pode ser diferente da data do arquivo. A variável categories também é importante para a montagem das urls default do post, esse post será acessível na url "/jekyll/2016/11/20/comecanto-com-jekyll", caso seja omitido a variável categories, sera apenas "/2016/11/20/comecanto-com-jekyll"
+</p>
+
+<p>O Jekyll também lhe dá a possibilidade de listar os posts, para cada arquivo que existir na pasta “_posts”, um registro será adicionado na variável "site.posts", que é uma lista dos posts cronologicamente. Veja o exemplo de listagem:</p>
+
+
+{% highlight html %}
+---
+title: Começando com Jekyll
+layout: my-template
+---
+<h1>Lista Posts</h1>
+{{ "{%" }} for post in site.posts limit:5 %}
+<div class="post-preview">
+  <a href="{{ "{{ " }}post.url }}">
+    <h2 class="post-title">
+      {{ "{{ " }} post.title }}
+    </h2>
+    <h3 class="post-subtitle">
+      {{ "{{ " }} post.description }}
+    </h3>
+  </a> 
+</div>
+<hr>
+{{ "{%" }} endfor %}
+{% endhighlight %}
+
+<p>Agora que sabemos o básico do Jekyll, vamos testar o nosso primeiro site, para testar localmente o projeto, basta rodar o comando seguinte na pasta raiz do projeto</p>
+
+{% highlight shell %}
+$ jekyll server
+{% endhighlight %}
+
+<p>O Jekyll irá compilar seus arquivos e subir um servidor local no endereço
+http://localhost:4000</p>
+
+<p>Por fim, outro comando essencial é o build, ele irá compilar seus arquivos e colocá-los na pasta _site, com esses arquivos você pode hospedar seu site "estático" onde quiser</p>
+
+{% highlight shell %}
+$ jekyll build
+{% endhighlight %}
+
+<p>O Jekyll é uma ferramenta bastante poderoza, possui muitos plugins e funcionalidades para serem exploradas, oque vimos aqui é apenas a ponta do iceberg, você pode acessar o site https://jekyllrb.com/ e ver um pouco mais de suas funcionalidades.</p>
