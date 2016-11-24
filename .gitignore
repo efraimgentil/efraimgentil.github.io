@@ -1,1 +1,8 @@
 node_modules
+Gemfile
+Gemfile.lock
+less
+mail
+gulpfile.js
+LICENSE
+README.md
