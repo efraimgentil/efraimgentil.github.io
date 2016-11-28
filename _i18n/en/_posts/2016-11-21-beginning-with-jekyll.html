@@ -88,18 +88,19 @@ categories: jekyll
 My html post content....
 {% endhighlight %}
 
-<p>Note a variável date, ela não pode ser diferente da data do arquivo. A variável categories também é importante para a montagem das urls default do post, esse post será acessível na url "/jekyll/2016/11/20/comecanto-com-jekyll", caso seja omitido a variável categories, sera apenas "/2016/11/20/comecanto-com-jekyll"
+<p>See the date variable, she can't have a different value thant the date in the file name. The categories variable is also important to the URL of the post , this post, for instance, will be accessed in the URL "/jekyll/2016/11/21/beggining-with-jekyll",
+in the case that you omits the categories variable, the URL will be "/2016/11/20/comecanto-com-jekyll"
 </p>
 
-<p>O Jekyll também lhe dá a possibilidade de listar os posts, para cada arquivo que existir na pasta “_posts”, um registro será adicionado na variável "site.posts", que é uma lista dos posts cronologicamente. Veja o exemplo de listagem:</p>
+<p>The Jekyll also gives the possibility to list the created posts, for each file in the _post folder, will be a item in the site.posts list variable, this variable is a list of posts chronological sorted. See an example of listing the posts:</p>
 
 
 {% highlight html %}
 ---
-title: Começando com Jekyll
+title: Beggining with Jekyll
 layout: my-template
 ---
-<h1>Lista Posts</h1>
+<h1>Posts List</h1>
 {{ "{%" }} for post in site.posts limit:5 %}
 <div class="post-preview">
   <a href="{{ "{{ " }}post.url }}">
@@ -115,19 +116,18 @@ layout: my-template
 {{ "{%" }} endfor %}
 {% endhighlight %}
 
-<p>Agora que sabemos o básico do Jekyll, vamos testar o nosso primeiro site, para testar localmente o projeto, basta rodar o comando seguinte na pasta raiz do projeto</p>
+<p>Now that we know the basic of Jekyll, let's test our first site. To test the project in the local environment you just need to run the following command in the root folder of your project:</p>
 
 {% highlight shell %}
 $ jekyll server
 {% endhighlight %}
 
-<p>O Jekyll irá compilar seus arquivos e subir um servidor local no endereço
-http://localhost:4000</p>
+<p>The Jekyll will compile your files and run a local server on the URL: http://localhost:4000</p>
 
-<p>Por fim, outro comando essencial é o build, ele irá compilar seus arquivos e colocá-los na pasta _site, com esses arquivos você pode hospedar seu site "estático" onde quiser</p>
+<p>To finish, another essential command is the build command, this command compiles all your files and puts in the _site folder, with those files you can host your "static" site anywhere</p>
 
 {% highlight shell %}
 $ jekyll build
 {% endhighlight %}
 
-<p>O Jekyll é uma ferramenta bastante poderoza, possui muitos plugins e funcionalidades para serem exploradas, oque vimos aqui é apenas a ponta do iceberg, você pode acessar o site https://jekyllrb.com/ e ver um pouco mais de suas funcionalidades.</p>
+<p>The Jekyll is a really powerfull tool, and also have many plugins and features to be explored, what we have saw is just the tip of the iceberg, you can access the site https://jekyllrb.com/ and see a more of his features.</p>
