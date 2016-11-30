@@ -118,10 +118,9 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 Our class WebInitializer extends the class AbstractAnnotationConfigDispatcherServletInitializer from Spring, and forces me to implements three methods, the first one "getRootConfigClasses", in this method we will return the classes that contains the Spring configuration with annotations. In the second method "getServletConfigClasses"
 we return the classes that will make changes in the ServletContex, in the case the class SpringMvcConfig do changes to configure the default dispatcher for Spring. And the last method "getServletMappings" we specify the path that the default spring servlet will responds to, in this case we are specifying the root "/", so all request will pass by my default Spring MVC servlet.</p>
 
-<p class="bg-warning">Note que vocẽ pode ver configurações que retorna null no método "getServletConfigClasses", e todas as classes de configuração no método "getRootConfigClasses", essa forma também funciona sem problema ( faça o teste =D )</p>
+<p class="bg-warning">Notice that you can see other configurations that returns null on "getServletConfigClasses" method, and all configuration classes on the "getRootConfigClasses" method, like this will also works without problem ( do the test =D )</p>
 
-<p>Com isso temos nossa configuração do Spring MVC somente com anotações pronta, para testarmos vamos criar um Controller simples no pacote 
-"me.efraimgentil.springannotationexample.controller" como a seguir:</p>
+<p>With that we have finished our Spring MVC configuration only with annotations , so to test we will create a simple controller in the package "me.efraimgentil.springannotationexample.controller". See next:</p>
 
 {% highlight java %}
 package me.efraimgentil.springannotationexample.controller;
@@ -141,7 +140,8 @@ public class HelloController {
 }
 {% endhighlight %}
 
-<p>Esse controller cria uma rota na raiz da aplicação, então esse método será chamado quando fizermos um request para o endereço "http://localhost:8080/spring-annotation-example/", esse endereço pode variar dependendo da configuração do seu Tomcat. O método "hello" retorna a String "hello", como fizemos a configuração do InternalResourceViewResolver, o Spring vai buscar uma arquivo de nome "hello.jsp" na pasta que configuramos para o resolver, então dentro da pasta "WEB-INF/views/" crie o arquivo "hello.jsp", como a seguir por exemplo:</p>
+<p>This controller listen to a route to the root ("/") of the application , so this method will be called when we do the request to
+te URL "http://localhost:8080/spring-annotation-example/", it can be a diferent path depending of your Tomcat configuration. The hello method return an string with the "hello" value, as we did the configuration of the InternalResourceViewResolver, the Spring will search an file with name "hello.jsp" in the folder that we configured in the resolver. In the "/WEB-INF/views/" folder we will create the file "hello.jsp" as following:</p>
 
 {% highlight java %}
 webapp
@@ -163,6 +163,6 @@ Hello
 </html>
 {% endhighlight %}
 
-<p>Agora basta rodar seu projeto no Tomcat e acessar o endereço para ver o resultado</p>
+<p>Now you just need to run your Tomcat server and access the URL to see the result</p>
 
-<p>Essa é apenas uma configuração basica do Spring com Anotações, vocẽ pode acessar os fontes do projeto no endereço: https://github.com/efraimgentil/spring-annotation-example</p>
+<p>This is just a basic configuration for Spring with annotations, you can see the sources for this project in: https://github.com/efraimgentil/spring-annotation-example</p>
