@@ -1,18 +1,19 @@
 ---
-title: Configurando Spring MVC com anotações
+title: Configuring Spring MVC with Annotations
 author: Efraim Gentil
-description: Aprenda a configurar um projeto Spring MVC com anotações para rodar no Tomcat
+description: Learn how to configure a Spring MVC project with annotations to run on Tomcat server
 date:   2016-11-28 21:00:00
 layout: post-template
 categories: ['java' , 'spring']
 keywords: java,spring,springmvc,tomcat,configuration,configuração,anotações,annotation,efraimgentil,Efraim Gentil
 ---
 
-<p>Hoje vamos aprender a configurar um projeto Spring MVC utilizando apenas anotações e classes Java, nesse projeto vamos utilizar a versão 4.X.X do Spring, utilizaremos o Maven para resolução de dependências,Tomcat como container para rodar nosso projeto e o Eclipse( estou utilizando a versão Luna ) como IDE.</p>
+<p>Today we will learn to configure a Spring MVC project ony with annotations and Java classes, in this project we will use the 4.X.X version of Spring, we will also use Maven to handle our dependencies and Tomcat as the container to run our project. I'm also using Eclipse ( Luna version )  as the IDE.</p>
 
-<p>Vamo começar criando o projeto Maven, utilize o atalho "Alt + Shift + N" e selecione Maven Project, ou selecione no menu File > New > Maven Project. Agora na janela de criação do projeto selecione a opção "Create a simple project ( skip archetype selection ) e clique em "Next". Para o Group Id teremos o valor "me.efraimgentil", para Artifact Id o valor "spring-annotation-example", no Packaging vamos selecionar "War" e clicar em "Finish"</p>
+<p>
+Let's begin creating a Maven project, use the short cut "Alt + Shift + N" and select Maven Project or select the menu File > New > Maven Project. Now on the create project window, select the option "Create a simple project ( skip archetype selection )" and click on "Next". In the next window, we will fill the Group Id with the value "me.efraimgentil", the Artifact Id with "spring-annotation-example" and to finish the Packaging field select "War" and click in "Finish".</p>
 
-<p>Com o projeto criado, vamos colocar as dependências necessárias para configurar e rodar o projeto com Spring MVC, veja as dependências necessárias a seguir:</p>
+<p>With the project created, let's put the necessary dependencies on pom.xml, with those dependencies we will be able to run our Spring MVC project. See the necessary dependencies in the following section:</p>
 
 {% highlight xml %}
 <dependency>
@@ -35,7 +36,7 @@ keywords: java,spring,springmvc,tomcat,configuration,configuração,anotações,
 </dependency>
 {% endhighlight %}
 
-<p>Com essas dependências já podemos iniciar nossa configuração do Spring MVC, para iniciar vamos criar a classe SpringCofing no pacote "me.efraimgentil.springannotationexample.config", como a seguir:</p>
+<p>With this we can start to configure our Spring MVC configuration with annotations, to start let's create the class SpringConfig on the package "me.efraimgentil.springannotationexample.config", as the following:</p>
 
 {% highlight java %}
 package me.efraimgentil.springannotationexample.config;
@@ -50,7 +51,7 @@ public class SpringConfig {
 }
 {% endhighlight %}
 
-<p>A classe vai ficar vazia, estamos apenas sinalizando para o Spring que pacotes queremos que ele escaneie para identificar seus componentes</p>
+<p>The class will stay empty, at least for this configuration, we are just saying to Spring with packages we want him to scan to identify their components</p>
 
 <p>A próxima classe que vamos criar é a SpringMvcConfig, selecione o mesmo pacote da classe anterior, como a seguir:</p>
 

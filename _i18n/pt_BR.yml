@@ -1,10 +1,10 @@
 global:
-  about: SObre
+  about: Sobre
   twitter: Twitter
   github: GitHub
   blog-title: Efraim Gentil
   blog-subtitle: Just for Fun
-  blog-description: Blog pessoal voltado para a área de desenvolvimento de software, abordando linguagens como Java, Javascrip, Python, Ruby e o que mais de na telha.
+  blog-description: Blog pessoal voltado para a área de desenvolvimento de software, abordando linguagens como Java, Javascrip, Python, Ruby e o que mais der na telha.
   posted: Postado por
   older-posts: POSTS ANTERIORES
   about: Sobre mim
