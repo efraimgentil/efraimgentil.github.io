@@ -53,7 +53,7 @@ public class SpringConfig {
 
 <p>The class will stay empty, at least for this configuration, we are just saying to Spring with packages we want him to scan to identify their components</p>
 
-<p>A próxima classe que vamos criar é a SpringMvcConfig, selecione o mesmo pacote da classe anterior, como a seguir:</p>
+<p>The next class that we will create is the SpringMvcConfig, put the class in the same package of the previous class. See next:</p>
 
 {% highlight java %}
 package me.efraimgentil.springannotationexample.config;
@@ -84,9 +84,10 @@ public class SpringMvcConfig extends WebMvcConfigurerAdapter {
 }
 {% endhighlight %}
 
-<p>A anotação @EnableWebMvc habilita as configurações padrão do Spring MVC, e registra os componentes básicos necessários. Note o @Bean que estamos registrando InternalResourceViewResolver, precisamos dele para que o Spring MVC encontre nossas páginas JSP no caminho que especificamos, no caso "/WEB-INF/views/", então não se esqueça de criar a pasta "views" dentro do seus diretório "WEB-INF", para esse objeto também especificamos o sufixo dos arquivos que serão considerados como views</p>
+<p>The annotation @EnableWebMvc enables the default configuration of the Spring MVC and register the basic necessary components. Notice the @Bean that we are registering, the InternalResourceViewResolver, we need him so that the Spring finds our JSP pages in the specified path, in this case "/WEB-INF/views/", so don't forget to create the "views" folder inside the directory "WEB-INF". For the same object we also specifies the suffixes that will be considered as views, .jsp in the case.</p>
 
-<p>Agora precisamos criar o nosso inicializador, basicamente ele funciona como nosso arquivo web.xml, veja a seguir como fica a classe WebInitializer</p>
+<p>
+Now we need to create our initializer, basically he works like a web.xml file, see next how our WebInitializer class will be:</p>
 
 {% highlight java %}
 package me.efraimgentil.springannotationexample.config;
@@ -113,7 +114,9 @@ public class WebInitializer extends AbstractAnnotationConfigDispatcherServletIni
 }
 {% endhighlight %}
 
-<p>Nossa classe WebInitializer extende a classe AbstractAnnotationConfigDispatcherServletInitializer do Spring, e me obriga a implementar 3 metodos, o primeiro "getRootConfigClasses" estou retornando as classes que possuem minha configuração do Spring por anotação, no segundo metodo especifico as classes de configuração que fazem alterações no ServletContext, no caso a classe SpringMvcConfig faz alterações e cofigurações do dispatcher padrão do Spring. E o último método "getServletMappings" especifica o caminho do meu Servlet padrão, no caso vamos usar o raiz "/", para que toda requisição passe pelo meu Dispatcher do Spring MVC</p>
+<p>
+Our class WebInitializer extends the class AbstractAnnotationConfigDispatcherServletInitializer from Spring, and forces me to implements three methods, the first one "getRootConfigClasses", in this method we will return the classes that contains the Spring configuration with annotations. In the second method "getServletConfigClasses"
+we return the classes that will make changes in the ServletContex, in the case the class SpringMvcConfig do changes to configure the default dispatcher for Spring. And the last method "getServletMappings" we specify the path that the default spring servlet will responds to, in this case we are specifying the root "/", so all request will pass by my default Spring MVC servlet.</p>
 
 <p class="bg-warning">Note que vocẽ pode ver configurações que retorna null no método "getServletConfigClasses", e todas as classes de configuração no método "getRootConfigClasses", essa forma também funciona sem problema ( faça o teste =D )</p>
 
