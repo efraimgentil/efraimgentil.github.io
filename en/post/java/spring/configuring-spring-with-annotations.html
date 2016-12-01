@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt_BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="content-language" content="pt,en" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="keywords" content="java,spring,springmvc,tomcat,configuration,configuração,anotações,annotation,efraimgentil">
+<meta name="keywords" content="java,spring,springmvc,tomcat,configuration,configuração,anotações,annotation,efraimgentil,Efraim Gentil">
 <meta name="robots" content="index,follow">
 <meta name="googlebot" content="index,follow">
 <meta name="author" content="Efraim Gentil">
-<meta name="description" content="Aprenda a configurar um projeto Spring MVC com anotações para rodar no Tomcat">
-<title>Configurando Spring MVC com anotações</title>
+<meta name="description" content="Learn how to configure a Spring MVC project with annotations to run on Tomcat server">
+<title>Configuring Spring MVC with Annotations</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +45,7 @@
                     <span class="sr-only">Toggle navigation</span>
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="/">Efraim Gentil</a>
+                <a class="navbar-brand" href="/en/">Efraim Gentil</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -66,13 +66,13 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/index.html">Home</a>
+                        <a href="/en/index.html">Home</a>
                     </li>
                     <li>
-                        <a href="/about.html">Sobre</a>
+                        <a href="/en/about.html">About</a>
                     </li>
                     <li>
-                        <a href="/contact.html">Contato</a>
+                        <a href="/en/contact.html">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -94,11 +94,11 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Configurando Spring MVC com anotações</h1>
-                        <h2 class="subheading">Aprenda a configurar um projeto Spring MVC com anotações para rodar no Tomcat</h2>
-                        <span class="meta">Postado por <a href="#">Efraim Gentil</a>
+                        <h1>Configuring Spring MVC with Annotations</h1>
+                        <h2 class="subheading">Learn how to configure a Spring MVC project with annotations to run on Tomcat server</h2>
+                        <span class="meta">Posted by <a href="#">Efraim Gentil</a>
                         
-                          em 22 de Novembro, 2016
+                          on November 28, 2016
                         
                         </span>
                     </div>
@@ -111,11 +111,12 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-content">
-                <p>Hoje vamos aprender a configurar um projeto Spring MVC utilizando apenas anotações e classes Java, nesse projeto vamos utilizar a versão 4.X.X do Spring, utilizaremos o Maven para resolução de dependências,Tomcat como container para rodar nosso projeto e o Eclipse( estou utilizando a versão Luna ) como IDE.</p>
+                <p>Today we will learn to configure a Spring MVC project ony with annotations and Java classes, in this project we will use the 4.X.X version of Spring, we will also use Maven to handle our dependencies and Tomcat as the container to run our project. I'm also using Eclipse ( Luna version )  as the IDE.</p>
 
-<p>Vamo começar criando o projeto Maven, utilize o atalho "Alt + Shift + N" e selecione Maven Project, ou selecione no menu File > New > Maven Project. Agora na janela de criação do projeto selecione a opção "Create a simple project ( skip archetype selection ) e clique em "Next". Para o Group Id teremos o valor "me.efraimgentil", para Artifact Id o valor "spring-annotation-example", no Packaging vamos selecionar "War" e clicar em "Finish"</p>
+<p>
+Let's begin creating a Maven project, use the short cut "Alt + Shift + N" and select Maven Project or select the menu File > New > Maven Project. Now on the create project window, select the option "Create a simple project ( skip archetype selection )" and click on "Next". In the next window, we will fill the Group Id with the value "me.efraimgentil", the Artifact Id with "spring-annotation-example" and to finish the Packaging field select "War" and click in "Finish".</p>
 
-<p>Com o projeto criado, vamos colocar as dependências necessárias para configurar e rodar o projeto com Spring MVC, veja as dependências necessárias a seguir:</p>
+<p>With the project created, let's put the necessary dependencies on pom.xml, with those dependencies we will be able to run our Spring MVC project. See the necessary dependencies in the following section:</p>
 
 <figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
   <span class="nt">&lt;groupId&gt;</span>javax.servlet<span class="nt">&lt;/groupId&gt;</span>
@@ -136,7 +137,7 @@
   <span class="nt">&lt;version&gt;</span>4.3.4.RELEASE<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
 
-<p>Com essas dependências já podemos iniciar nossa configuração do Spring MVC, para iniciar vamos criar a classe SpringCofing no pacote "me.efraimgentil.springannotationexample.config", como a seguir:</p>
+<p>With this we can start to configure our Spring MVC configuration with annotations, to start let's create the class SpringConfig on the package "me.efraimgentil.springannotationexample.config", as the following:</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springannotationexample</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
 
@@ -149,9 +150,9 @@
   
 <span class="o">}</span></code></pre></figure>
 
-<p>A classe vai ficar vazia, estamos apenas sinalizando para o Spring que pacotes queremos que ele escaneie para identificar seus componentes</p>
+<p>The class will stay empty, at least for this configuration, we are just saying to Spring with packages we want him to scan to identify their components</p>
 
-<p>A próxima classe que vamos criar é a SpringMvcConfig, selecione o mesmo pacote da classe anterior, como a seguir:</p>
+<p>The next class that we will create is the SpringMvcConfig, put the class in the same package of the previous class. See next:</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springannotationexample</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
 
@@ -180,9 +181,10 @@
   
 <span class="o">}</span></code></pre></figure>
 
-<p>A anotação @EnableWebMvc habilita as configurações padrão do Spring MVC, e registra os componentes básicos necessários. Note o @Bean que estamos registrando InternalResourceViewResolver, precisamos dele para que o Spring MVC encontre nossas páginas JSP no caminho que especificamos, no caso "/WEB-INF/views/", então não se esqueça de criar a pasta "views" dentro do seus diretório "WEB-INF", para esse objeto também especificamos o sufixo dos arquivos que serão considerados como views</p>
+<p>The annotation @EnableWebMvc enables the default configuration of the Spring MVC and register the basic necessary components. Notice the @Bean that we are registering, the InternalResourceViewResolver, we need him so that the Spring finds our JSP pages in the specified path, in this case "/WEB-INF/views/", so don't forget to create the "views" folder inside the directory "WEB-INF". For the same object we also specifies the suffixes that will be considered as views, .jsp in the case.</p>
 
-<p>Agora precisamos criar o nosso inicializador, basicamente ele funciona como nosso arquivo web.xml, veja a seguir como fica a classe WebInitializer</p>
+<p>
+Now we need to create our initializer, basically he works like a web.xml file, see next how our WebInitializer class will be:</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springannotationexample</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
 
@@ -207,12 +209,13 @@
 
 <span class="o">}</span></code></pre></figure>
 
-<p>Nossa classe WebInitializer extende a classe AbstractAnnotationConfigDispatcherServletInitializer do Spring, e me obriga a implementar 3 metodos, o primeiro "getRootConfigClasses" estou retornando as classes que possuem minha configuração do Spring por anotação, no segundo metodo especifico as classes de configuração que fazem alterações no ServletContext, no caso a classe SpringMvcConfig faz alterações e cofigurações do dispatcher padrão do Spring. E o último método "getServletMappings" especifica o caminho do meu Servlet padrão, no caso vamos usar o raiz "/", para que toda requisição passe pelo meu Dispatcher do Spring MVC</p>
+<p>
+Our class WebInitializer extends the class AbstractAnnotationConfigDispatcherServletInitializer from Spring, and forces me to implements three methods, the first one "getRootConfigClasses", in this method we will return the classes that contains the Spring configuration with annotations. In the second method "getServletConfigClasses"
+we return the classes that will make changes in the ServletContex, in the case the class SpringMvcConfig do changes to configure the default dispatcher for Spring. And the last method "getServletMappings" we specify the path that the default spring servlet will responds to, in this case we are specifying the root "/", so all request will pass by my default Spring MVC servlet.</p>
 
-<p class="bg-warning">Note que vocẽ pode ver configurações que retorna null no método "getServletConfigClasses", e todas as classes de configuração no método "getRootConfigClasses", essa forma também funciona sem problema ( faça o teste =D )</p>
+<p class="bg-warning">Notice that you can see other configurations that returns null on "getServletConfigClasses" method, and all configuration classes on the "getRootConfigClasses" method, like this will also works without problem ( do the test =D )</p>
 
-<p>Com isso temos nossa configuração do Spring MVC somente com anotações pronta, para testarmos vamos criar um Controller simples no pacote 
-"me.efraimgentil.springannotationexample.controller" como a seguir:</p>
+<p>With that we have finished our Spring MVC configuration only with annotations , so to test we will create a simple controller in the package "me.efraimgentil.springannotationexample.controller". See next:</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springannotationexample</span><span class="o">.</span><span class="na">controller</span><span class="o">;</span>
 
@@ -230,7 +233,8 @@
   
 <span class="o">}</span></code></pre></figure>
 
-<p>Esse controller cria uma rota na raiz da aplicação, então esse método será chamado quando fizermos um request para o endereço "http://localhost:8080/spring-annotation-example/", esse endereço pode variar dependendo da configuração do seu Tomcat. O método "hello" retorna a String "hello", como fizemos a configuração do InternalResourceViewResolver, o Spring vai buscar uma arquivo de nome "hello.jsp" na pasta que configuramos para o resolver, então dentro da pasta "WEB-INF/views/" crie o arquivo "hello.jsp", como a seguir por exemplo:</p>
+<p>This controller listen to a route to the root ("/") of the application , so this method will be called when we do the request to
+te URL "http://localhost:8080/spring-annotation-example/", it can be a diferent path depending of your Tomcat configuration. The hello method return an string with the "hello" value, as we did the configuration of the InternalResourceViewResolver, the Spring will search an file with name "hello.jsp" in the folder that we configured in the resolver. In the "/WEB-INF/views/" folder we will create the file "hello.jsp" as following:</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">webapp</span>
 <span class="o">-</span> <span class="n">WEB</span><span class="o">-</span><span class="n">INF</span>
@@ -248,9 +252,9 @@ Hello
 <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span></code></pre></figure>
 
-<p>Agora basta rodar seu projeto no Tomcat e acessar o endereço para ver o resultado</p>
+<p>Now you just need to run your Tomcat server and access the URL to see the result</p>
 
-<p>Essa é apenas uma configuração basica do Spring com Anotações, vocẽ pode acessar os fontes do projeto no endereço: https://github.com/efraimgentil/spring-annotation-example</p>
+<p>This is just a basic configuration for Spring with annotations, you can see the sources for this project in: https://github.com/efraimgentil/spring-annotation-example</p>
             </div>
         </div>
     </div>

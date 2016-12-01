@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="pt_BR">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="content-language" content="pt,en" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="keywords" content="jekyll,ruby,html,blog,posts,efraimgentil">
+<meta name="keywords" content="jekyll,ruby,html,blog,posts,efraimgentil,Efraim Gentil">
 <meta name="robots" content="index,follow">
 <meta name="googlebot" content="index,follow">
 <meta name="author" content="Efraim Gentil">
-<meta name="description" content="Aprenda os primeiros passos para utilizar o Jekyll, como começar, estrutura básica e alguns comandos básicos.">
-<title>Começando com Jekyll</title>
+<meta name="description" content="Learn the firsts steps to use Jekyll, how to start, basic structures, and some basic commands.">
+<title>Beginning with Jekyll</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +45,7 @@
                     <span class="sr-only">Toggle navigation</span>
                     Menu <i class="fa fa-bars"></i>
                 </button>
-                <a class="navbar-brand" href="/">Efraim Gentil</a>
+                <a class="navbar-brand" href="/en/">Efraim Gentil</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -66,13 +66,13 @@
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="/index.html">Home</a>
+                        <a href="/en/index.html">Home</a>
                     </li>
                     <li>
-                        <a href="/about.html">Sobre</a>
+                        <a href="/en/about.html">About</a>
                     </li>
                     <li>
-                        <a href="/contact.html">Contato</a>
+                        <a href="/en/contact.html">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -94,11 +94,11 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Começando com Jekyll</h1>
-                        <h2 class="subheading">Aprenda os primeiros passos para utilizar o Jekyll, como começar, estrutura básica e alguns comandos básicos.</h2>
-                        <span class="meta">Postado por <a href="#">Efraim Gentil</a>
+                        <h1>Beginning with Jekyll</h1>
+                        <h2 class="subheading">Learn the firsts steps to use Jekyll, how to start, basic structures, and some basic commands.</h2>
+                        <span class="meta">Posted by <a href="#">Efraim Gentil</a>
                         
-                          em 21 de Novembro, 2016
+                          on November 21, 2016
                         
                         </span>
                     </div>
@@ -112,25 +112,25 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-content">
                 <p>
-Já a um tempo estava pensando em fazer um blog, algo que pra mim parecia meio impossível,
-até porque não sou muito fan de escrever, mas com a constante necessidade de testar novas tecnologias e de escrever, seja código ou conceitos, o que aprendi para lembrar depois, criei coragem e finalmente decidi fazer meu blog. Foi então que me deparei com o Jekyll, uma ferramenta que gera um site estático a partir do conteúdo que você adiciona seguindo uma convenção própria dele, o Jekyll então pega o conteúdo, aplica os templates e conversões necessárias e cospe o conteúdo estático. E a parte mais legal, você pode hospedar o conteudo no github.io DE GRAÇA.
+For a while i been wanting to create a blog, something that for me looked kind of impossible, because i not a big fan of writing
+, but with the constant necessity to test new technologies and to document what i learned, concepts or code, finally i took the courage and decide to create my blog ( hehe if you are reading this, it not just a plan anymore ). Then i found Jekyll, a tool/framework that creates static sites from the content you create and put in it, following the Jekyll convention, then it gets the content, apply the templates and the necessary processing and will generate the static content. The fun part is that you can can host your content anywhere, you can host even in the github.io FOR FREE.
 </p>
 
 <p>
-Então vamos ver como começar a usar o Jekyll, primeiro você precisa ter o Ruby instalado, nesse tutorial estou utilizando a versão 2.2.2, tenha também o RubyGems instalado. Comece instalando o Jekyll e o bundler rodando o comando no console na pasta do projeto.
+So let's start to see how to use the Jekyll, first you need to have the Ruby installed, we will not see how to install it so good luck, in this tutorial i am using the version 2.2.2. You also need the RubyGems installed. Let's start installing the Jekyll and the bundler gems, you can achieve that running the following command in your terminal on the folder of the project:
 </p>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>gem install jekyll bundler</code></pre></figure>
 
-<p>Após a instalação você vai ter disponível o comando jekyll, então vamos rodar a seguinte instrução para criar um novo projeto Jekyll</p>
+<p>After installed you will have at your disposal the jekyll command in the terminal, so let's run the following instruction to create a new Jekyll project</p>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>jekyll new . --force</code></pre></figure>
 
-<p>Esse comando irá criar a estrutura de pastas e o arquivo de configuração do Jekyll, também irá criar alguns arquivos de exemplos para o uso do Jekyll, o que é muito útil para quem está começando a utilizar a ferramenta.</p>
+<p>This command will create the folders structure and the Jekyll configuration file, also will create some example files showing how to use the Jekyll, what is really useful for who is starting to use the tool now</p>
 
-<p class="bg-warning">Veja que a opção --force é apenas para o caso de sua pasta não estiver vazia.</p>
+<p class="bg-warning">See that the --force option is just for the case that your folder is not empty</p>
 
-<p>Vamos começar explicando um pouco da estrutura de pastas do Jekyll, vamos começar pela pasta "_layout", nessa pasta você coloca todos os arquivos que você planeja usar como layout, e nas páginas filhas você irá referenciar esses arquivos pelo nome sem a extensão. Veja o exemplo a seguir::</p>
+<p>Let's explain a little about the folders structure of Jekyll, first the folder "_layout", in this folder you will put all the files that you want to use as a layout (DUH!), and in the pages you can reference one layout by the name of the file. See a example of layout:</p>
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html"><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="nt">&lt;html&gt;</span>
@@ -142,53 +142,53 @@ Então vamos ver como começar a usar o Jekyll, primeiro você precisa ter o Rub
   <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span></code></pre></figure>
 
-<p>A instrução {{ content }}, é uma instrução do Liquid template, que é utilizado pelo Jekyll para renderização do template, essa instrução é responsável por pegar o conteudo da pagina e joga-lo dentro do template especificado. Veja um exemplo de uma página utilizando esse template:</p>
+<p>The instruction {{ content }}, is a instruction from Liquid template, that is used by Jekyll to render the templates, this instruction is responsible for taking the content of the page and putting in the template. See an example of a page using the previous template:</p>
 
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html">---
-title: Começando com Jekyll
+title: Beginning with Jekyll
 layout: my-template
 ---
 <span class="nt">&lt;h1&gt;</span>Hello world<span class="nt">&lt;/h1&gt;</span>
-<span class="nt">&lt;h2&gt;</span>Começando com Jekyll<span class="nt">&lt;/h2&gt;</span></code></pre></figure>
+<span class="nt">&lt;h2&gt;</span>Beginning with Jekyll<span class="nt">&lt;/h2&gt;</span></code></pre></figure>
 
-<p>Perceba as instruções  entre os "---", elas funcionam como declarações, o nome layout especifica que arquivo na pasta _layout estamos referênciando, o title funciona como uma declaração de variável que pode ser acessado através do prefixo "page", como pode ser observado na instrução {{  page.title }}, essa variáveis estarão disponíveis seja no arquivo atual da página, ou no template, quando o Jekyll tentar processar os arquivos ele vai encontrar as variáveis.</p>
+<p>See the instructions between the characters "---", they are like declarations, some of them you can create others are specific for Jekyll use, for example the layout, in the value you put the name without the extension of the template you want to use, you can access the variables through the prefix "page", as you can see in the expression "" the variables will be disponible in the current file or in the template that the current file references</p>
 
-<p>Na pasta "_include", podemos criar arquivos que podem ser incluídos em outras páginas através da instrução {% include nome-do-arquivo.html %}, assim podemos reaproveitar algumas partes de páginas em diferentes layouts.</p>
+<p>On the "_include" folder, we can create the files that can be included in other pages using the expression {% include file_name.html %}, With that we can reuse some partials pages into different layouts or pages. See an example:</p>
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html">---
-title: Começando com Jekyll
+title: Beginning with Jekyll
 layout: my-template
 ---
 <span class="nt">&lt;h1&gt;</span>Hello world<span class="nt">&lt;/h1&gt;</span>
-<span class="nt">&lt;h2&gt;</span>Começando com Jekyll<span class="nt">&lt;/h2&gt;</span>
+<span class="nt">&lt;h2&gt;</span>Beginning with Jekyll<span class="nt">&lt;/h2&gt;</span>
 
 {% include contact-form.html %}</code></pre></figure>
 
-<p>Na pasta "_sass", você pode quardar seus arquivos de parciais .sass/.scss, por default o Jekyll vem com suporte a arquivos sass e scss, então supondo que você possua um arquivo na pasta "css/main.scss", quando você processar o projeto, você vai ter um arquivo "css/main.css".</p>
+<p>On the "_sass" folder, you can store your partial .sass/.scss files, by default Jekyll comes with support for sass files, lets say that you have a "main.scss" file in the "css" folder ( "css/main.scss" ), when you build the project, you will have the file processed to "css/main.css", and the files in the _sass folder you can use to include to yours main files.</p>
 
-<p>gora a pasta principal do seu projeto Jekyll, a pasta "_post", nela você vai criar os seus posts do seu blog, seguindo a convenção usada pelo Jekyll de ano-mes-dia-nome-do-arquivo", por exemplo o arquivo desse post é "2016-11-16-comecando-com-jekyll.html".
-Essa convenção deve ser seguida, pois o Jekyll só irá considerar o arquivo na pasta caso você a siga. Veja um exemplo de post</p>
+<p>Now the main folder of the project, the _post folder, in this page you will create your blog posts, following the Jekyll convention of "year-month-day-name-of-the-file", for instance the file of this post is "2016-11-21-beginning-with-jekyll.html". This convention need to be followed, because the Jekyll will only consider your posts that follows the convention. See a post example:</p>
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html">---
 layout: my-post-layout
-title:  "Começando com Jekyll"
-date:   2016-11-20 20:20:33 -0300
+title:  Beginning with Jekyll
+date:   2016-11-21 20:20:33 -0300
 categories: jekyll
 ---
-Conteudo....</code></pre></figure>
+My html post content....</code></pre></figure>
 
-<p>Note a variável date, ela não pode ser diferente da data do arquivo. A variável categories também é importante para a montagem das urls default do post, esse post será acessível na url "/jekyll/2016/11/20/comecanto-com-jekyll", caso seja omitido a variável categories, sera apenas "/2016/11/20/comecanto-com-jekyll"
+<p>See the date variable, she can't have a different value thant the date in the file name. The categories variable is also important to the URL of the post , this post, for instance, will be accessed in the URL "/jekyll/2016/11/21/beggining-with-jekyll",
+in the case that you omits the categories variable, the URL will be "/2016/11/20/comecanto-com-jekyll"
 </p>
 
-<p>O Jekyll também lhe dá a possibilidade de listar os posts, para cada arquivo que existir na pasta “_posts”, um registro será adicionado na variável "site.posts", que é uma lista dos posts cronologicamente. Veja o exemplo de listagem:</p>
+<p>The Jekyll also gives the possibility to list the created posts, for each file in the _post folder, will be a item in the site.posts list variable, this variable is a list of posts chronological sorted. See an example of listing the posts:</p>
 
 
 <figure class="highlight"><pre><code class="language-html" data-lang="html">---
-title: Começando com Jekyll
+title: Beggining with Jekyll
 layout: my-template
 ---
-<span class="nt">&lt;h1&gt;</span>Lista Posts<span class="nt">&lt;/h1&gt;</span>
+<span class="nt">&lt;h1&gt;</span>Posts List<span class="nt">&lt;/h1&gt;</span>
 {% for post in site.posts limit:5 %}
 <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"post-preview"</span><span class="nt">&gt;</span>
   <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"{{ post.url }}"</span><span class="nt">&gt;</span>
@@ -203,18 +203,17 @@ layout: my-template
 <span class="nt">&lt;hr&gt;</span>
 {% endfor %}</code></pre></figure>
 
-<p>Agora que sabemos o básico do Jekyll, vamos testar o nosso primeiro site, para testar localmente o projeto, basta rodar o comando seguinte na pasta raiz do projeto</p>
+<p>Now that we know the basic of Jekyll, let's test our first site. To test the project in the local environment you just need to run the following command in the root folder of your project:</p>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>jekyll server</code></pre></figure>
 
-<p>O Jekyll irá compilar seus arquivos e subir um servidor local no endereço
-http://localhost:4000</p>
+<p>The Jekyll will compile your files and run a local server on the URL: http://localhost:4000</p>
 
-<p>Por fim, outro comando essencial é o build, ele irá compilar seus arquivos e colocá-los na pasta _site, com esses arquivos você pode hospedar seu site "estático" onde quiser</p>
+<p>To finish, another essential command is the build command, this command compiles all your files and puts in the _site folder, with those files you can host your "static" site anywhere</p>
 
 <figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>jekyll build</code></pre></figure>
 
-<p>O Jekyll é uma ferramenta bastante poderoza, possui muitos plugins e funcionalidades para serem exploradas, oque vimos aqui é apenas a ponta do iceberg, você pode acessar o site https://jekyllrb.com/ e ver um pouco mais de suas funcionalidades.</p>
+<p>The Jekyll is a really powerfull tool, and also have many plugins and features to be explored, what we have saw is just the tip of the iceberg, you can access the site https://jekyllrb.com/ and see a more of his features.</p>
 
             </div>
         </div>
