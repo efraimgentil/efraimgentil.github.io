@@ -1,0 +1,32 @@
+---
+title: Usando Spring MVC e Spring Data
+author: Efraim Gentil
+description: Aprenda a utilizar o Spring MVC junto com o Spring Data no Tomcat, alguns exemplos de Spectations e controle transacional
+date:   2016-12-25 21:00:00
+layout: post-template
+categories: ['java' , 'spring']
+keywords: java,spring,springmvc,spring mvc,springdata,spring data,tomcat,configuration,configuração,anotações,annotation,efraimgentil,Efraim Gentil
+---
+
+
+<p>Vamos aprender como configurar o Spring Data em conjunto com o Spring MVC, utilizar anotações para controle transacional, usar spectations no Spring Data para termos uma DSL de nossas consultas</p>
+
+<p>Nesse projeto utilizaremos a versão 4.X.X do Spring, Maven para resolução de depêndencias, e o Tomcat como container</p>
+
+<p>Não vamos entrar na criação do projeto Maven, suponho que já possua o conhecimento, e já tenha o projeto criado, caso não pode dar uma olhada <a href="{{site.baseurl}}/java/spring/configurando-spring-com-anotacoes">aqui </a>
+</p>
+
+<p>Vamos começar configurando nosso projeto, vamos criar a classe SpringConfig, no pacote "me.efraimgentil.springmvcanddata.config", essa classe ira conter as configuraçoes basicas de beans do Spring</p>
+
+{% highlight java %}
+package me.efraimgentil.springmvcanddata.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = {"me.efraimgentil.springmvcanddata"  })
+public class SpringConfig {
+  
+}
+{% endhighlight %}
