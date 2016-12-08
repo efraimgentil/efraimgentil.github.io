@@ -16,6 +16,41 @@ keywords: java,spring,springmvc,spring mvc,springdata,spring data,tomcat,configu
 <p>Não vamos entrar na criação do projeto Maven, suponho que já possua o conhecimento, e já tenha o projeto criado, caso não pode dar uma olhada <a href="{{site.baseurl}}/java/spring/configurando-spring-com-anotacoes">aqui </a>
 </p>
 
+<p>As dependências que vamos utilizar são as seguintes</p>
+
+{% highlight xml %}
+<dependency>
+	<groupId>javax.servlet</groupId>
+	<artifactId>javax.servlet-api</artifactId>
+	<version>3.1.0</version>
+	<scope>provided</scope>
+</dependency>
+
+<dependency>
+	<groupId>javax.servlet</groupId>
+	<artifactId>jstl</artifactId>
+	<version>1.2</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-webmvc</artifactId>
+	<version>4.3.4.RELEASE</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.data</groupId>
+	<artifactId>spring-data-jpa</artifactId>
+	<version>1.10.5.RELEASE</version>
+</dependency>
+
+<dependency>
+	<groupId>com.h2database</groupId>
+	<artifactId>h2</artifactId>
+	<version>1.2.125</version>
+</dependency>
+{% endhighlight %}
+
 <p>Vamos começar configurando nosso projeto, vamos criar a classe SpringConfig, no pacote "me.efraimgentil.springmvcanddata.config", essa classe ira conter as configuraçoes basicas de beans do Spring</p>
 
 {% highlight java %}
@@ -30,3 +65,5 @@ public class SpringConfig {
   
 }
 {% endhighlight %}
+
+<p>Nessa classe estamos apenas sinalizando ao Spring, por meio da anotação ComponentScan, para escanear a partir do pacote raiz em busca dos components do Spring</p>
