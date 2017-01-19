@@ -1,0 +1,10 @@
+_redis
+
+O que é o Redis, é um "banco de dados" em memoria, open source, que pode ser usado como banco de dados, cache e como message broker, nao utiliza SQL, ou seja é NoSQL e utiliza-se de armazenamento por esturas KEY/VALUE.
+
+Ele é similar ao Memcached, porem o Memcached usa cache volation, ou seja a informação não é salva em caso de um restart, diferente do Redisd
+
+rdiff-backup ( salvar backup do rdb do redis )
+
+exemplo de comando
+rdiff-backup --preserve-numerical-ids /var/lib/redis /home/brad/redis

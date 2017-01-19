@@ -22,7 +22,18 @@ baseurl: ""
 
 languages: ["pt_BR", "en"]
 
-exclude_from_localizations: ["Gemfile" , "Gemfile.lock" ,"assets", "javascript", "images", "css"]
+exclude_from_localizations: ["Gemfile" 
+, "Gemfile.lock"
+ ,"assets"
+ , "javascript"
+ , "images"
+ , "css"
+ , "build.py" 
+ , "mail"
+ , "tocommit"
+ , "LICENSE"
+ , "README.md"
+ , "gulpfile.js"]
 
 
 
