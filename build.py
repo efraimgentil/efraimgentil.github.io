@@ -18,6 +18,12 @@ dir_util.copy_tree("../_site", "../tocommit")
 
 os.system( "git status")
 
+os.system( "git add .")
+
+os.system( "git commit -am 'Update blog'")
+
+os.system( "git push origin master")
+
 print("### LIMPANDO PASTA TOCOMMIT ###")
 os.chdir("..")
 os.system("rm -rf tocommit")
