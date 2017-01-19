@@ -1,0 +1,415 @@
+---
+title: Usando Spring MVC e Spring Data
+author: Efraim Gentil
+description: Aprenda a configurar e utilizar o Spring MVC junto com o Spring Data no Tomcat, controle transacional, exemplos de uso e boas praticas, uso do spectations do spring data.
+date:   2016-12-25 21:00:00
+layout: post-template
+categories: ['java' , 'spring']
+keywords: java,spring,springmvc,spring mvc,springdata,spring data,tomcat,configuration,configuração,anotações,annotation,efraimgentil,Efraim Gentil
+---
+
+
+<p>Vamos aprender como configurar o Spring Data em conjunto com o Spring MVC, utilizar anotações para controle transacional, usar spectations no Spring Data para termos uma DSL de nossas consultas</p>
+
+<p>Nesse projeto utilizaremos a versão 4.X.X do Spring, Maven para resolução de depêndencias, e o Tomcat como container</p>
+
+<p>Não vamos entrar na criação do projeto Maven, suponho que já possua o conhecimento, e já tenha o projeto criado, caso não pode dar uma olhada <a href="{{site.baseurl}}/java/spring/configurando-spring-com-anotacoes">aqui </a>
+</p>
+
+<p>As dependências que vamos utilizar são as seguintes</p>
+
+{% highlight xml %}
+<dependency>
+	<groupId>javax.servlet</groupId>
+	<artifactId>javax.servlet-api</artifactId>
+	<version>3.1.0</version>
+	<scope>provided</scope>
+</dependency>
+
+<dependency>
+	<groupId>javax.servlet</groupId>
+	<artifactId>jstl</artifactId>
+	<version>1.2</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-webmvc</artifactId>
+	<version>4.3.4.RELEASE</version>
+</dependency>
+
+<dependency>
+	<groupId>com.fasterxml.jackson.core</groupId>
+	<artifactId>jackson-databind</artifactId>
+	<version>2.6.1</version>
+</dependency>
+
+<dependency>
+	<groupId>org.springframework.data</groupId>
+	<artifactId>spring-data-jpa</artifactId>
+	<version>1.10.5.RELEASE</version>
+</dependency>
+
+<dependency>
+	<groupId>com.h2database</groupId>
+	<artifactId>h2</artifactId>
+	<version>1.2.125</version>
+</dependency>
+
+<dependency>
+	<groupId>org.hibernate</groupId>
+	<artifactId>hibernate-entitymanager</artifactId>
+	<version>5.2.2.Final</version>
+</dependency>
+
+<dependency>
+	<groupId>log4j</groupId>
+	<artifactId>log4j</artifactId>
+	<version>1.2.17</version>
+</dependency>
+{% endhighlight %}
+
+<p>Usaremos o Jackson para serialização de nossa entidade em JSON, o hibernate como implementação do JPA, o banco de dados será em memoria utilizando o H2</p>
+
+<p>Vamos começar configurando nosso projeto, vamos criar a classe SpringConfig, no pacote "me.efraimgentil.springmvcanddata.config", essa classe ira conter as configuraçoes basicas de beans do Spring</p>
+
+{% highlight java %}
+package me.efraimgentil.springmvcanddata.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+@ComponentScan(basePackages = {"me.efraimgentil.springmvcanddata"  })
+public class SpringConfig {
+  
+}
+{% endhighlight %}
+
+<p>Nessa classe estamos apenas sinalizando ao Spring, por meio da anotação ComponentScan, para escanear a partir do pacote raiz em busca dos components do Spring</p>
+
+<p>Em seguida tempos a configuração do Spring MVC, para gerenciar nossas rotas</p>
+
+{% highlight java %}
+package me.efraimgentil.springmvcanddata.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+@Configuration
+@EnableWebMvc
+@ComponentScan(basePackages = { "me.efraimgentil.springmvcanddata.controller" })
+public class SpringMvcConfig extends WebMvcConfigurerAdapter {
+
+}
+{% endhighlight %}
+
+<p>Aqui, também não temos nada novo, estamos abilitando o MVC com a anotação EnableWebMvc, ela é basicamente o equivalente a configuração xml '<mvc:annotation-driven />', ou seja ira reconhecer nossas anotações Controller e RequestMapping. Estamos também dizendo onde procurar os nossos controllers com a anotação ComponentScan</p>
+
+<p>Vamos configurar agora nossa base de dados, controle transacional e os repositorios com Spring Data</p>
+
+{% highlight java %}
+package me.efraimgentil.springmvcanddata.config;
+
+import java.util.Properties;
+
+import javax.persistence.EntityManagerFactory;
+import javax.sql.DataSource;
+
+import org.hibernate.jpa.HibernatePersistenceProvider;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "me.efraimgentil.springmvcanddata.repository"
+, entityManagerFactoryRef="entityManagerFactory" 
+, transactionManagerRef="transactionManager")
+public class PersistenceConfig {
+
+	@Bean
+	public DataSource datasource() {
+		DriverManagerDataSource ds = new DriverManagerDataSource();
+		ds.setDriverClassName( "org.h2.Driver");
+		ds.setUrl("jdbc:h2:mem:data;DB_CLOSE_DELAY=-1");
+		ds.setUsername("sa");
+		ds.setPassword("");
+		return ds;
+	}
+	
+	@Bean(name= "entityManagerFactory")
+	public LocalContainerEntityManagerFactoryBean  entityManagerFactoryBean(DataSource ds ) {
+		LocalContainerEntityManagerFactoryBean  emfb = new LocalContainerEntityManagerFactoryBean ();
+		emfb.setDataSource(ds);
+		emfb.setPackagesToScan("me.efraimgentil.springmvcanddata.domain");
+		emfb.setPersistenceProviderClass(HibernatePersistenceProvider.class);
+		Properties jpaProterties = new Properties();
+		jpaProterties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+		jpaProterties.put("hibernate.format_sql", true );
+		jpaProterties.put("hibernate.show_sql", true);
+		jpaProterties.put("hibernate.hbm2ddl.auto", "update");
+		emfb.setJpaProperties(jpaProterties);
+		return emfb;
+	}
+	
+	@Bean(name="transactionManager")
+	public JpaTransactionManager transactionmanager(EntityManagerFactory emf){
+		JpaTransactionManager transactionManager = new JpaTransactionManager();
+		transactionManager.setEntityManagerFactory( emf );
+		return transactionManager;
+	}
+	
+}
+{% endhighlight %}
+
+<p>Essa configuração é mais extensa, primeiro temos a anotação @EnableTransactionManagement ela ira permitir que utilizemos a anotação @Transactional em nossos metodos para sinalizar que serão rodados dentro de uma transação, em seguida temos a anotação @EnableJpaRepositories, ela habilita os repositorios do Spring Data, especificamos na anotação em que pacotes esses repositorios residirao</p>
+
+<p>Temos o nosso data source, estamos fazendo uma configuração simples utilizando o DriverManagerDataSource, não utilize essa configuração em produção, pois a cada chamada do getConnection sera criada uma nova conexão, para simplificar o exemplo estamos utilizando essa implementação</p>
+
+<p>Temos também a configuração do nosso EntityManagerFactory, aqui apenas configuramos o datasource que será utilizado, o pacote onde nossas entidades estão residindo, o provider que sera utilizado no caso HibernatePersistenceProvider, e configuramos o hibernate</p>
+
+<p>Por fim temos a configuração do nosso transactionManager, aqui utilizamos o JpaTransactionManager, e apontamos para o nosso EntityManagerFactory configurado anterior mente</p>
+
+<p class="bg-warning">Veja que na assinatura dos metodos apontam para o DataSource e o EntityManagerFactory, não se preocupe, o Spring vai tratar da injeção desses objetos para você</p>
+
+<p>Com isso vamos finalizar a configuração criando nosso WebInitializer como a seguir</p>
+
+{% highlight java %}
+package me.efraimgentil.springmvcanddata.config;
+
+import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+	@Override
+	protected Class<?>[] getRootConfigClasses() {
+		return new Class[] { SpringConfig.class , PersistenceConfig.class  };
+	}
+
+	@Override
+	protected Class<?>[] getServletConfigClasses() {
+		return new Class[] { SpringMvcConfig.class  };
+	}
+
+	@Override
+	protected String[] getServletMappings() {
+		return new String[] { "/" };
+	}
+}
+{% endhighlight %}
+
+<p>Com isso temos nosso projeto configurado e pronto para rodar, agora vamos criar nossa entidade User e nosso repositorio UserRepository como a seguir
+
+{% highlight java %}
+package me.efraimgentil.springmvcanddata.domain;
+
+// imports
+
+@Entity
+@Table(name="user")
+public class User implements Serializable {
+	
+	private static final long serialVersionUID = -5613292949395788401L;
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
+	
+	private String name;
+	
+	@JsonIgnore
+	private char[] password;
+	
+	private String role;
+	
+	private Date createdAt;
+
+	public User() {	}
+	
+	public User(String name, char[] password) {
+		super();
+		this.name = name;
+		this.password = password;
+		this.createdAt = new Date();
+	}
+	
+	public User(String name, char[] password , String role ) {
+		this( name , password );
+		this.role = role;
+	}
+
+	public User(String name, char[] password , String role , boolean active ) {
+		this( name , password , role);
+		this.active = active;
+	}
+
+	/* gets sets */
+}
+{% endhighlight %}
+
+{% highlight java %}
+package me.efraimgentil.springmvcanddata.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+
+import me.efraimgentil.springmvcanddata.domain.User;
+
+public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User>  {
+
+}
+{% endhighlight %}
+
+<p>Não precisamos anotar nosso repositorio com nenhuma anotação, ja marcamos em nossas configurações qual package scanear, o Spring vai verificar a interface e reconhecer que se trata de um repositorio, já que a intefece esta extendendo de JpaRepository</p>
+
+<p>Ok agora vamos criar nosso controller, que ira servir nossa entidade como JSON, veja a seguir</p>
+
+
+{% highlight java %}
+package me.efraimgentil.springmvcanddata.controller;
+
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import me.efraimgentil.springmvcanddata.domain.User;
+import me.efraimgentil.springmvcanddata.repository.UserRepository;
+
+import static org.springframework.data.jpa.domain.Specifications.*;
+
+@Controller
+@RestController
+public class UserController {
+	
+	@Autowired UserRepository repository;
+	
+	@RequestMapping(value = { "/" })
+	public List<User> allUsers(){
+		return repository.findAll();
+	}
+	
+	@RequestMapping(value = { "/{id}" })
+	public User user( @PathVariable("id") Integer id ){
+		return repository.findOne(id);
+	}
+	
+	@RequestMapping(value = { "/active" })
+	public List<User> allActiveUsers( ){
+		return repository.findAll( 
+				where( (root, query, cb) -> { return cb.equal( root.get("active"), Boolean.TRUE ); } ) );
+	}
+	
+	@RequestMapping(value = { "/with-role/{role}" })
+	public List<User> allUsersWithRole( final @PathVariable("role") String role ){
+		return repository.findAll( 
+				where( (root, query, cb) -> { return cb.equal( root.get("role"), role ); } ) );
+	}
+	
+	@RequestMapping(value = { "/active/with-role/{role}" })
+	public List<User> allActiveUsersWithRole( final @PathVariable("role") String role ){
+		return repository.findAll( 
+				where( (Root<User> root, CriteriaQuery<?> query, CriteriaBuilder cb) 
+						-> { return cb.equal( root.get("active"), Boolean.TRUE ); } )
+				 .and( (root, query, cb) -> { return cb.equal( root.get("role"), role ); }  )
+				);
+	}
+	
+}
+{% endhighlight %}
+
+<p>Nos injetamos a interface repository, que ira tratar nossas requisições a base de dados, não se preocupe com a implementação da interface, o Spring Data vai cuidar disso para você, e fornecer alguns metodos padrões necessários para toda aplicação, como save, delete, find etc...</p>
+
+<p>Note o metodo allActiveUsers no controller, nele estamos fazendo uma chamada ao metodo findAll do repositorio, e passando como parametro a chamada where(...), que recebe como parametro um Specification, no nosso caso estamos passando um lambda expression e estamos deixando o Java cuidar do resto, o retorno da nossa expressão lambda DEVE retornar uma Prediction ou null ( null simplesmente sera ingnorado )</p>
+
+<p class="bg-warning">O metodo where esta vindo de um import static org.springframework.data.jpa.domain.Specifications.*;</p>
+
+<p>Perceba que é bem pratico utilizar as Specifications, porem como pode ser visto no metodo allActiveUsersWithRole, com mais criterios para consulta, fica mais complexo ler e entender oque está acontecendo, por isso vamos criar uma classe chamada UserSpecs como a seguir</p>
+
+{% highlight java %}
+package me.efraimgentil.springmvcanddata.domain.specs;
+
+import org.springframework.data.jpa.domain.Specification;
+
+import me.efraimgentil.springmvcanddata.domain.User;
+
+public class UserSpecs {
+	
+	public static Specification<User> active(){
+		return (root , query , cb) -> {
+			return cb.equal( root.get("active"), Boolean.TRUE );
+		};
+	}
+	
+	public static Specification<User> withRole(final String role){
+		return (root , query , cb) -> {
+			return cb.equal( cb.upper( root.get("active") ), role.toUpperCase() );
+		};
+	}
+	
+}
+{% endhighlight %}
+
+<p>Com isso podemos usar esses metodos com nomes mais intuitivos, e ate encadear suas chamadas, criando assim uma DSL propria do nosso sistema, claro que aqui estamos fazendo um exemplo simples, mas é possivel trabalhar com coisas bem mais complexas como sub-queries. Veja a seguir como ficar o nosso controller</p>
+
+{% highlight java %}
+
+/* imports */
+
+import static org.springframework.data.jpa.domain.Specifications.*;
+import static me.efraimgentil.springmvcanddata.domain.specs.UserSpecs.*;
+
+@Controller
+@RestController
+public class UserController {
+	
+	@Autowired UserRepository repository;
+	
+	@RequestMapping(value = { "/" })
+	public List<User> allUsers(){
+		return repository.findAll();
+	}
+	
+	@RequestMapping(value = { "/{id}" })
+	public User user( @PathVariable("id") Integer id ){
+		return repository.findOne(id);
+	}
+	
+	@RequestMapping(value = { "/active" })
+	public List<User> allActiveUsers( ){
+		return repository.findAll( active() );
+	}
+	
+	@RequestMapping(value = { "/with-role/{role}" })
+	public List<User> allUsersWithRole( @PathVariable("role") String role ){
+		return repository.findAll( withRole( role ) );
+	}
+	
+	@RequestMapping(value = { "/active/with-role/{role}" })
+	public List<User> allActiveUsersWithRole( final @PathVariable("role") String role ){
+		return repository.findAll( where( active() ).and( withRole(role) ) );
+	}
+	
+}
+{% endhighlight %}
+
+<p>Veja que temos uma API bem mais fluida, e facilita bastante a leitura do que estamos buscando, na tradução literal seria como "busque tudo onde ativo e com perfil especificado"</p>
+
+<p>Agora basta fazer o deploy no tomcat e comessar a experimentar, o UserController esta mapeado para a raiz do projeto então provavelmente você vai acessar como na url a seguir "http://localhost:8080/springmvcanddata/". Faça seus proprios testes, crie uma entidade ou tente pegar uma implementação do trabalho e mudar para Spring Data, vai ser divertido!</p>
+
+
+
+<p>Você pode encontrar os fontes do projeto <a href="https://github.com/efraimgentil/springmvcanddata">aqui</a></p>
