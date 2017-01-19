@@ -113,7 +113,7 @@
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-content">
                 <p>Vamos aprender como configurar o Spring Data em conjunto com o Spring MVC, utilizar anotações para controle transacional, usar spectations no Spring Data para termos uma DSL de nossas consultas</p>
 
-<p>Nesse projeto utilizaremos a versão 4.X.X do Spring, Maven para resolução de depêndencias, e o Tomcat como container</p>
+<p>Nesse projeto utilizaremos a versão 4.X.X do Spring, Maven para resolução de dependências, e o Tomcat como container</p>
 
 <p>Não vamos entrar na criação do projeto Maven, suponho que já possua o conhecimento, e já tenha o projeto criado, caso não pode dar uma olhada <a class="link-ref" href="/post/java/spring/configurando-spring-com-anotacoes">aqui </a>
 </p>
@@ -169,9 +169,9 @@
 	<span class="nt">&lt;version&gt;</span>1.2.17<span class="nt">&lt;/version&gt;</span>
 <span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
 
-<p>Usaremos o Jackson para serialização de nossa entidade em JSON, o hibernate como implementação do JPA, o banco de dados será em memoria utilizando o H2</p>
+<p>Usaremos o Jackson para serialização de nossa entidade em JSON, o hibernate como implementação do JPA, o banco de dados será em memória utilizando o H2</p>
 
-<p>Vamos começar configurando nosso projeto, vamos criar a classe SpringConfig, no pacote "me.efraimgentil.springmvcanddata.config", essa classe ira conter as configuraçoes basicas de beans do Spring</p>
+<p>Vamos começar configurando nosso projeto, vamos criar a classe SpringConfig, no pacote "me.efraimgentil.springmvcanddata.config", essa classe irá contér as configurações básicas de beans do Spring</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
 
@@ -186,7 +186,7 @@
 
 <p>Nessa classe estamos apenas sinalizando ao Spring, por meio da anotação ComponentScan, para escanear a partir do pacote raiz em busca dos components do Spring</p>
 
-<p>Em seguida tempos a configuração do Spring MVC, para gerenciar nossas rotas</p>
+<p>Em seguida temos a configuração do Spring MVC, para gerenciar nossas rotas</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
 
@@ -202,9 +202,9 @@
 
 <span class="o">}</span></code></pre></figure>
 
-<p>Aqui, também não temos nada novo, estamos abilitando o MVC com a anotação EnableWebMvc, ela é basicamente o equivalente a configuração xml '<mvc:annotation-driven />', ou seja ira reconhecer nossas anotações Controller e RequestMapping. Estamos também dizendo onde procurar os nossos controllers com a anotação ComponentScan</p>
+<p>Aqui, também não temos nada novo, estamos habilitando o MVC com a anotação EnableWebMvc, ela é basicamente o equivalente a configuração xml '<mvc:annotation-driven />', ou seja irá reconhecer nossas anotações Controller e RequestMapping. Estamos também dizendo onde procurar os nossos controllers com a anotação ComponentScan</p>
 
-<p>Vamos configurar agora nossa base de dados, controle transacional e os repositorios com Spring Data</p>
+<p>Vamos configurar agora nossa base de dados, controle transacional e os repositórios com Spring Data</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
 
@@ -263,15 +263,15 @@
 	
 <span class="o">}</span></code></pre></figure>
 
-<p>Essa configuração é mais extensa, primeiro temos a anotação @EnableTransactionManagement ela ira permitir que utilizemos a anotação @Transactional em nossos metodos para sinalizar que serão rodados dentro de uma transação, em seguida temos a anotação @EnableJpaRepositories, ela habilita os repositorios do Spring Data, especificamos na anotação em que pacotes esses repositorios residirao</p>
+<p>Essa configuração é mais extensa, primeiro temos a anotação @EnableTransactionManagement ela irá permitir que utilizemos a anotação @Transactional em nossos métodos para sinalizar que serão rodados dentro de uma transação, em seguida temos a anotação @EnableJpaRepositories, ela habilita os repositórios do Spring Data, especificamos na anotação em que pacotes esses repositórios residirão.</p>
 
-<p>Temos o nosso data source, estamos fazendo uma configuração simples utilizando o DriverManagerDataSource, não utilize essa configuração em produção, pois a cada chamada do getConnection sera criada uma nova conexão, para simplificar o exemplo estamos utilizando essa implementação</p>
+<p>Temos o nosso datasource, estamos fazendo uma configuração simples utilizando o DriverManagerDataSource, não utilize essa configuração em produção, pois a cada chamada do getConnection será criada uma nova conexão, para simplificar o exemplo estamos utilizando essa implementação.</p>
 
-<p>Temos também a configuração do nosso EntityManagerFactory, aqui apenas configuramos o datasource que será utilizado, o pacote onde nossas entidades estão residindo, o provider que sera utilizado no caso HibernatePersistenceProvider, e configuramos o hibernate</p>
+<p>Temos também a configuração do nosso EntityManagerFactory, aqui apenas configuramos o datasource que será utilizado, o pacote onde nossas entidades estão residindo, o provider que será utilizado no caso HibernatePersistenceProvider, e configuramos o hibernate.</p>
 
-<p>Por fim temos a configuração do nosso transactionManager, aqui utilizamos o JpaTransactionManager, e apontamos para o nosso EntityManagerFactory configurado anterior mente</p>
+<p>Por fim temos a configuração do nosso transactionManager, aqui utilizamos o JpaTransactionManager, e apontamos para o nosso EntityManagerFactory configurado anteriormente</p>
 
-<p class="bg-warning">Veja que na assinatura dos metodos apontam para o DataSource e o EntityManagerFactory, não se preocupe, o Spring vai tratar da injeção desses objetos para você</p>
+<p class="bg-warning">Veja que na assinatura dos métodos apontam para o DataSource e o EntityManagerFactory, não se preocupe, o Spring vai tratar da injeção desses objetos para você</p>
 
 <p>Com isso vamos finalizar a configuração criando nosso WebInitializer como a seguir</p>
 
@@ -296,7 +296,7 @@
 	<span class="o">}</span>
 <span class="o">}</span></code></pre></figure>
 
-<p>Com isso temos nosso projeto configurado e pronto para rodar, agora vamos criar nossa entidade User e nosso repositorio UserRepository como a seguir
+<p>Com isso temos nosso projeto configurado e pronto para rodar, agora vamos criar nossa entidade User e nosso repositório UserRepository como a seguir:</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">domain</span><span class="o">;</span>
 
@@ -354,10 +354,9 @@
 
 <span class="o">}</span></code></pre></figure>
 
-<p>Não precisamos anotar nosso repositorio com nenhuma anotação, ja marcamos em nossas configurações qual package scanear, o Spring vai verificar a interface e reconhecer que se trata de um repositorio, já que a intefece esta extendendo de JpaRepository</p>
+<p>Não precisamos anotar nosso repositório com nenhuma anotação, já marcamos em nossas configurações qual package escanear, o Spring vai verificar a interface e reconhecer que se trata de um repositório, já que a interfece está extendẽndo de JpaRepository</p>
 
-<p>Ok agora vamos criar nosso controller, que ira servir nossa entidade como JSON, veja a seguir</p>
-
+<p>Ok agora vamos criar nosso controller, que irá servir nossa entidade como JSON, veja a seguir</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">controller</span><span class="o">;</span>
 
@@ -417,13 +416,13 @@
 	
 <span class="o">}</span></code></pre></figure>
 
-<p>Nos injetamos a interface repository, que ira tratar nossas requisições a base de dados, não se preocupe com a implementação da interface, o Spring Data vai cuidar disso para você, e fornecer alguns metodos padrões necessários para toda aplicação, como save, delete, find etc...</p>
+<p>Nos injetamos a interface repository, que irá tratar nossas requisições a base de dados, não se preocupe com a implementação da interface, o Spring Data vai cuidar disso para você, e fornecer alguns métodos padrões necessários para toda aplicação, como save, delete, find etc...</p>
 
-<p>Note o metodo allActiveUsers no controller, nele estamos fazendo uma chamada ao metodo findAll do repositorio, e passando como parametro a chamada where(...), que recebe como parametro um Specification, no nosso caso estamos passando um lambda expression e estamos deixando o Java cuidar do resto, o retorno da nossa expressão lambda DEVE retornar uma Prediction ou null ( null simplesmente sera ingnorado )</p>
+<p>Note o método allActiveUsers no controller, nele estamos fazendo uma chamada ao método findAll do repositório, e passando como parâmetro a chamada where(...), que recebe como parâmetro um Specification, no nosso caso estamos passando um lambda expression e estamos deixando o Java cuidar do resto, o retorno da nossa expressão lambda DEVE retornar uma Prediction ou null ( null simplesmente será ignorado )</p>
 
-<p class="bg-warning">O metodo where esta vindo de um import static org.springframework.data.jpa.domain.Specifications.*;</p>
+<p class="bg-warning">O método where esta vindo de um import static org.springframework.data.jpa.domain.Specifications.*;</p>
 
-<p>Perceba que é bem pratico utilizar as Specifications, porem como pode ser visto no metodo allActiveUsersWithRole, com mais criterios para consulta, fica mais complexo ler e entender oque está acontecendo, por isso vamos criar uma classe chamada UserSpecs como a seguir</p>
+<p>Perceba que é bem prático utilizar as Specifications, porém como pode ser visto no método allActiveUsersWithRole, com mais critérios para consulta, fica mais complexo ler e entender o que está acontecendo, por isso vamos criar uma classe chamada UserSpecs como a seguir</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">domain</span><span class="o">.</span><span class="na">specs</span><span class="o">;</span>
 
@@ -447,7 +446,7 @@
 	
 <span class="o">}</span></code></pre></figure>
 
-<p>Com isso podemos usar esses metodos com nomes mais intuitivos, e ate encadear suas chamadas, criando assim uma DSL propria do nosso sistema, claro que aqui estamos fazendo um exemplo simples, mas é possivel trabalhar com coisas bem mais complexas como sub-queries. Veja a seguir como ficar o nosso controller</p>
+<p>Com isso podemos usar esses métodos com nomes mais intuitivos, e até encadear suas chamadas, criando assim uma DSL própria do nosso sistema, claro que aqui estamos fazendo um exemplo simples, mas é possível trabalhar com coisas bem mais complexas como sub-queries. Veja a seguir como fica o nosso controller</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="cm">/* imports */</span>
 
@@ -489,11 +488,9 @@
 
 <p>Veja que temos uma API bem mais fluida, e facilita bastante a leitura do que estamos buscando, na tradução literal seria como "busque tudo onde ativo e com perfil especificado"</p>
 
-<p>Agora basta fazer o deploy no tomcat e comessar a experimentar, o UserController esta mapeado para a raiz do projeto então provavelmente você vai acessar como na url a seguir "http://localhost:8080/springmvcanddata/". Faça seus proprios testes, crie uma entidade ou tente pegar uma implementação do trabalho e mudar para Spring Data, vai ser divertido!</p>
+<p>Agora basta fazer o deploy no tomcat e começar a experimentar, o UserController está mapeado para a raiz do projeto então provavelmente você vai acessar como na url a seguir "http://localhost:8080/springmvcanddata/". Faça seus próprios testes, crie uma entidade ou tente pegar uma implementação do trabalho e mudar para Spring Data, vai ser divertido!</p>
 
-
-
-<p>Você pode encontrar os fontes do projeto <a href="https://github.com/efraimgentil/springmvcanddata">aqui</a></p>
+<p>Você pode encontrar os fontes do projeto <a class="link-ref" href="https://github.com/efraimgentil/springmvcanddata">aqui</a></p>
             </div>
         </div>
     </div>
