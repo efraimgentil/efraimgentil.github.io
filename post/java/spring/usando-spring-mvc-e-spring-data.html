@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="content-language" content="pt,en" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="keywords" content="java,spring,springmvc,spring mvc,springdata,spring data,tomcat,configuration,configuração,anotações,annotation,efraimgentil,Efraim Gentil">
+<meta name="robots" content="index,follow">
+<meta name="googlebot" content="index,follow">
+<meta name="author" content="Efraim Gentil">
+<meta name="description" content="Aprenda a configurar e utilizar o Spring MVC junto com o Spring Data no Tomcat, controle transacional, exemplos de uso e boas praticas, uso do spectations do spring data.">
+<title>Usando Spring MVC e Spring Data</title>
+
+<!-- Bootstrap Core CSS -->
+<link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Theme CSS -->
+<link href="/assets/css/clean-blog.min.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link href="/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+<link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+</head>
+<body>
+
+
+
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    Menu <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="/">Efraim Gentil</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="/">
+                            <img src="/assets/img/Brazil-Flag-icon.png"
+                              class="flag"  />
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/en/">
+                            <img src="/assets/img/United-States-Flag-icon.png"
+                              class="flag"  />
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/index.html">Home</a>
+                    </li>
+                    <li>
+                        <a href="/about.html">Sobre</a>
+                    </li>
+                    <li>
+                        <a href="/contact.html">Contato</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+   
+    
+    
+    
+
+
+   <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('/assets/img/home-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>Usando Spring MVC e Spring Data</h1>
+                        <h2 class="subheading">Aprenda a configurar e utilizar o Spring MVC junto com o Spring Data no Tomcat, controle transacional, exemplos de uso e boas praticas, uso do spectations do spring data.</h2>
+                        <span class="meta">Postado por <a href="#">Efraim Gentil</a>
+                        
+                          em 25 de Dezembro, 2016
+                        
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-content">
+                <p>Vamos aprender como configurar o Spring Data em conjunto com o Spring MVC, utilizar anotações para controle transacional, usar spectations no Spring Data para termos uma DSL de nossas consultas</p>
+
+<p>Nesse projeto utilizaremos a versão 4.X.X do Spring, Maven para resolução de depêndencias, e o Tomcat como container</p>
+
+<p>Não vamos entrar na criação do projeto Maven, suponho que já possua o conhecimento, e já tenha o projeto criado, caso não pode dar uma olhada <a href="/post/java/spring/configurando-spring-com-anotacoes">aqui </a>
+</p>
+
+<p>As dependências que vamos utilizar são as seguintes</p>
+
+<figure class="highlight"><pre><code class="language-xml" data-lang="xml"><span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>javax.servlet<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>javax.servlet-api<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>3.1.0<span class="nt">&lt;/version&gt;</span>
+	<span class="nt">&lt;scope&gt;</span>provided<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>javax.servlet<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>jstl<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>1.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.springframework<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>spring-webmvc<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>4.3.4.RELEASE<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>com.fasterxml.jackson.core<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>jackson-databind<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>2.6.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.springframework.data<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>spring-data-jpa<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>1.10.5.RELEASE<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>com.h2database<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>h2<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>1.2.125<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.hibernate<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>hibernate-entitymanager<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>5.2.2.Final<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>log4j<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>log4j<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>1.2.17<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span></code></pre></figure>
+
+<p>Usaremos o Jackson para serialização de nossa entidade em JSON, o hibernate como implementação do JPA, o banco de dados será em memoria utilizando o H2</p>
+
+<p>Vamos começar configurando nosso projeto, vamos criar a classe SpringConfig, no pacote "me.efraimgentil.springmvcanddata.config", essa classe ira conter as configuraçoes basicas de beans do Spring</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@ComponentScan</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="o">{</span><span class="s">"me.efraimgentil.springmvcanddata"</span>  <span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringConfig</span> <span class="o">{</span>
+  
+<span class="o">}</span></code></pre></figure>
+
+<p>Nessa classe estamos apenas sinalizando ao Spring, por meio da anotação ComponentScan, para escanear a partir do pacote raiz em busca dos components do Spring</p>
+
+<p>Em seguida tempos a configuração do Spring MVC, para gerenciar nossas rotas</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.config.annotation.EnableWebMvc</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableWebMvc</span>
+<span class="nd">@ComponentScan</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"me.efraimgentil.springmvcanddata.controller"</span> <span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringMvcConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span> <span class="o">{</span>
+
+<span class="o">}</span></code></pre></figure>
+
+<p>Aqui, também não temos nada novo, estamos abilitando o MVC com a anotação EnableWebMvc, ela é basicamente o equivalente a configuração xml '<mvc:annotation-driven />', ou seja ira reconhecer nossas anotações Controller e RequestMapping. Estamos também dizendo onde procurar os nossos controllers com a anotação ComponentScan</p>
+
+<p>Vamos configurar agora nossa base de dados, controle transacional e os repositorios com Spring Data</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Properties</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.EntityManagerFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.hibernate.jpa.HibernatePersistenceProvider</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.config.EnableJpaRepositories</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.jdbc.datasource.DriverManagerDataSource</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.JpaTransactionManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.annotation.EnableTransactionManagement</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableTransactionManagement</span>
+<span class="nd">@EnableJpaRepositories</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="s">"me.efraimgentil.springmvcanddata.repository"</span>
+<span class="o">,</span> <span class="n">entityManagerFactoryRef</span><span class="o">=</span><span class="s">"entityManagerFactory"</span> 
+<span class="o">,</span> <span class="n">transactionManagerRef</span><span class="o">=</span><span class="s">"transactionManager"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersistenceConfig</span> <span class="o">{</span>
+
+	<span class="nd">@Bean</span>
+	<span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">datasource</span><span class="o">()</span> <span class="o">{</span>
+		<span class="n">DriverManagerDataSource</span> <span class="n">ds</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DriverManagerDataSource</span><span class="o">();</span>
+		<span class="n">ds</span><span class="o">.</span><span class="na">setDriverClassName</span><span class="o">(</span> <span class="s">"org.h2.Driver"</span><span class="o">);</span>
+		<span class="n">ds</span><span class="o">.</span><span class="na">setUrl</span><span class="o">(</span><span class="s">"jdbc:h2:mem:data;DB_CLOSE_DELAY=-1"</span><span class="o">);</span>
+		<span class="n">ds</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="s">"sa"</span><span class="o">);</span>
+		<span class="n">ds</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="s">""</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">ds</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span><span class="o">=</span> <span class="s">"entityManagerFactory"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="n">LocalContainerEntityManagerFactoryBean</span>  <span class="nf">entityManagerFactoryBean</span><span class="o">(</span><span class="n">DataSource</span> <span class="n">ds</span> <span class="o">)</span> <span class="o">{</span>
+		<span class="n">LocalContainerEntityManagerFactoryBean</span>  <span class="n">emfb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="o">();</span>
+		<span class="n">emfb</span><span class="o">.</span><span class="na">setDataSource</span><span class="o">(</span><span class="n">ds</span><span class="o">);</span>
+		<span class="n">emfb</span><span class="o">.</span><span class="na">setPackagesToScan</span><span class="o">(</span><span class="s">"me.efraimgentil.springmvcanddata.domain"</span><span class="o">);</span>
+		<span class="n">emfb</span><span class="o">.</span><span class="na">setPersistenceProviderClass</span><span class="o">(</span><span class="n">HibernatePersistenceProvider</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+		<span class="n">Properties</span> <span class="n">jpaProterties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+		<span class="n">jpaProterties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"hibernate.dialect"</span><span class="o">,</span> <span class="s">"org.hibernate.dialect.H2Dialect"</span><span class="o">);</span>
+		<span class="n">jpaProterties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"hibernate.format_sql"</span><span class="o">,</span> <span class="kc">true</span> <span class="o">);</span>
+		<span class="n">jpaProterties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"hibernate.show_sql"</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
+		<span class="n">jpaProterties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"hibernate.hbm2ddl.auto"</span><span class="o">,</span> <span class="s">"update"</span><span class="o">);</span>
+		<span class="n">emfb</span><span class="o">.</span><span class="na">setJpaProperties</span><span class="o">(</span><span class="n">jpaProterties</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">emfb</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"transactionManager"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="n">JpaTransactionManager</span> <span class="nf">transactionmanager</span><span class="o">(</span><span class="n">EntityManagerFactory</span> <span class="n">emf</span><span class="o">){</span>
+		<span class="n">JpaTransactionManager</span> <span class="n">transactionManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JpaTransactionManager</span><span class="o">();</span>
+		<span class="n">transactionManager</span><span class="o">.</span><span class="na">setEntityManagerFactory</span><span class="o">(</span> <span class="n">emf</span> <span class="o">);</span>
+		<span class="k">return</span> <span class="n">transactionManager</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+<span class="o">}</span></code></pre></figure>
+
+<p>Essa configuração é mais extensa, primeiro temos a anotação @EnableTransactionManagement ela ira permitir que utilizemos a anotação @Transactional em nossos metodos para sinalizar que serão rodados dentro de uma transação, em seguida temos a anotação @EnableJpaRepositories, ela habilita os repositorios do Spring Data, especificamos na anotação em que pacotes esses repositorios residirao</p>
+
+<p>Temos o nosso data source, estamos fazendo uma configuração simples utilizando o DriverManagerDataSource, não utilize essa configuração em produção, pois a cada chamada do getConnection sera criada uma nova conexão, para simplificar o exemplo estamos utilizando essa implementação</p>
+
+<p>Temos também a configuração do nosso EntityManagerFactory, aqui apenas configuramos o datasource que será utilizado, o pacote onde nossas entidades estão residindo, o provider que sera utilizado no caso HibernatePersistenceProvider, e configuramos o hibernate</p>
+
+<p>Por fim temos a configuração do nosso transactionManager, aqui utilizamos o JpaTransactionManager, e apontamos para o nosso EntityManagerFactory configurado anterior mente</p>
+
+<p class="bg-warning">Veja que na assinatura dos metodos apontam para o DataSource e o EntityManagerFactory, não se preocupe, o Spring vai tratar da injeção desses objetos para você</p>
+
+<p>Com isso vamos finalizar a configuração criando nosso WebInitializer como a seguir</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebInitializer</span> <span class="kd">extends</span> <span class="n">AbstractAnnotationConfigDispatcherServletInitializer</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">protected</span> <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getRootConfigClasses</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="n">SpringConfig</span><span class="o">.</span><span class="na">class</span> <span class="o">,</span> <span class="n">PersistenceConfig</span><span class="o">.</span><span class="na">class</span>  <span class="o">};</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">protected</span> <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getServletConfigClasses</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="n">SpringMvcConfig</span><span class="o">.</span><span class="na">class</span>  <span class="o">};</span>
+	<span class="o">}</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">protected</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getServletMappings</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]</span> <span class="o">{</span> <span class="s">"/"</span> <span class="o">};</span>
+	<span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p>Com isso temos nosso projeto configurado e pronto para rodar, agora vamos criar nossa entidade User e nosso repositorio UserRepository como a seguir
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">domain</span><span class="o">;</span>
+
+<span class="c1">// imports</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"user"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+	
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5613292949395788401L</span><span class="o">;</span>
+
+	<span class="nd">@Id</span>
+	<span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
+	<span class="kd">private</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">;</span>
+	
+	<span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+	
+	<span class="nd">@JsonIgnore</span>
+	<span class="kd">private</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span><span class="o">;</span>
+	
+	<span class="kd">private</span> <span class="n">String</span> <span class="n">role</span><span class="o">;</span>
+	
+	<span class="kd">private</span> <span class="n">Date</span> <span class="n">createdAt</span><span class="o">;</span>
+
+	<span class="kd">public</span> <span class="nf">User</span><span class="o">()</span> <span class="o">{</span>	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+		<span class="kd">super</span><span class="o">();</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="n">password</span><span class="o">;</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">createdAt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">();</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">,</span> <span class="n">String</span> <span class="n">role</span> <span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">(</span> <span class="n">name</span> <span class="o">,</span> <span class="n">password</span> <span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">role</span> <span class="o">=</span> <span class="n">role</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">,</span> <span class="n">String</span> <span class="n">role</span> <span class="o">,</span> <span class="kt">boolean</span> <span class="n">active</span> <span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">(</span> <span class="n">name</span> <span class="o">,</span> <span class="n">password</span> <span class="o">,</span> <span class="n">role</span><span class="o">);</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">active</span> <span class="o">=</span> <span class="n">active</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="cm">/* gets sets */</span>
+<span class="o">}</span></code></pre></figure>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">repository</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaSpecificationExecutor</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">me.efraimgentil.springmvcanddata.domain.User</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;,</span> <span class="n">JpaSpecificationExecutor</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span>  <span class="o">{</span>
+
+<span class="o">}</span></code></pre></figure>
+
+<p>Não precisamos anotar nosso repositorio com nenhuma anotação, ja marcamos em nossas configurações qual package scanear, o Spring vai verificar a interface e reconhecer que se trata de um repositorio, já que a intefece esta extendendo de JpaRepository</p>
+
+<p>Ok agora vamos criar nosso controller, que ira servir nossa entidade como JSON, veja a seguir</p>
+
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.CriteriaQuery</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.criteria.Root</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PathVariable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">me.efraimgentil.springmvcanddata.domain.User</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">me.efraimgentil.springmvcanddata.repository.UserRepository</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">data</span><span class="o">.</span><span class="na">jpa</span><span class="o">.</span><span class="na">domain</span><span class="o">.</span><span class="na">Specifications</span><span class="o">.*;</span>
+
+<span class="nd">@Controller</span>
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
+	
+	<span class="nd">@Autowired</span> <span class="n">UserRepository</span> <span class="n">repository</span><span class="o">;</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allUsers</span><span class="o">(){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/{id}"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">User</span> <span class="nf">user</span><span class="o">(</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="n">Integer</span> <span class="n">id</span> <span class="o">){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/active"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsers</span><span class="o">(</span> <span class="o">){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> 
+				<span class="n">where</span><span class="o">(</span> <span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">query</span><span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">),</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">);</span> <span class="o">}</span> <span class="o">)</span> <span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/with-role/{role}"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allUsersWithRole</span><span class="o">(</span> <span class="kd">final</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="n">String</span> <span class="n">role</span> <span class="o">){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> 
+				<span class="n">where</span><span class="o">(</span> <span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">query</span><span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"role"</span><span class="o">),</span> <span class="n">role</span> <span class="o">);</span> <span class="o">}</span> <span class="o">)</span> <span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/active/with-role/{role}"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsersWithRole</span><span class="o">(</span> <span class="kd">final</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="n">String</span> <span class="n">role</span> <span class="o">){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> 
+				<span class="n">where</span><span class="o">(</span> <span class="o">(</span><span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">root</span><span class="o">,</span> <span class="n">CriteriaQuery</span><span class="o">&lt;?&gt;</span> <span class="n">query</span><span class="o">,</span> <span class="n">CriteriaBuilder</span> <span class="n">cb</span><span class="o">)</span> 
+						<span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">),</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">);</span> <span class="o">}</span> <span class="o">)</span>
+				 <span class="o">.</span><span class="na">and</span><span class="o">(</span> <span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">query</span><span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"role"</span><span class="o">),</span> <span class="n">role</span> <span class="o">);</span> <span class="o">}</span>  <span class="o">)</span>
+				<span class="o">);</span>
+	<span class="o">}</span>
+	
+<span class="o">}</span></code></pre></figure>
+
+<p>Nos injetamos a interface repository, que ira tratar nossas requisições a base de dados, não se preocupe com a implementação da interface, o Spring Data vai cuidar disso para você, e fornecer alguns metodos padrões necessários para toda aplicação, como save, delete, find etc...</p>
+
+<p>Note o metodo allActiveUsers no controller, nele estamos fazendo uma chamada ao metodo findAll do repositorio, e passando como parametro a chamada where(...), que recebe como parametro um Specification, no nosso caso estamos passando um lambda expression e estamos deixando o Java cuidar do resto, o retorno da nossa expressão lambda DEVE retornar uma Prediction ou null ( null simplesmente sera ingnorado )</p>
+
+<p class="bg-warning">O metodo where esta vindo de um import static org.springframework.data.jpa.domain.Specifications.*;</p>
+
+<p>Perceba que é bem pratico utilizar as Specifications, porem como pode ser visto no metodo allActiveUsersWithRole, com mais criterios para consulta, fica mais complexo ler e entender oque está acontecendo, por isso vamos criar uma classe chamada UserSpecs como a seguir</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">domain</span><span class="o">.</span><span class="na">specs</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.domain.Specification</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">me.efraimgentil.springmvcanddata.domain.User</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserSpecs</span> <span class="o">{</span>
+	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Specification</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">active</span><span class="o">(){</span>
+		<span class="k">return</span> <span class="o">(</span><span class="n">root</span> <span class="o">,</span> <span class="n">query</span> <span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">),</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">);</span>
+		<span class="o">};</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Specification</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">withRole</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">role</span><span class="o">){</span>
+		<span class="k">return</span> <span class="o">(</span><span class="n">root</span> <span class="o">,</span> <span class="n">query</span> <span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">cb</span><span class="o">.</span><span class="na">upper</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">)</span> <span class="o">),</span> <span class="n">role</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">()</span> <span class="o">);</span>
+		<span class="o">};</span>
+	<span class="o">}</span>
+	
+<span class="o">}</span></code></pre></figure>
+
+<p>Com isso podemos usar esses metodos com nomes mais intuitivos, e ate encadear suas chamadas, criando assim uma DSL propria do nosso sistema, claro que aqui estamos fazendo um exemplo simples, mas é possivel trabalhar com coisas bem mais complexas como sub-queries. Veja a seguir como ficar o nosso controller</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="cm">/* imports */</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">data</span><span class="o">.</span><span class="na">jpa</span><span class="o">.</span><span class="na">domain</span><span class="o">.</span><span class="na">Specifications</span><span class="o">.*;</span>
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">domain</span><span class="o">.</span><span class="na">specs</span><span class="o">.</span><span class="na">UserSpecs</span><span class="o">.*;</span>
+
+<span class="nd">@Controller</span>
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
+	
+	<span class="nd">@Autowired</span> <span class="n">UserRepository</span> <span class="n">repository</span><span class="o">;</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allUsers</span><span class="o">(){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/{id}"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">User</span> <span class="nf">user</span><span class="o">(</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="n">Integer</span> <span class="n">id</span> <span class="o">){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/active"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsers</span><span class="o">(</span> <span class="o">){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> <span class="n">active</span><span class="o">()</span> <span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/with-role/{role}"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allUsersWithRole</span><span class="o">(</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="n">String</span> <span class="n">role</span> <span class="o">){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> <span class="n">withRole</span><span class="o">(</span> <span class="n">role</span> <span class="o">)</span> <span class="o">);</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/active/with-role/{role}"</span> <span class="o">})</span>
+	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsersWithRole</span><span class="o">(</span> <span class="kd">final</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="n">String</span> <span class="n">role</span> <span class="o">){</span>
+		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> <span class="n">where</span><span class="o">(</span> <span class="n">active</span><span class="o">()</span> <span class="o">).</span><span class="na">and</span><span class="o">(</span> <span class="n">withRole</span><span class="o">(</span><span class="n">role</span><span class="o">)</span> <span class="o">)</span> <span class="o">);</span>
+	<span class="o">}</span>
+	
+<span class="o">}</span></code></pre></figure>
+
+<p>Veja que temos uma API bem mais fluida, e facilita bastante a leitura do que estamos buscando, na tradução literal seria como "busque tudo onde ativo e com perfil especificado"</p>
+
+<p>Agora basta fazer o deploy no tomcat e comessar a experimentar, o UserController esta mapeado para a raiz do projeto então provavelmente você vai acessar como na url a seguir "http://localhost:8080/springmvcanddata/". Faça seus proprios testes, crie uma entidade ou tente pegar uma implementação do trabalho e mudar para Spring Data, vai ser divertido!</p>
+
+
+
+<p>Você pode encontrar os fontes do projeto <a href="https://github.com/efraimgentil/springmvcanddata">aqui</a></p>
+            </div>
+        </div>
+    </div>
+    <hr>
+    
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <ul class="list-inline text-center">
+                        <li>
+                            <a href="https://twitter.com/efraimgentil">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://github.com/efraimgentil">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <p class="copyright text-muted">Copyright &copy; Efraim Gentil 2016</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-87578111-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    
+<!-- jQuery -->
+<script src="/assets/vendor/jquery/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Contact Form JavaScript -->
+<script src="/assets/js/jqBootstrapValidation.js"></script>
+<script src="/assets/js/contact_me.js"></script>
+
+<!-- Theme JavaScript -->
+<script src="/assets/js/clean-blog.min.js"></script>
+
+
+</body>
+</html>
