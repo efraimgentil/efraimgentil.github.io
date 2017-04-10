@@ -1,0 +1,142 @@
+---
+title: Stream com Java 8
+author: Efraim Gentil
+description: Apresentando algumas funcionalidades e show cases de uso da API de stream do JAVA 8
+date: 2017-04-09 11:00:00
+layout: post-template
+categories: ['java']
+keywords: java,stream,efraimgentil,Efraim Gentil
+---
+
+<p>Aqui veremos alguns show cases de utilização da API de stream do Java 8, uma API poderosa para manipulação de coleções</p>
+
+<p>No exemplo a seguir vemos uma simples interação sobre uma lista</p>
+
+{% highlight java %}
+List<String> items = Arrays.asList("a","b","c","d","e");
+items.stream().forEach( i -> System.out.println( i ) );
+items.stream().forEach( System.out::println );
+{% endhighlight %}
+
+<p>Como pode ver as collections java agora expõe um método stream(), para que você possa usar a API, no exemplo estamos apenas printando cada item, você pode perceber também que podemos fazer isso por uso de lambdas, ou usando o atalho da chamada.</p>
+
+<p>Digamos agora que queremos filtrar nossa lista e recuperar apenas os elementos "a", "b" e "c", a API de stream fornece um método para o mesmo,
+lembrando apenas que a maioria dos métodos da API retornam novas Streams. Veja a seguir</p>
+
+{% highlight java %}
+List<String> items = Arrays.asList("a","b","c","d","e");
+items.stream().filter( i -> "a".equals( i ) || "b".equals(i) || "c".equals(i) ).forEach(System.out::println);
+{% endhighlight %}
+
+<p>Nesse caso se quisermos na verdade coletar esse resultado como uma nova lista, basta usarmos o método collect</p>
+
+{% highlight java %}
+List<String> items = Arrays.asList("a","b","c","d","e");
+List<String> collect = items.stream()
+	.filter(i -> "a".equals(i) || "b".equals(i) || "c".equals(i))
+	.collect(Collectors.toList());
+{% endhighlight %}
+
+<p>Podemos utilizar também o método map() para manipular o dado da lista, veja a seguir</p>
+
+{% highlight java %}
+List<String> items = Arrays.asList("a","b","c","d","e");
+List<String> collect = items.stream().map( i -> i + "1" )
+	.collect(Collectors.toList());
+{% endhighlight %}
+
+<p>O método map irá iterar sobre cada item, e retorna uma nova stream com as alterações realizadas</p>
+
+<p>Agora vamos tentar fazer algo mais complicado, criaremos uma lista de um objeto complexo User, iremos filtrar pelo nome e em seguida vamos coletar a data de nascimento de cada item ordenando por maior para menor</p>
+
+{% highlight java %}
+// Type.java
+public enum Type{
+SUPER,
+NORMAL;
+}
+
+// User.java
+public class User{
+private String name;
+private Type type;
+private Date birthdate;
+private Double contribution;
+
+public User(String name, String surname, String birthdate, Type type, Double contribution) throws ParseException {
+this.name = name;
+this.type = type;
+this.contribution = contribution;
+this.birthdate = new SimpleDateFormat("yyyy-MM-dd").parse( birthdate );
+}
+
+public String getName() {
+return name;
+}
+
+
+public Date getBirthdate() {
+return birthdate;
+}
+
+public Double getContribution() {
+return contribution;
+}
+
+public Type getType() {
+return type;
+}
+
+@Override
+public String toString() {
+return "User{" +
+"name='" + name + '\'' +
+", type=" + type +
+", birthdate=" + birthdate +
+", contribution=" + contribution +
+'}';
+}
+}
+{% endhighlight %}
+
+{% highlight java %}
+List<User> users = Arrays.asList(
+new User("user1" , "Test" , "1999-01-01", 0.0)
+,new User("user2" , "Loren" , "1980-02-20", 1000.0)
+,new User("patty" , "ypsun" , "1992-03-25", 1500.0)
+,new User("user3" , "Broken Data" , "1920-03-25", 443.00)
+,new User("efras" , "Gentil" , "2000-02-27", 150.00)
+);
+
+List<Date> usersBirthDates = users.stream().filter(i -> i.getName().contains("user"))
+.map(i -> i.getBirthdate())
+.sorted( ( a , b ) -> a.compareTo(b) )
+.collect(Collectors.toList());
+System.out.println("users = " + usersBirthDates );
+{% endhighlight %}
+
+<p>Veja que podemos encadear varias chamadas para enfim obtermos nosso resultado, isso torna a API bastante poderosa e fluente</p>
+
+<p>Agora vamos tentar descobrir qual foi a contribuição de todos os usuários que possuem user no nome, para isso usaremos o método reduce()</p>
+
+{% highlight java %}
+Double totalContribuinte = users.stream().filter(i -> i.getName().contains("user"))
+	.map(User::getContribution)
+	.reduce(0.0, (partial, current) -> {
+		sout
+		partial + current
+	});
+{% endhighlight%}
+
+<p>O método reduce recebe como primeiro parâmetro o valor inicial para a agregação, em seguida como segundo parâmetros temos uma expressão lambda onde o primeiro parâmetro é o valor parcial das outras interações e o segundo o valor atual da interação.</p>
+
+<p>Podemos também agrupar registros usando collect(), como pode ser visto no exemplo abaixo</p>
+
+{% highlight java %}
+Map<Type, List<User>> collect = users.stream().collect(Collectors.groupingBy(User::getType));
+collect.entrySet().stream().forEach( e -> System.out.println(e.getKey() + ": " + e.getValue() ) );
+{% endhighlight %}
+
+
+<p>Com isso vimos alguns usos basicos da API de stream do Java, você pode estudar mais a fundo no <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html">link</a></p>
+	
