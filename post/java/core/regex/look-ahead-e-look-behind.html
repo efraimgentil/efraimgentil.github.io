@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt_BR">
 <head>
-
-
-   <meta charset="utf-8">
+<meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="content-language" content="pt,en" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="keywords" content="java,javascript,python,blog,programming,development">
+<meta name="keywords" content="java,core,regex,efraimgentil,Efraim Gentil">
 <meta name="robots" content="index,follow">
 <meta name="googlebot" content="index,follow">
 <meta name="author" content="Efraim Gentil">
-    <title>Efraim Gentil - Contact</title>
+<meta name="description" content="Usando Look Ahead e Look Behind para identificar padrões usando Regex no Java">
+<title>Regex Look Ahead e Look Behind</title>
 
-    
 <!-- Bootstrap Core CSS -->
 <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -33,9 +31,11 @@
         <![endif]-->
 
 </head>
-
 <body>
 
+
+
+    
     <!-- Navigation -->
     <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
         <div class="container-fluid">
@@ -81,32 +81,95 @@
         <!-- /.container -->
     </nav>
 
-  <!-- Page Header -->
+   
+    
+    
+    
+
+
+   <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
     <header class="intro-header" style="background-image: url('/assets/img/home-bg.jpg')">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="site-heading">
-                        <h1>Contato</h1>
-                        <hr class="small">
-                        <span class="subheading">Tem uma pergunta? Eu tenho a resposta (talvez =D).</span>
+                    <div class="post-heading">
+                        <h1>Regex Look Ahead e Look Behind</h1>
+                        <h2 class="subheading">Usando Look Ahead e Look Behind para identificar padrões usando Regex no Java</h2>
+                        <span class="meta">Postado por <a href="#">Efraim Gentil</a>
+                        
+                          em 02 de Setembro, 2017
+                        
+                        </span>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-
     <!-- Main Content -->
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <p>Caso tenha uma duvida ou sugestão você pode entrar em contato comigo pelo email <a href="mailto:efraim.gentil@gmail.com" target="_top">efraim.gentil@gmail.com</a></p>
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-content">
+                <p>Aqui veremos as expressões regex Look Ahead e Look Behind.</p>
 
-<p>Você também pode me seguir no <a href="https://github.com/efraimgentil" target="_blank">GitHub</a></p>
+<p>Vamos imaginar o seguinte problema, temos uma string com zeros e ums (exemplo: "010001"), e devemos capturar todos os intervalos de zero que estão entre os numeros ums, exemplo: para a String "0100010010", devemos capturar ["000" , "00"], mas não queremos capturar os números "1". Para isso vamos usar as expressões de Look Behind e Look Ahead, essas expressões não incluem o valor no group.</p>
 
-<p>Se você quiser dar uma checada no meu perfil profissional, aqui o meu <a href="https://www.linkedin.com/in/efraim-gentil-5ab25960?trk=hp-identity-name" target="_blank">LinkedIn</a></p>
+<figure class="highlight"><pre><code class="language-java" data-lang="java">      
+<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.regex.*</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RegexLookAhead</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span> <span class="o">(</span><span class="n">String</span> <span class="o">...</span> <span class="n">args</span><span class="o">){</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"0100010010"</span><span class="o">);</span>
+        <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="nl">RegexLookAhead:</span><span class="o">:</span><span class="n">printGroups</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printGroups</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">){</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">s</span> <span class="o">+</span> <span class="s">" groups: "</span><span class="o">);</span>
+        <span class="n">Matcher</span> <span class="n">matcher</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"(?&lt;=1)(0+)(?=1)"</span><span class="o">).</span><span class="na">matcher</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+        <span class="k">while</span><span class="o">(</span><span class="n">matcher</span><span class="o">.</span><span class="na">find</span><span class="o">())</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">matcher</span><span class="o">.</span><span class="na">group</span><span class="o">()</span> <span class="o">+</span> <span class="s">","</span> <span class="o">);</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span></code></pre></figure>
+
+<p>Vamos entender a regex "(?<=1)(0+)(?=1)". Primeiro a expressão (?<=), essa expressão chamasse Look Behind Positive, basicamente ela verifica se um valor precede, no nosso caso verificamos se o valor "1" precede o "0". Em seguida temos a expressão (0+), aqui estamos agrupando os valores "0" com o operador greedy (+). Por fim temos a expressão (?=), ela chamasse Look Ahead Positive, ela tem a mesma função da anterior, mas nesse caso checa se sucede, ou seja, se a direita do valor 0 possui o valor 1. Temos também as negações dessas expressões, como pode ser visto na tabela a seguir.</p>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Nome</th>
+			<th>Expressão</th>
+			<th>Descrição</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Look Behind Positive</td>
+			<td>(?<=)</td>
+			<td>Verifica se o valor após "=" precede</td>
+		</tr>
+		<tr>
+			<td>Look Ahead Positive</td>
+			<td>(?=)</td>
+			<td>Verifica se o valor após "=" sucede</td>
+		</tr>
+		<tr>
+			<td>Look Behind Negative</td>
+			<td>(?<&#33;)</td> 
+			<td>Verifica se o valor após "!" não precede</td>
+		</tr>
+		<tr>
+			<td>Look Ahead Negative</td>
+			<td>(?!)</td>
+			<td>Verifica se o valor após "!" não sucede</td>
+		</tr>
+	</tbody>
+</table>
+
+
             </div>
         </div>
     </div>
