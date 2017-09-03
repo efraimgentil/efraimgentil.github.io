@@ -2,7 +2,8 @@ import os
 from distutils import dir_util
 
 
-my_git = "git@github.com:efraimgentil/efraimgentil.github.io.git";
+#my_git = "git@github.com:efraimgentil/efraimgentil.github.io.git";
+my_git = "https://github.com/efraimgentil/efraimgentil.github.io.git"
 
 os.system( "jekyll build")
 

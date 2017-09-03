@@ -1,0 +1,69 @@
+---
+title: Regex Look Ahead e Look Behind
+author: Efraim Gentil
+description: Usando Look Ahead e Look Behind para identificar padrões usando Regex no Java
+date:   2017-09-02 23:00:00
+layout: post-template
+categories: ['java' , 'core', 'regex']
+keywords: java,core,regex,efraimgentil,Efraim Gentil
+---
+
+<p>Aqui veremos as expressões regex Look Ahead e Look Behind.</p>
+
+<p>Vamos imaginar o seguinte problema, temos uma string com zeros e ums (exemplo: "010001"), e devemos capturar todos os intervalos de zero que estão entre os numeros ums, exemplo: para a String "0100010010", devemos capturar ["000" , "00"], mas não queremos capturar os números "1". Para isso vamos usar as expressões de Look Behind e Look Ahead, essas expressões não incluem o valor no group.</p>
+
+{% highlight java %}      
+import java.util.*;
+import java.util.regex.*;
+
+public class RegexLookAhead {
+
+    public static void main (String ... args){
+        List<String> names = Arrays.asList("0100010010");
+        names.stream().forEach(RegexLookAhead::printGroups);
+    }
+
+    static void printGroups(String s){
+        System.out.print(s + " groups: ");
+        Matcher matcher = Pattern.compile("(?<=1)(0+)(?=1)").matcher(s);
+        while(matcher.find()) System.out.print(matcher.group() + "," );
+        System.out.print("\n");
+    }
+
+}
+{% endhighlight %}
+
+<p>Vamos entender a regex "(?<=1)(0+)(?=1)". Primeiro a expressão (?<=), essa expressão chamasse Look Behind Positive, basicamente ela verifica se um valor precede, no nosso caso verificamos se o valor "1" precede o "0". Em seguida temos a expressão (0+), aqui estamos agrupando os valores "0" com o operador greedy (+). Por fim temos a expressão (?=), ela chamasse Look Ahead Positive, ela tem a mesma função da anterior, mas nesse caso checa se sucede, ou seja, se a direita do valor 0 possui o valor 1. Temos também as negações dessas expressões, como pode ser visto na tabela a seguir.</p>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Nome</th>
+			<th>Expressão</th>
+			<th>Descrição</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Look Behind Positive</td>
+			<td>(?<=)</td>
+			<td>Verifica se o valor após "=" precede</td>
+		</tr>
+		<tr>
+			<td>Look Ahead Positive</td>
+			<td>(?=)</td>
+			<td>Verifica se o valor após "=" sucede</td>
+		</tr>
+		<tr>
+			<td>Look Behind Negative</td>
+			<td>(?<&#33;)</td> 
+			<td>Verifica se o valor após "!" não precede</td>
+		</tr>
+		<tr>
+			<td>Look Ahead Negative</td>
+			<td>(?!)</td>
+			<td>Verifica se o valor após "!" não sucede</td>
+		</tr>
+	</tbody>
+</table>
+

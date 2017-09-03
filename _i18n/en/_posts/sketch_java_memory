@@ -1,0 +1,91 @@
+
+
+Java memory management
+
+Java Heap Space
+
+Is used by jave runtime to allocate memory to Objects and JRE classes. Whenener we create any object, it's always created in the Heap space.
+the Stack memory only contains the reference for the object, Objects stored in the heap are globally accessible whereas stack memory can't be accessed by other threads
+
+When Heap memory is full Java runtime throws java.lang.OutOfMemoryError: Java Heap Space error.
+
+Stack Memory
+
+Is used for execution of a thread. They contain method specifc values that are short-lived and references to other objects in the heap that are getting referred from the method. Stack memory is always referenced in LIFO (Last in First Out) order. Whenever a method is invoked, a new vlock is created in the stack memory for the method to hold local primitive values and reference to opther objects in the method, Stack memory size is very less compared to Heap memory 
+
+Stack memory only contains local primitive variables and reference variables to objects in heap space
+
+When stack memory is full, java runtime throws java.lang.StackOverFlowError
+
+
+
+
+
+
+
+#######
+
+
+Young generation, when the young generation is filled the garbage colletion is perfomed, this collection is called Minor GC. the Young generation is divided into three parts - Eden Memory and Two Suvivor Memory spaces.
+
+Important points about the Young Generation Spaces
+
+- Most of the newly created objects are located in the Eden memory space
+- When Eden space is filled with objects, Minor GC is performed and all the survivor objets are moved to one of the suvivor spaces
+- Minor GC also checks the suvivor objects and move then to the other survivor space. So at a time one of the survivor space is always empty
+- Object that survived after many cycles of GC, are moved to the Old generation memory space.
+Usually it`s done by setting a threshold for the age of the younh generation objects before they become eligible to promote to Old generation
+
+
+
+Old Generation
+
+Old Generation memory contains the objects that are long lived and survived after many rounds of Minor GC. Usually garbage collection is performed in Old Generation memory when it`s full. Old Generation Garbage COllection is called Major GC, it usually takes longer time.
+
+Permanent Generation
+
+Perm Gen contains the application metadata required by the JVM to describe the classes and methods used in teh application. Note that perm Gen is not part of Java Heap Memory. Perm Gem is populated by JVm at runtime based on the classes used by the application. PermGen also contains Java SE library classes and methods. Perm Gen objects are garbage collected in a full garbage collection
+
+Method Area
+
+Part of space in the Perm Gen and used to store class structure ( runtime constats and static variables) and code for methods and constructors 
+
+
+Memory Pool
+
+Is created by JVM memory managers to create a pool of immutable objects, if implementation supports it. String Pool is a good example of this kind of memory pool. Memory Pool can belong to Heap or Perm Gen, depending on the JVM memory manager implementation.
+
+
+Runtime Constant Pool
+
+Is per-class runtime representation of constant pool in a class. it contains class runtime constants and static methods. Runtime constant pool is the part of method area.
+
+Stack Memory
+
+Is used for execution of a thread. They contains method specific values that are shortlived and references to ohter objects in the head that are getting referred from the method.
+
+
+################################3
+
+
+# Garbage Collector is the program running in the background that looks into all the objects in the memory and find out the objects that are not referenced by any part of the program. All these unreferenced objects are deleted and space is reclaimed for allocation to other objects.
+
+One of the basic way of garbage collection involves three steps:
+ 1. Marking: This is the first step where garbage collector identifies which objects are in use and which ones are not in use
+ 2. Normal Deletion: Garbage COllector removes the unused objects and reclaim the free space to be allocated to other objects.
+ 3. Dellection with Compacting: For better performance, after deleting unused objects, all the survived objects can be moved to be together. This will increase the performance of allocation of memory to newer objects.
+
+
+#####
+
+Stop the World Event
+
+All the garbage collections are "Stop the World" because all application threads are stopped until the operation complets
+Since Young generation keeps short-lived objects, Minor GC is very fast and the application doesn`t get affected by this.
+
+Major GC takes logner time because it checks all the live objects. Major GC should be minimized because it will make your application unresponsive for the garbage collection fduration. So if you have a responsive application and there are a lot of major garbage collection happening, you will notice timeout errors.
+
+The duration taken by garbage collection depends on the strategy used for garbage collection. That`s why it`s necessary to monitor and tune the garbage collector to avoid timeouts in the highly responsive applications.
+
+
+

@@ -1,0 +1,33 @@
+---
+title: Mapeamentos JPA
+author: Efraim Gentil
+description: Ensinando os mapeamentos mais comuns com JPA e Hibernate
+date: 2017-06-13 21:00:00
+layout: post-template
+categories: ['java']
+keywords: java,jpa,hibernate,stream,efraimgentil,Efraim Gentil
+---
+
+<p>Nessa serie de artigos veremos os mapeamentos de entidades mais comuns usando anotacoes do JPA 2, os CascadeType, quando usalos e quando deixalos de lado, Eager e Lazy fething. Nos exemplos usaremos JUnit com Spring Test para rodar nossos testes e fazer nossas asserções.</p>
+
+<p>Para criar e configurar o projeto usaremos a ferrament "https://start.spring.io/", basta selecionar JPA e H2 como dependencias e entao clicar em gerar o projeto.</p>
+
+<p>Vamos iniciar com os relacionamentos um para um bi-direcional</p>
+
+{% highlight java %}            
+@Entity
+public class User {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @Column(length = 20, nullable = false)
+  private String username;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_profile_id")    
+  private UserProfile userProfile;      
+
+}
+{% endhighlight %}
