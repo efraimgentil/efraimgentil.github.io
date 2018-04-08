@@ -89,3 +89,76 @@ The duration taken by garbage collection depends on the strategy used for garbag
 
 
 
+######
+
+#What is write once, run anywhere?
+
+Java code is compiled down into a intermidiary lenguage called byte code. The JVM is responsible for executing this byte code. This is unlike lenguages such as C++ which are compiled directly to native code for specific platform.
+
+# What is JIT (Just in Time)? 
+
+The JVM executes bytecode, however, if it determines a section of code is being run frequently it can optionally compile a section down to native code to increase the speed of execution. The smallest block that can be JIT compiled is a method. By default, a piece of code needs to be executed 1500 times for it to be JIT compiled. This leads to the concept of warming up the JVM . The downside JIT compilation is not free, it takes time and resource when it occurs.
+
+# What do we mean when we say memory is managed in Java? What is the garbage collector
+
+In lenguages like C the developer has direct access to memory. The code literally references memory space addresses. This can be difficult and dangerous, and can reasult in damaging memory leaks. In Java all memory is managed, we deal exclusively in objects and primitives and we have no concept of what is happening underneath with regards to memory and pointers, and java has the concept of garbage collector, when objects are no longer needed the JVM will automatically identify and clear the memory space for us.
+
+# What are the benefits and negatives of Garbage Collector? 
+
+ The developers can worry much less about memory management and concentrate on actual problem solviing
+
+ The GC has a lot of smart algorithms for memory management  which work automatically in the background
+
+ the negative side: 
+
+  When the GC occurs it has effect on the application performance, notably slowing it down or stopping it(so called Stop the World). This can be unacceptable depending on the application requirements, although GC tunning can minimise or even remove the impact.
+
+  Although it possible to do a lot of tuning with the garbage collector, you cannot specify when or how the application performs GC.
+
+
+# What is Stop the World
+
+ Is when the GC happens and is necessary to completely pause the threads in an application whilst collection occurs 
+
+# how does Generational GC works?
+
+The Java Heap is divided into generations, New Generation that is short lived objects, those objects are quickly collected, all new objects are placed into the new generation. Heap is splited into
+
+New Generation (is splited up further)
+  - Eden Space: All new objects are placed in here. When it becomes full a minor GC occurs, all objects that are still referenced are then promoted to a suvivor space.
+  - Suvivor Space: The implementation of whis space varies based on the JVM, but the premise is the same. On each collection in the New Generation increments the age of the objects in the suvivor space, when it suvives enought number of GC( default vary but normaly is 15) it will be promoted to the Old Generation
+  ### GC in the new generation is known as 'minor GC'
+
+Old Generation
+
+   Any object that suvive from suvivor spaces in the new generation are promoted to the old generation, Old  Generation is much larger than the New Generation. When GC occurs in the Old Generation it is known as Full GC(also known Stop the World) and tend to take longer. There is a number of algorithms available for GC:
+
+    - Serial GC: For computers that have only one CPU, and stops the entire application to run the GC. it uses mark-sweep-compact, it goes through all the objects and marks which objects are elected for GC before clearing them out.
+    - Parallel GC: Similar to Serial, except that it uses multiple threads to perform the GC so it should be faster.
+    - Concurrent Mark Sweep (CMS): Minimises pauses by doing most of the GC work concurrently with the processing of the application. This minimises the amount of time when the application has to completely pause and so lends itself much better to application which are sensitive to this.
+     - Garbage First Garbage Collector (G1GC): Similar to CMS, but does not suffer from fragmentation problems
+
+PermGen
+
+	Is where the JVM stores the metadata about classes. It no longer exists in Java 8 having been replaced with metaspace. Generally the PermGen doesn't require any tunning above ensuring it has enough space, it can lead to lekas if classes are not being unloaded properly.
+
+# Which is better? Serial , Parallel or CMS
+
+ 	It depends on the application, serial is better if you're on a single CPU, or in a scenario where there are more VMs running on the machine than CPUs. Parallel is good if you have a lot of work to do but are ok with pauses. CMS is the best of the three if you need consistent responsiveness with minimal pauses.
+
+# You can tell the system to perform a GC ? 
+
+ You can suggest the JVM to perform the GC ussing the System.gc(), however there is no guarantee this will do anything, this can also depend of the JVM your code is running at. There is also a flag to disable it from doing anything -XX:+DisableExplicitGC
+
+ # What does finalize() do? 
+
+  Is a default method in the Object class, and exist for all objects, the default implementation does nothing. It is called by the GC when it determines there are no more references to the object, but there is no guarantees the code will ever be executed and should not be used to execute actual functionality, it will never be called more than once on an object (by the JVM) 
+
+  
+
+
+
+
+
+
+

@@ -1,0 +1,95 @@
+---
+title: Bean Validation - JSR-303 - Parte 1
+author: Efraim Gentil
+description: Exemplos e casos de uso de validações de endpoints usando Bean Validation
+date: 2018-04-05 21:00:00
+layout: post-template
+categories: ['java','jee','bean-validation']
+keywords: java,spring-boot,jax-rs,jee,bean-validation,jsr-303,hibernate validation,efraimgentil,Efraim Gentil
+---
+
+<p>Recentemente tive o prazer de voltar a trabalhar com a especificação JSR-303, um projeto simples, mas com alguns pontos bem interessantes de validação, optamos por usar Bean Validation, pois seria o caminho mais simples para validar nossos inputs de uma forma não tão intrusiva. Nesse posts veremos alguns exemplos de validações em endpoints REST, de casos simples aos mais complexos, utilizaremos Spring Boot + Jax-RS(com Jersey), assim evitaremos perder tempo com configurações.</p>
+
+<p>O projeto pode ser baixado no seguinte <a href="https://github.com/efraimgentil/jsr303-beanvalidation">link</a></p>
+
+<h3># Validando parametros </h3>
+
+<p>Sem mais delongas, vamos começar usando os validadores "default" da JSR-303, faremos a validação de um endpoint GET simples, nesse endpoint devemos buscar um usuário pelo seu ID, sendo o ID um 'Query Param' obrigatório. <a href="https://github.com/efraimgentil/jsr303-beanvalidation/tree/master/src/main/java/me/efraimgentil/jsr303/resource/UserResource.java" target="_blank">Você pode ver o código completo aqui</a></p>
+
+{% highlight java %}
+@GET
+public Response list(@NotNull @Range(min = 1 , max = 50) @QueryParam("limit") Integer limit,
+                     @DefaultValue("0") @QueryParam("page")
+                     @Range(min = 0 , max = Integer.MAX_VALUE) Integer page){
+    return Response.ok(userRepository.findAll(PageRequest.of(0 , limit ))).build();
+}
+{% endhighlight %}
+
+<p>Veja que podemos validar parâmetros do nosso endpoint, com essas anotações validá-mos os parámetros 'Required' no caso o 'limit', e também os valores válidos para o mesmo '@Range(min=1,max=50)', não é necessário explicação os nomes são bem intuitivos. No caso do parámetro 'page' ele também será validado, apenas se, ele for informado, caso não, receberá o valor default. Abaixo um exemplo de response.</p>
+
+{% highlight javascript %}
+[
+    {
+        "fieldName": "page",
+        "error": "must be between 0 and 2147483647"
+    },
+    {
+        "fieldName": "limit",
+        "error": "must be between 1 and 50"
+    }
+]
+{% endhighlight %}
+
+<p class="bg-warning">Note que a anotação @Range não faz parte da spec JSR-303, ela faz parte da implementação do Hibernate. Um resultado semelhante pode ser atingido usando @Min e @Max</p>
+
+<h3># Validação customizada</h3>
+
+<p>A especificação JSR-303 também permite que eu crée minha própria validação, claro, é necessário seguir algumas regras, sua anotação deve fornecer alguns atributos básicos(message, groups, payload), sendo que groups, deve ter um valor default vazio({}). Vamos ver um exemplo prático, vamos criar uma anotação para validar se o ID de um usuário existe, iremos criar uma anotação como a seguir.</p>
+
+{% highlight java %}
+@Documented
+@Constraint(validatedBy = UserExistsValidator.class)
+@Target({ ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface UserExists {
+
+    String message() default "User does not exists";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+
+}
+{% endhighlight %}
+
+<p>Note que devemos informar o valor no atributo 'validatedBy', apontando para uma classe, na anotação '@Constraint', essa classe deve obrigatoriamente extender 'ConstraintValidator'. Veja a seguir</p>
+
+{% highlight java %}
+@Component
+public class UserExistsValidator implements ConstraintValidator<UserExists,Integer> {
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public UserExistsValidator(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public boolean isValid(Integer value, ConstraintValidatorContext context) {
+        if(value != null) return userRepository.existsById(value);
+        return true;
+    }
+
+}
+{% endhighlight %}
+
+<p>Podemos então criar nosso endpoint para retornar um usuário existente.</p>
+
+{% highlight java %}
+@GET
+@Path("/{userId}")
+public Response getUer(@NotNull @UserExists @PathParam("userId") Integer userId){
+    return Response.ok(userRepository.findById(userId)).build();
+}
+{% endhighlight %}
+
+<p>Com isso concluímos a primeira parte do tópico sobre validações, a seguir veremos algumas validações mais complexas, como Cross-Field e Compose Validations e validações de grupos.</p>

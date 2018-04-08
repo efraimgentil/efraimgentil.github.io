@@ -6,5 +6,10 @@ services:
       - .:/app
     ports:
       - "4000:4000"
+    networks:
+      - my_net
     #depends_on:
       # - someservice
+networks:
+  my_net:
+    driver: bridge
