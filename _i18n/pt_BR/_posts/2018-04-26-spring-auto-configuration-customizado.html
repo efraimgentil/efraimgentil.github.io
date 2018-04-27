@@ -1,0 +1,95 @@
+---
+title: Spring Auto Configuration Customizado
+author: Efraim Gentil
+description: Crie sua propria biblioteca plugavel com Spring Boot e Auto Configuration
+date: 2018-04-26 21:00:00
+layout: post-template
+categories: ['java','spring','boot']
+keywords: java,spring-boot,spring,auto-configuration,configuration,auto,customizado,efraimgentil,Efraim Gentil
+---
+
+<p>Nesse post, veremos como criar bibliotecas <b>Plug-And-Play</b> usando a funcionalidade de
+        Auto Configuração do <b>Spring Boot</b>, assim você pode criar suas próprias bibliotecas
+        configuráveis e de forma não intrusiva nos seus projetos.
+        .</p>
+
+<p>Você pode acessar o código usado nesse post no <a href="https://github.com/efraimgentil/profiler">link</a></p>
+
+<p>Nosso projeto será um jar simples, contendo a configuração de um Aspect, que irá interceptar
+        todos os métodos anotados com @Profile, esse aspect sera responsavel por contar o tempo
+        de execução de cada método interceptado.Não entrarei no código do Aspect, por não fazer
+        parte do escopo desse post.
+</p>
+
+<p>A configuração inicial deve ser feita como um projeto padrão Spring Boot, veja a classe 
+    de configuração a seguir
+</p>
+
+{% highlight java %}
+@Configuration
+@EnableAspectJAutoProxy
+@ComponentScan("me.efraimgentil.profiler")
+@EnableConfigurationProperties(ProfilerProperties.class)
+public class ProfilerAutoConfiguration {
+}
+{% endhighlight %}
+
+<p>Vamos explicar as anotações aqui usadas
+    <ul>
+        <li><b>@Configuration</b> - Sinalizamos que essa é uma classe de configuração do Spring</li>
+        <li><b>@EnableAspectJAutoProxy</b> - Abilitamos a funcionalidade de aspectos para os componentes do Spring
+        <li><b>@ComponentScan</b> - Sinalizamos que pacotes serão escaneados para identificar as classes marcadas como Bean's do Spring</li>     
+        <li><b>@EnableConfigurationProperties</b> - Sinalizamos as classes que serão preenchidas com as propriedades contidas nos arquivos .properties ou .yml</li>
+    </ul>
+</p>
+
+<p>Até aqui, nada diferente do comum usado em uma aplicação Spring Boot, vejamos a classe ProfilerProperties, que será usada para
+        customizar nossa biblioteca, essa classe basicamente é um POJO, mas que será preenchida pelo Spring
+</p>
+
+{% highlight java %}
+@ConfigurationProperties(prefix = "profiler")
+public class ProfilerProperties implements Serializable {
+
+    private boolean printToSout;
+    private boolean logParameters;
+    
+    //... Gets & Sets Etc..
+}
+{% endhighlight %}
+
+<p>Com a anotação <b>@ConfigurationProperties</b> dizemos qual será o prefixo que o Spring
+    tomará como base para preencher as propriedades da classe</p>
+
+{% highlight java %}
+    //profiler.printToSout=true
+    private boolean printToSout;// valor true sera preenchido
+    //profiler.printToSout=false
+    private boolean logParameters; // valor false sera preenchido
+{% endhighlight %}
+
+<p>Agora a parte importante, vamos adicionar um arquivo chamado <b>spring.factories</b>
+ na pasta META-INF do projeto</p>
+
+{% highlight text %}
+|---src
+    |---main
+        |---java
+        |---resources
+            |---META-INF
+                - spring.factories
+{% endhighlight %}
+
+<p>No arquivo <b>spring.factores</b> iremos adicionar a configuração para que o Spring possa
+reconhecer esse Jar como um componente auto configurável</p>
+
+{% highlight text %}
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=me.efraimgentil.profiler.config.ProfilerAutoConfiguration
+{% endhighlight %}
+
+<p>Podemos adicionar quantas classes de configuração forem necessárias, como valor da propriedade <b>org.springframework.boot.autoconfigure.EnableAutoConfiguration</b>.
+</p>
+
+<p>Com isso, basta empacotar-mos nosso <b>.jar</b> e distribuir para as aplicações. Dessa forma temos uma
+    biblioteca <b>Plug-And-Play</b>, basta adicionar o jar na aplicação, e o Spring se encarregará do resto
+</p>
