@@ -1,0 +1,196 @@
+---
+title: Cross-Field Validation- JSR-303 Bean Validation - Parte 2
+author: Efraim Gentil
+description: Usando Bean Validation para realizar validações com base em múltiplos atributos
+date: 2018-05-07 21:00:00
+layout: post-template
+categories: ['java','jee','bean-validation']
+keywords: java,spring-boot,jax-rs,jee,bean-validation,cross-field,jsr-303,hibernate validation,efraimgentil,Efraim Gentil
+---
+
+<p>Nesse post continuaremos falando da JSR-303 Bean Validation, falare-mos sobre validação Cross-Field,
+haverão situações onde será necessário validar um campo, dependendo do valor de outro,
+também podemos tirar vantagem da JSR-303 nesse cenário, usaremos os validadores de classe      
+</p>
+
+<h3># Validação baseada em múltiplos campos</h3>
+
+<p>Veja o seguinte validator/anotação, usado para verificar a unicidade do campo 
+    <code>userName</code> na classe User</p>
+
+{% highlight java %}
+
+@Entity
+@Table(name = "USER")
+public class User implements Serializable {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+        
+    @NotBlank
+    private String fullName;
+        
+    @NotBlank
+    private String preferredName;
+    
+    @UniqueUsername
+    @NotBlank
+    private String userName;
+
+    // Getters/Setters
+}
+{% endhighlight %}
+
+{% highlight java %}
+@Documented
+@Constraint(validatedBy = UniqueUsernameValidator.class)
+@Target({ ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface UniqueUsername {
+
+    String message() default "already in use";
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+
+}
+{% endhighlight %}
+
+{% highlight java %}
+@Component
+public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername,String> {
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public UniqueUsernameValidator(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        if(!isEmpty(value)){
+            return !userRepository.existsByUserName(value);
+        }
+        return true;
+    }
+}
+{% endhighlight %}
+
+<p>Consegue ver o problema?! Se usarmos a anotação no atributo <code>userName</code>
+    o validador recebera apenas o valor do campo, e no caso de uma operação
+    de atualização, podemos ter uma falsa falha na validação, 
+    no caso de informar o mesmo <code>userName</code> para o registro que desejamos 
+    atualizar. Veja:
+</p>
+
+{% highlight javascript %}
+{
+   "id": 1,
+   //other fields
+   "userName": "sameExistingUsername"
+}
+{% endhighlight %}
+
+<p>Se enviarmos esse payload para o endpoint de atualização, o campo <code>userName</code> lançará um erro
+    de ConstraintViolation, pois, o método <code>userRepository.existsByUserName(value)</code> vai retornar true.
+    O problema aqui é que não levamos em consideração o <code>id</code> quando ele existe, para isso,
+    vamos alterar nosso validador    
+</p>
+
+{% highlight javascript %}
+@Component
+public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsername, User> {
+
+    private UserRepository userRepository;
+
+    @Autowired
+    public UniqueUsernameValidator(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @Override
+    public boolean isValid(User value, ConstraintValidatorContext context) {
+        if(!isEmpty(value)){
+            boolean exists = false;
+            if(value.getId() != null) {
+                exists = userRepository.existsByUserNameEqualsAndIdNot(value.getUserName() , value.getId());
+            }else {
+                exists = userRepository.existsByUserName(value.getUserName());
+            }
+            if(exists){
+                context.disableDefaultConstraintViolation();
+                context.buildConstraintViolationWithTemplate(UniqueUsername.MESSAGE)
+                        .addPropertyNode("userName")
+                        .addConstraintViolation();
+                return false;
+            }
+        }
+        return true;
+    }
+}
+{% endhighlight %}
+
+<p>Agora o validador espera a classe <code>User</code>, ao invés de <code>String</code>,
+com isso teremos acesso a todos os atributos em <code>User</code>, e conseguimos 
+fazer nossa validação como bem entendermos.
+</p>
+
+<p>Como agora estamos validando a classe, e queremos marcar um campo específico como errado, usamos
+<code>context.disableDefaultConstraintViolation()</code> para desabilitar o comportamento padrão,
+e usamos:</p>
+
+    {% highlight javascript %}
+// iniciamos o builder com a mensagem padrão
+context.buildConstraintViolationWithTemplate(UniqueUsername.MESSAGE) 
+        .addPropertyNode("userName")// Marcamos o atributo violado
+        .addConstraintViolation(); // adicionamos a violação manualmente
+{% endhighlight %}
+
+<p>Para que tudo funcione como esperado, também temos que atualizar nossa anotação:</p>
+
+{% highlight java %}
+@Documented
+@Constraint(validatedBy = UniqueUsernameValidator.class)
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface UniqueUsername {
+
+    String MESSAGE = "already in use";
+    String message() default MESSAGE;
+    Class<?>[] groups() default {};
+    Class<? extends Payload>[] payload() default {};
+
+}
+{% endhighlight %}
+
+<p>Com isso, sinalizamos que essa anotação só pode ser usada a nível de classe.
+     Por fim temos nosso modelo
+</p>
+
+{% highlight java %}
+@UniqueUsername
+@Entity
+@Table(name = "USER")
+public class User implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @NotBlank
+    private String fullName;
+
+    @NotBlank
+    private String preferredName;
+
+    @NotBlank
+    private String userName;
+    
+    // Getters/Setters
+}
+{% endhighlight %}
+
+<p>O projeto completo no seguinte <a href="https://github.com/efraimgentil/jsr303-beanvalidation">link</a></p>
+
+
