@@ -1,0 +1,69 @@
+---
+title: Deploying Spring Boot Application on Tomcat
+author: Efraim Gentil
+description: Criando uma aplicação Spring-Boot que possa ser distribuida no Apache Tomcat
+date: 2018-09-26 21:00:00
+layout: post-template
+categories: ['java','spring','spring-mvc']
+keywords: java,spring,tomcat,apache tomcat,spring-mvc,spring-boot,,efraimgentil,Efraim Gentil
+---
+
+<p>Quando tive meu primeiro contato com o <code>Spring-Boot</code>,
+tive um pouco de preconceito, por não conseguir fazer o deploy em servidores
+de aplicação ou Servlet containers, admito uma grave ignorância minha, pois o Spring-Boot fornece uma forma 
+de aproveitar todas as vantagens do Framework, e ainda assim usar o bom e velho deploy no Servlet container ou Servidor de aplicação favorito.     
+</p>
+
+<p>Para minha surpresa, a configuração e as mudanças necessárias, em um projeto Spring-Boot padrão, são bem simples, a seguir você pode ver a main class do projeto.</p>
+
+{% highlight java %}
+@SpringBootApplication
+public class SpringBootDeployableApplication extends SpringBootServletInitializer {
+    
+    @Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(SpringBootDeployableApplication.class);
+	}
+
+}
+{% endhighlight %}
+
+<p>Bem simples não? você pode até manter o método <code>main</code>, para simplificar o ambiente de desenvolvimento, mas, tenha em mente que o ideal
+é manter o ambiente de desenvolvimento o mais próximo possível do ambiente de produção, para evitar surpresas (na minha máquina funciona LOL)   
+</p>
+
+{% highlight java %}
+@SpringBootApplication
+public class SpringBootDeployableApplication extends SpringBootServletInitializer {
+    
+    public static void main(String[] args) {
+		SpringApplication.run(SpringBootDeployableApplication.class, args);
+	}
+
+    @Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(SpringBootDeployableApplication.class);
+	}
+
+}
+{% endhighlight %}
+
+<p>Outro ponto importante, é que você deve mudar o tipo do empacotamento do projeto no seu <code>pom.xml</code></p>
+
+{% highlight java %}
+    ....
+    <groupId>me.efraimgentil</groupId>
+	<artifactId>spring-boot-deployable</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
+    ....
+{% endhighlight %}
+
+<p>Assim, uma vez rodando o comando <code>package</code> do <code>Maven</code>, teremos o <code>.war</code> disponível para ser distribuído.
+    Entao basta fazer o deploy na sua instância do <code>Tomcat</code> ou outro servidor desejado.</p>
+
+<p class="bg-warning">
+        Os pacotes do Spring-Boot/Starters adicionam muitas bibliotecas/dependencias na aplicação, e algumas delas
+        podem conflitar com as verções que são distribuidas junto com os servidores/containers. Mantenha em mente que pode ser necessário
+        um trabalho para identificar e marcar esses conflitos para serem excluídos no seu <code>pom.xml</code>.
+</p>

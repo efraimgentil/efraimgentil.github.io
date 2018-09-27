@@ -8,16 +8,12 @@
 </head>
 <body>
 
-
-
     {% assign months = "january|february|march|april|may|june|july|august|september|october|november|december" | split: "|" %}
-   {% include nav.html %}
-
-   {% assign m = page.date | date: "%-m" | minus: 1 %}
+    {% include nav.html %}
+    {% assign m = page.date | date: "%-m" | minus: 1 %}
     {% assign day = page.date | date: "%d" %}
     {% assign month = months[m] %}
     {% assign year = page.date | date: "%Y" %}
-
 
    <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
@@ -32,7 +28,7 @@
                         {% if site.lang  == 'en'  %}
                           on {% t month %} {{day}}, {{year}}
                         {% else %}
-                          em {{day}} de {% t month %}, {{year}}
+                          em {{day}} de {% t month %}, {{year}}  
                         {% endif %}
                         </span>
                     </div>

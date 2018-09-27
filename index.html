@@ -7,8 +7,7 @@ layout: default-template
 keywords: java,javascript,python,ruby,blog,programming,development,efraimgentil
 ---
 
-
-
+{% assign months = "january|february|march|april|may|june|july|august|september|october|november|december" | split: "|" %}
 {% for post in site.posts limit:5 %}
 {% assign m = post.date | date: "%-m" | minus: 1 %}
 {% assign day = post.date | date: "%d" %}
