@@ -5,12 +5,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta http-equiv="content-language" content="pt,en" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="keywords" content="java,core,regex,efraimgentil,Efraim Gentil">
+<meta name="keywords" content="java,spring,tomcat,apache tomcat,spring-mvc,spring-boot,,efraimgentil,Efraim Gentil">
 <meta name="robots" content="index,follow">
 <meta name="googlebot" content="index,follow">
 <meta name="author" content="Efraim Gentil">
-<meta name="description" content="Usando Look Ahead e Look Behind para identificar padrões usando Regex no Java">
-<title>Regex Look Ahead e Look Behind</title>
+<meta name="description" content="Criando uma aplicação Spring-Boot que possa ser distribuida no Apache Tomcat">
+<title>Deploying Spring Boot Application on Tomcat</title>
 
 <!-- Bootstrap Core CSS -->
 <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -90,11 +90,11 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <div class="post-heading">
-                        <h1>Regex Look Ahead e Look Behind</h1>
-                        <h2 class="subheading">Usando Look Ahead e Look Behind para identificar padrões usando Regex no Java</h2>
+                        <h1>Deploying Spring Boot Application on Tomcat</h1>
+                        <h2 class="subheading">Criando uma aplicação Spring-Boot que possa ser distribuida no Apache Tomcat</h2>
                         <span class="meta">Postado por <a href="#">Efraim Gentil</a>
                         
-                          em 02 de Setembro, 2017  
+                          em 26 de Setembro, 2018  
                         
                         </span>
                     </div>
@@ -107,64 +107,59 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-content">
-                <p>Aqui veremos as expressões regex Look Ahead e Look Behind.</p>
+                <p>Quando tive meu primeiro contato com o <code>Spring-Boot</code>,
+tive um pouco de preconceito, por não conseguir fazer o deploy em servidores
+de aplicação ou Servlet containers, admito uma grave ignorância minha, pois o Spring-Boot fornece uma forma 
+de aproveitar todas as vantagens do Framework, e ainda assim usar o bom e velho deploy no Servlet container ou Servidor de aplicação favorito.     
+</p>
 
-<p>Vamos imaginar o seguinte problema, temos uma string com zeros e ums (exemplo: "010001"), e devemos capturar todos os intervalos de zero que estão entre os numeros ums, exemplo: para a String "0100010010", devemos capturar ["000" , "00"], mas não queremos capturar os números "1". Para isso vamos usar as expressões de Look Behind e Look Ahead, essas expressões não incluem o valor no group.</p>
+<p>Para minha surpresa, a configuração e as mudanças necessárias, em um projeto Spring-Boot padrão, são bem simples, a seguir você pode ver a main class do projeto.</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java">      
-<span class="kn">import</span> <span class="nn">java.util.*</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.regex.*</span><span class="o">;</span>
-
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">RegexLookAhead</span> <span class="o">{</span>
-
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span> <span class="o">(</span><span class="n">String</span> <span class="o">...</span> <span class="n">args</span><span class="o">){</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"0100010010"</span><span class="o">);</span>
-        <span class="n">names</span><span class="o">.</span><span class="na">stream</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="nl">RegexLookAhead:</span><span class="o">:</span><span class="n">printGroups</span><span class="o">);</span>
-    <span class="o">}</span>
-
-    <span class="kd">static</span> <span class="kt">void</span> <span class="nf">printGroups</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">){</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">s</span> <span class="o">+</span> <span class="s">" groups: "</span><span class="o">);</span>
-        <span class="n">Matcher</span> <span class="n">matcher</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="na">compile</span><span class="o">(</span><span class="s">"(?&lt;=1)(0+)(?=1)"</span><span class="o">).</span><span class="na">matcher</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
-        <span class="k">while</span><span class="o">(</span><span class="n">matcher</span><span class="o">.</span><span class="na">find</span><span class="o">())</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="n">matcher</span><span class="o">.</span><span class="na">group</span><span class="o">()</span> <span class="o">+</span> <span class="s">","</span> <span class="o">);</span>
-        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">(</span><span class="s">"\n"</span><span class="o">);</span>
-    <span class="o">}</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringBootDeployableApplication</span> <span class="kd">extends</span> <span class="n">SpringBootServletInitializer</span> <span class="o">{</span>
+    
+    <span class="nd">@Override</span>
+	<span class="kd">protected</span> <span class="n">SpringApplicationBuilder</span> <span class="nf">configure</span><span class="o">(</span><span class="n">SpringApplicationBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">sources</span><span class="o">(</span><span class="n">SpringBootDeployableApplication</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+	<span class="o">}</span>
 
 <span class="o">}</span></code></pre></figure>
 
-<p>Vamos entender a regex "(?<=1)(0+)(?=1)". Primeiro a expressão (?<=), essa expressão chamasse Look Behind Positive, basicamente ela verifica se um valor precede, no nosso caso verificamos se o valor "1" precede o "0". Em seguida temos a expressão (0+), aqui estamos agrupando os valores "0" com o operador greedy (+). Por fim temos a expressão (?=), ela chamasse Look Ahead Positive, ela tem a mesma função da anterior, mas nesse caso checa se sucede, ou seja, se a direita do valor 0 possui o valor 1. Temos também as negações dessas expressões, como pode ser visto na tabela a seguir.</p>
+<p>Bem simples não? você pode até manter o método <code>main</code>, para simplificar o ambiente de desenvolvimento, mas, tenha em mente que o ideal
+é manter o ambiente de desenvolvimento o mais próximo possível do ambiente de produção, para evitar surpresas (na minha máquina funciona LOL)   
+</p>
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>Nome</th>
-			<th>Expressão</th>
-			<th>Descrição</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td>Look Behind Positive</td>
-			<td>(?<=)</td>
-			<td>Verifica se o valor após "=" precede</td>
-		</tr>
-		<tr>
-			<td>Look Ahead Positive</td>
-			<td>(?=)</td>
-			<td>Verifica se o valor após "=" sucede</td>
-		</tr>
-		<tr>
-			<td>Look Behind Negative</td>
-			<td>(?<&#33;)</td> 
-			<td>Verifica se o valor após "!" não precede</td>
-		</tr>
-		<tr>
-			<td>Look Ahead Negative</td>
-			<td>(?!)</td>
-			<td>Verifica se o valor após "!" não sucede</td>
-		</tr>
-	</tbody>
-</table>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringBootDeployableApplication</span> <span class="kd">extends</span> <span class="n">SpringBootServletInitializer</span> <span class="o">{</span>
+    
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">SpringBootDeployableApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+	<span class="o">}</span>
 
+    <span class="nd">@Override</span>
+	<span class="kd">protected</span> <span class="n">SpringApplicationBuilder</span> <span class="nf">configure</span><span class="o">(</span><span class="n">SpringApplicationBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">sources</span><span class="o">(</span><span class="n">SpringBootDeployableApplication</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+	<span class="o">}</span>
+
+<span class="o">}</span></code></pre></figure>
+
+<p>Outro ponto importante, é que você deve mudar o tipo do empacotamento do projeto no seu <code>pom.xml</code></p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="o">....</span>
+    <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
+	<span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">deployable</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
+	<span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">0.0</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">SNAPSHOT</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">packaging</span><span class="o">&gt;</span><span class="n">war</span><span class="o">&lt;/</span><span class="n">packaging</span><span class="o">&gt;</span>
+    <span class="o">....</span></code></pre></figure>
+
+<p>Assim, uma vez rodando o comando <code>package</code> do <code>Maven</code>, teremos o <code>.war</code> disponível para ser distribuído.
+    Entao basta fazer o deploy na sua instância do <code>Tomcat</code> ou outro servidor desejado.</p>
+
+<p class="bg-warning">
+        Os pacotes do Spring-Boot/Starters adicionam muitas bibliotecas/dependencias na aplicação, e algumas delas
+        podem conflitar com as verções que são distribuidas junto com os servidores/containers. Mantenha em mente que pode ser necessário
+        um trabalho para identificar e marcar esses conflitos para serem excluídos no seu <code>pom.xml</code>.
+</p>
 
             </div>
         </div>
