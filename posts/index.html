@@ -9,6 +9,7 @@ categories: ['jekyll']
 tags: jekyll,html,blog,posts
 ---
 
+{% assign months = "january|february|march|april|may|june|july|august|september|october|november|december" | split: "|" %}
 {% for post in paginator.posts %}
 {% assign m = post.date | date: "%-m" | minus: 1 %}
 {% assign day = post.date | date: "%d" %}
