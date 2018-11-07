@@ -1,0 +1,118 @@
+---
+title: JPA - Mapeamento One-To-One
+author: Efraim Gentil
+description: Mapeando relacionamento de um para um, com JPA/Hibernate
+date: 2018-11-06 21:00:00
+layout: post-template
+categories: ['java', 'persistence','jpa']
+keywords: java,jpa,mapping,one-to-one,spring,spring-boot,,efraimgentil,Efraim Gentil
+---
+
+<p>É comum mapeamos, objetos do mundo real ou entidades de negócio em classes Java, essas classes, onde
+        normalmente essas classes representam tabelas em nosso banco objeto relacional. O Java
+        possui uma especificação que nos ajuda a fazer esse <b>link</b> entre nossas
+        classes, o JPA, ele define as regras de implementação e uso, o Hibernate, por exemplo, é uma das
+        bibliotecas e implementa a especificação
+</p>
+ 
+<p class="bg-warning">
+        O <b>Hibernate</b> também possui uma implementação própria, que diverge da especificação JPA ,mas que foi usada
+        como base para a especificação JPA.    
+</p>
+
+<p>Nesse post, veremos a implementação de um mapeamento um-para-um, faremos o mapeamento do relacionamento
+        de <code>User</code> para <code>UserProfile</code>, onde, cada usuário pode ter apenas um perfil, já que não faz sentido
+        um usuário possuir múltiplos perfis. Não veremos a parte de configuração de conexão, já que estamos usando
+        <code>Spring Boot</code>, e essa parte está
+        sendo tratada na auto-configuração.</p>
+
+<p>Começaremos mapeando a classe <code>User</code></p>
+
+{% highlight java %}
+@Entity
+public class User implements Serializable {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  @Column(length = 20, nullable = false)
+  private String username;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "user_profile_id")
+  private UserProfile userProfile;
+
+  public User() {
+  }
+
+  //getters... setters
+}
+{% endhighlight %}
+
+<p>Usamos a anotação <code>@Entity</code> para marcar a classe como uma entidade gerenciada pelo JPA, toda entidade
+    , também deve conter uma <code>@Id</code>, onde mapeamos para o atributo <code>id</code>, dizemos também
+    que esse atributo terá o valor gerado pelo próprio JPA, assim, não precisamos gerenciar esses valores na mão.</p>
+
+<p>Para o relacionamento um-para-um, usamos a anotação <code>@OneToOne</code> no atributo <code>userProfile</code>
+    , adicionamos o atributo <code>cascade</code> da anotação, com o valor <code>ALL</code>, para que quando persistimos
+    o objeto de <code>User</code>, também irá persistir o <code>UserProfile</code>, automaticamente.
+</p>
+
+<p>Também marcamos o atributo <code>userProfile</code>, com a anotação <code>@JoinColumn</code>, para sinalizar,
+    que a chave estrangeira, será salva na tabela de <code>User</code></p>
+
+<p>Por fim, temos o mapeamento da classe <code>UserProfile</code></p>
+
+{% highlight java %}
+@Entity
+public class UserProfile implements Serializable {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Long id;
+
+  private String name;
+
+  private String surName;
+
+  private String email;
+
+  public UserProfile() {
+  }
+
+}
+{% endhighlight %}
+
+<p>Aqui, nenhuma novidade, não precisamos referenciar a classe <code>User</code> aqui, pois estamos usando um mapeamento
+    <b>uni-direcional</b>, ou sejá, apenas a classe <code>User</code> vai referenciar <code>UserProfile</code></p>
+
+<p>Podemos testar se está tudo corretamente mapeado, com o seguinte teste</p>
+
+{% highlight java %}
+@RunWith(SpringRunner.class)
+@DataJpaTest
+public class UniDirectionalIT {
+
+  @Autowired
+  TestEntityManager entityManager;
+
+  @Test
+  public void doesCreateUserAndUserProfile(){
+    User user = new User("testname", new UserProfile("FirstName" , "SecondName"));
+    Object userId = entityManager.persistAndGetId(user);
+    entityManager.flush();
+    entityManager.clear();
+
+    //clean first level cache, to guarantee that will hit the database again
+    User user1 = entityManager.find(User.class, userId);
+
+    assertThat(user1).isNotNull();
+    assertThat(user1.getUserProfile()).isNotNull();
+  }
+
+}
+{% endhighlight %}
+
+
+<p>Fontes no <a href="https://github.com/efraimgentil/jpamappings">link</a>.</p>
