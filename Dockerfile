@@ -1,4 +1,4 @@
-FROM ruby:2.2.2 
+FROM ruby:2.4.10 
 MAINTAINER marko@codeship.com
 
 # Install apt based dependencies required to run Rails as 
@@ -18,7 +18,7 @@ WORKDIR /app
 # the RubyGems. This is a separate step so the dependencies 
 # will be cached unless changes to one of those two files 
 # are made.
-COPY Gemfile Gemfile.lock ./ 
+COPY Gemfile ./ 
 RUN gem install bundler && bundle install --jobs 20 --retry 5
 
 # Copy the main application.
@@ -36,3 +36,4 @@ EXPOSE 4000
 CMD ["jekyll" , "server"]
 
 #BUILD AN RUN TROUGH docker run -p 4000:4000 -v /home/efra/Enviroment/Workspaces/java-pessoal/efraimgentil.github.io:/app blog
+# docker run -p 4000:4000 -v C:\Users\efrai\Documents\Workspace\efraimgentil.github.io:/app blog

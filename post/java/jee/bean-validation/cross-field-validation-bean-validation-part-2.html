@@ -135,7 +135,7 @@ também podemos tirar vantagem da JSR-303 nesse cenário, usaremos os validadore
     <span class="nd">@NotBlank</span>
     <span class="kd">private</span> <span class="n">String</span> <span class="n">userName</span><span class="o">;</span>
 
-    <span class="c1">// Getters/Setters</span>
+    <span class="c1">// Getters/Setters</span>
 <span class="o">}</span></code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Documented</span>
@@ -178,7 +178,7 @@ também podemos tirar vantagem da JSR-303 nesse cenário, usaremos os validadore
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>
    <span class="s2">"id"</span><span class="err">:</span> <span class="mi">1</span><span class="p">,</span>
-   <span class="c1">//other fields</span>
+   <span class="c1">//other fields</span>
    <span class="s2">"userName"</span><span class="err">:</span> <span class="s2">"sameExistingUsername"</span>
 <span class="p">}</span></code></pre></figure>
 
@@ -228,9 +228,9 @@ fazer nossa validação como bem entendermos.
 <code>context.disableDefaultConstraintViolation()</code> para desabilitar o comportamento padrão,
 e usamos:</p>
 
-    <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// iniciamos o builder com a mensagem padrão</span>
+    <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// iniciamos o builder com a mensagem padrão</span>
 <span class="nx">context</span><span class="p">.</span><span class="nx">buildConstraintViolationWithTemplate</span><span class="p">(</span><span class="nx">UniqueUsername</span><span class="p">.</span><span class="nx">MESSAGE</span><span class="p">)</span> 
-        <span class="p">.</span><span class="nx">addPropertyNode</span><span class="p">(</span><span class="s2">"userName"</span><span class="p">)</span><span class="c1">// Marcamos o atributo violado</span>
+        <span class="p">.</span><span class="nx">addPropertyNode</span><span class="p">(</span><span class="s2">"userName"</span><span class="p">)</span><span class="c1">// Marcamos o atributo violado</span>
         <span class="p">.</span><span class="nx">addConstraintViolation</span><span class="p">();</span> <span class="c1">// adicionamos a violação manualmente</span></code></pre></figure>
 
 <p>Para que tudo funcione como esperado, também temos que atualizar nossa anotação:</p>
@@ -270,7 +270,7 @@ e usamos:</p>
     <span class="nd">@NotBlank</span>
     <span class="kd">private</span> <span class="n">String</span> <span class="n">userName</span><span class="o">;</span>
     
-    <span class="c1">// Getters/Setters</span>
+    <span class="c1">// Getters/Setters</span>
 <span class="o">}</span></code></pre></figure>
 
 <p>O projeto completo no seguinte <a href="https://github.com/efraimgentil/jsr303-beanvalidation">link</a></p>

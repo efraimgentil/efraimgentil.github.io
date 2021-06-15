@@ -150,15 +150,15 @@
     <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">printToSout</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">logParameters</span><span class="o">;</span>
     
-    <span class="c1">//... Gets &amp; Sets Etc..</span>
+    <span class="c1">//... Gets &amp; Sets Etc..</span>
 <span class="o">}</span></code></pre></figure>
 
 <p>Com a anotação <b>@ConfigurationProperties</b> dizemos qual será o prefixo que o Spring
     tomará como base para preencher as propriedades da classe</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="c1">//profiler.printToSout=true</span>
-    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">printToSout</span><span class="o">;</span><span class="c1">// valor true sera preenchido</span>
-    <span class="c1">//profiler.printToSout=false</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="c1">//profiler.printToSout=true</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">printToSout</span><span class="o">;</span><span class="c1">// valor true sera preenchido</span>
+    <span class="c1">//profiler.printToSout=false</span>
     <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">logParameters</span><span class="o">;</span> <span class="c1">// valor false sera preenchido</span></code></pre></figure>
 
 <p>Agora a parte importante, vamos adicionar um arquivo chamado <b>spring.factories</b>
