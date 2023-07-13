@@ -9,7 +9,7 @@ print("# Building docker image for building process")
 os.system("docker build . -t blog-builder")
 
 print("## Running build process")
-os.system("docker run -v " + current_path + ":/app blog-builder jekyll build")
+os.system("docker run -v " + current_path + ":/app blog-builder jekyll build --verbose")
 
 print("### CREATING THE COMMIT DIR ###")
 os.system("mkdir tocommit")
