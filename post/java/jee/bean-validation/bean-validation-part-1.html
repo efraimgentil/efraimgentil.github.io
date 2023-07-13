@@ -118,22 +118,22 @@
 <p>Sem mais delongas, vamos começar usando os validadores "default" da JSR-303, faremos a validação de um endpoint GET simples, nesse endpoint devemos buscar um usuário pelo seu ID, sendo o ID um 'Query Param' obrigatório. <a href="https://github.com/efraimgentil/jsr303-beanvalidation/tree/master/src/main/java/me/efraimgentil/jsr303/resource/UserResource.java" target="_blank">Você pode ver o código completo aqui</a></p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GET</span>
-<span class="kd">public</span> <span class="n">Response</span> <span class="nf">list</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nd">@Range</span><span class="o">(</span><span class="n">min</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">,</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">50</span><span class="o">)</span> <span class="nd">@QueryParam</span><span class="o">(</span><span class="s">"limit"</span><span class="o">)</span> <span class="n">Integer</span> <span class="n">limit</span><span class="o">,</span>
+<span class="kd">public</span> <span class="nc">Response</span> <span class="nf">list</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nd">@Range</span><span class="o">(</span><span class="n">min</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">,</span> <span class="n">max</span> <span class="o">=</span> <span class="mi">50</span><span class="o">)</span> <span class="nd">@QueryParam</span><span class="o">(</span><span class="s">"limit"</span><span class="o">)</span> <span class="nc">Integer</span> <span class="n">limit</span><span class="o">,</span>
                      <span class="nd">@DefaultValue</span><span class="o">(</span><span class="s">"0"</span><span class="o">)</span> <span class="nd">@QueryParam</span><span class="o">(</span><span class="s">"page"</span><span class="o">)</span>
-                     <span class="nd">@Range</span><span class="o">(</span><span class="n">min</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">,</span> <span class="n">max</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">)</span> <span class="n">Integer</span> <span class="n">page</span><span class="o">){</span>
-    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span><span class="n">PageRequest</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">0</span> <span class="o">,</span> <span class="n">limit</span> <span class="o">))).</span><span class="na">build</span><span class="o">();</span>
+                     <span class="nd">@Range</span><span class="o">(</span><span class="n">min</span> <span class="o">=</span> <span class="mi">0</span> <span class="o">,</span> <span class="n">max</span> <span class="o">=</span> <span class="nc">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">)</span> <span class="nc">Integer</span> <span class="n">page</span><span class="o">){</span>
+    <span class="k">return</span> <span class="nc">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span><span class="nc">PageRequest</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">0</span> <span class="o">,</span> <span class="n">limit</span> <span class="o">))).</span><span class="na">build</span><span class="o">();</span>
 <span class="o">}</span></code></pre></figure>
 
 <p>Veja que podemos validar parâmetros do nosso endpoint, com essas anotações validá-mos os parámetros 'Required' no caso o 'limit', e também os valores válidos para o mesmo '@Range(min=1,max=50)', não é necessário explicação os nomes são bem intuitivos. No caso do parámetro 'page' ele também será validado, apenas se, ele for informado, caso não, receberá o valor default. Abaixo um exemplo de response.</p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">[</span>
     <span class="p">{</span>
-        <span class="s2">"fieldName"</span><span class="p">:</span> <span class="s2">"page"</span><span class="p">,</span>
-        <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"must be between 0 and 2147483647"</span>
+        <span class="dl">"</span><span class="s2">fieldName</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">page</span><span class="dl">"</span><span class="p">,</span>
+        <span class="dl">"</span><span class="s2">error</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">must be between 0 and 2147483647</span><span class="dl">"</span>
     <span class="p">},</span>
     <span class="p">{</span>
-        <span class="s2">"fieldName"</span><span class="p">:</span> <span class="s2">"limit"</span><span class="p">,</span>
-        <span class="s2">"error"</span><span class="p">:</span> <span class="s2">"must be between 1 and 50"</span>
+        <span class="dl">"</span><span class="s2">fieldName</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">limit</span><span class="dl">"</span><span class="p">,</span>
+        <span class="dl">"</span><span class="s2">error</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">must be between 1 and 50</span><span class="dl">"</span>
     <span class="p">}</span>
 <span class="p">]</span></code></pre></figure>
 
@@ -144,31 +144,31 @@
 <p>A especificação JSR-303 também permite que eu crée minha própria validação, claro, é necessário seguir algumas regras, sua anotação deve fornecer alguns atributos básicos(message, groups, payload), sendo que groups, deve ter um valor default vazio({}). Vamos ver um exemplo prático, vamos criar uma anotação para validar se o ID de um usuário existe, iremos criar uma anotação como a seguir.</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Documented</span>
-<span class="nd">@Constraint</span><span class="o">(</span><span class="n">validatedBy</span> <span class="o">=</span> <span class="n">UserExistsValidator</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-<span class="nd">@Target</span><span class="o">({</span> <span class="n">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">,</span> <span class="n">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">,</span> <span class="n">ElementType</span><span class="o">.</span><span class="na">ANNOTATION_TYPE</span> <span class="o">})</span>
-<span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
-<span class="kd">public</span> <span class="nd">@interface</span> <span class="n">UserExists</span> <span class="o">{</span>
+<span class="nd">@Constraint</span><span class="o">(</span><span class="n">validatedBy</span> <span class="o">=</span> <span class="nc">UserExistsValidator</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@Target</span><span class="o">({</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">,</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">,</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">ANNOTATION_TYPE</span> <span class="o">})</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">UserExists</span> <span class="o">{</span>
 
-    <span class="n">String</span> <span class="nf">message</span><span class="o">()</span> <span class="k">default</span> <span class="s">"User does not exists"</span><span class="o">;</span>
-    <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">groups</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
-    <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Payload</span><span class="o">&gt;[]</span> <span class="nf">payload</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+    <span class="nc">String</span> <span class="nf">message</span><span class="o">()</span> <span class="k">default</span> <span class="s">"User does not exists"</span><span class="o">;</span>
+    <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">groups</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+    <span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Payload</span><span class="o">&gt;[]</span> <span class="nf">payload</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
 
 <span class="o">}</span></code></pre></figure>
 
 <p>Note que devemos informar o valor no atributo 'validatedBy', apontando para uma classe, na anotação '@Constraint', essa classe deve obrigatoriamente extender 'ConstraintValidator'. Veja a seguir</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserExistsValidator</span> <span class="kd">implements</span> <span class="n">ConstraintValidator</span><span class="o">&lt;</span><span class="n">UserExists</span><span class="o">,</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserExistsValidator</span> <span class="kd">implements</span> <span class="nc">ConstraintValidator</span><span class="o">&lt;</span><span class="nc">UserExists</span><span class="o">,</span><span class="nc">Integer</span><span class="o">&gt;</span> <span class="o">{</span>
 
-    <span class="kd">private</span> <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
 
     <span class="nd">@Autowired</span>
-    <span class="kd">public</span> <span class="nf">UserExistsValidator</span><span class="o">(</span><span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">UserExistsValidator</span><span class="o">(</span><span class="nc">UserRepository</span> <span class="n">userRepository</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">userRepository</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">;</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValid</span><span class="o">(</span><span class="n">Integer</span> <span class="n">value</span><span class="o">,</span> <span class="n">ConstraintValidatorContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValid</span><span class="o">(</span><span class="nc">Integer</span> <span class="n">value</span><span class="o">,</span> <span class="nc">ConstraintValidatorContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">if</span><span class="o">(</span><span class="n">value</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="n">userRepository</span><span class="o">.</span><span class="na">existsById</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
         <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
     <span class="o">}</span>
@@ -179,8 +179,8 @@
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@GET</span>
 <span class="nd">@Path</span><span class="o">(</span><span class="s">"/{userId}"</span><span class="o">)</span>
-<span class="kd">public</span> <span class="n">Response</span> <span class="nf">getUer</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nd">@UserExists</span> <span class="nd">@PathParam</span><span class="o">(</span><span class="s">"userId"</span><span class="o">)</span> <span class="n">Integer</span> <span class="n">userId</span><span class="o">){</span>
-    <span class="k">return</span> <span class="n">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">userId</span><span class="o">)).</span><span class="na">build</span><span class="o">();</span>
+<span class="kd">public</span> <span class="nc">Response</span> <span class="nf">getUer</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nd">@UserExists</span> <span class="nd">@PathParam</span><span class="o">(</span><span class="s">"userId"</span><span class="o">)</span> <span class="nc">Integer</span> <span class="n">userId</span><span class="o">){</span>
+    <span class="k">return</span> <span class="nc">Response</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">userRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">userId</span><span class="o">)).</span><span class="na">build</span><span class="o">();</span>
 <span class="o">}</span></code></pre></figure>
 
 <p>Com isso concluímos a primeira parte do tópico sobre validações, a seguir veremos algumas validações mais complexas, como Cross-Field e Compose Validations e validações de grupos.</p>

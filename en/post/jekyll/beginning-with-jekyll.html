@@ -9,6 +9,8 @@
 <meta name="robots" content="index,follow">
 <meta name="googlebot" content="index,follow">
 <meta name="author" content="Efraim Gentil">
+
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5942767984138679" crossorigin="anonymous"></script>
 <meta name="description" content="Learn the firsts steps to use Jekyll, how to start, basic structures, and some basic commands.">
 <title>Beginning with Jekyll</title>
 
@@ -116,11 +118,11 @@ For a while i been wanting to create a blog, something that for me looked kind o
 So let's start to see how to use the Jekyll, first you need to have the Ruby installed, we will not see how to install it so good luck, in this tutorial i am using the version 2.2.2. You also need the RubyGems installed. Let's start installing the Jekyll and the bundler gems, you can achieve that running the following command in your terminal on the folder of the project:
 </p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>gem install jekyll bundler</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>gem <span class="nb">install </span>jekyll bundler</code></pre></figure>
 
 <p>After installed you will have at your disposal the jekyll command in the terminal, so let's run the following instruction to create a new Jekyll project</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>jekyll new . --force</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>jekyll new <span class="nb">.</span> <span class="nt">--force</span></code></pre></figure>
 
 <p>This command will create the folders structure and the Jekyll configuration file, also will create some example files showing how to use the Jekyll, what is really useful for who is starting to use the tool now</p>
 
@@ -201,13 +203,13 @@ layout: my-template
 
 <p>Now that we know the basic of Jekyll, let's test our first site. To test the project in the local environment you just need to run the following command in the root folder of your project:</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>jekyll server</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>jekyll server</code></pre></figure>
 
 <p>The Jekyll will compile your files and run a local server on the URL: http://localhost:4000</p>
 
 <p>To finish, another essential command is the build command, this command compiles all your files and puts in the _site folder, with those files you can host your "static" site anywhere</p>
 
-<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="gp">$ </span>jekyll build</code></pre></figure>
+<figure class="highlight"><pre><code class="language-shell" data-lang="shell"><span class="nv">$ </span>jekyll build</code></pre></figure>
 
 <p>The Jekyll is a really powerfull tool, and also have many plugins and features to be explored, what we have saw is just the tip of the iceberg, you can access the site https://jekyllrb.com/ and see a more of his features.</p>
 

@@ -121,49 +121,49 @@ também podemos tirar vantagem da JSR-303 nesse cenário, usaremos os validadore
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Entity</span>
 <span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"USER"</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="nc">Serializable</span> <span class="o">{</span>
     
     <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">id</span><span class="o">;</span>
         
     <span class="nd">@NotBlank</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">fullName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">fullName</span><span class="o">;</span>
         
     <span class="nd">@NotBlank</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">preferredName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">preferredName</span><span class="o">;</span>
     
     <span class="nd">@UniqueUsername</span>
     <span class="nd">@NotBlank</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">userName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">userName</span><span class="o">;</span>
 
     <span class="c1">// Getters/Setters</span>
 <span class="o">}</span></code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Documented</span>
-<span class="nd">@Constraint</span><span class="o">(</span><span class="n">validatedBy</span> <span class="o">=</span> <span class="n">UniqueUsernameValidator</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-<span class="nd">@Target</span><span class="o">({</span> <span class="n">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">,</span> <span class="n">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">,</span> <span class="n">ElementType</span><span class="o">.</span><span class="na">ANNOTATION_TYPE</span> <span class="o">})</span>
-<span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
-<span class="kd">public</span> <span class="nd">@interface</span> <span class="n">UniqueUsername</span> <span class="o">{</span>
+<span class="nd">@Constraint</span><span class="o">(</span><span class="n">validatedBy</span> <span class="o">=</span> <span class="nc">UniqueUsernameValidator</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@Target</span><span class="o">({</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">PARAMETER</span><span class="o">,</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">FIELD</span><span class="o">,</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">ANNOTATION_TYPE</span> <span class="o">})</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">UniqueUsername</span> <span class="o">{</span>
 
-    <span class="n">String</span> <span class="nf">message</span><span class="o">()</span> <span class="k">default</span> <span class="s">"already in use"</span><span class="o">;</span>
-    <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">groups</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
-    <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Payload</span><span class="o">&gt;[]</span> <span class="nf">payload</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+    <span class="nc">String</span> <span class="nf">message</span><span class="o">()</span> <span class="k">default</span> <span class="s">"already in use"</span><span class="o">;</span>
+    <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">groups</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+    <span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Payload</span><span class="o">&gt;[]</span> <span class="nf">payload</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
 
 <span class="o">}</span></code></pre></figure>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Component</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UniqueUsernameValidator</span> <span class="kd">implements</span> <span class="n">ConstraintValidator</span><span class="o">&lt;</span><span class="n">UniqueUsername</span><span class="o">,</span><span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UniqueUsernameValidator</span> <span class="kd">implements</span> <span class="nc">ConstraintValidator</span><span class="o">&lt;</span><span class="nc">UniqueUsername</span><span class="o">,</span><span class="nc">String</span><span class="o">&gt;</span> <span class="o">{</span>
 
-    <span class="kd">private</span> <span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">UserRepository</span> <span class="n">userRepository</span><span class="o">;</span>
 
     <span class="nd">@Autowired</span>
-    <span class="kd">public</span> <span class="nf">UniqueUsernameValidator</span><span class="o">(</span><span class="n">UserRepository</span> <span class="n">userRepository</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="nf">UniqueUsernameValidator</span><span class="o">(</span><span class="nc">UserRepository</span> <span class="n">userRepository</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">userRepository</span> <span class="o">=</span> <span class="n">userRepository</span><span class="o">;</span>
     <span class="o">}</span>
 
     <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValid</span><span class="o">(</span><span class="n">String</span> <span class="n">value</span><span class="o">,</span> <span class="n">ConstraintValidatorContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isValid</span><span class="o">(</span><span class="nc">String</span> <span class="n">value</span><span class="o">,</span> <span class="nc">ConstraintValidatorContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">if</span><span class="o">(!</span><span class="n">isEmpty</span><span class="o">(</span><span class="n">value</span><span class="o">)){</span>
             <span class="k">return</span> <span class="o">!</span><span class="n">userRepository</span><span class="o">.</span><span class="na">existsByUserName</span><span class="o">(</span><span class="n">value</span><span class="o">);</span>
         <span class="o">}</span>
@@ -179,9 +179,9 @@ também podemos tirar vantagem da JSR-303 nesse cenário, usaremos os validadore
 </p>
 
 <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">{</span>
-   <span class="s2">"id"</span><span class="err">:</span> <span class="mi">1</span><span class="p">,</span>
+   <span class="dl">"</span><span class="s2">id</span><span class="dl">"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
    <span class="c1">//other fields</span>
-   <span class="s2">"userName"</span><span class="err">:</span> <span class="s2">"sameExistingUsername"</span>
+   <span class="dl">"</span><span class="s2">userName</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">sameExistingUsername</span><span class="dl">"</span>
 <span class="p">}</span></code></pre></figure>
 
 <p>Se enviarmos esse payload para o endpoint de atualização, o campo <code>userName</code> lançará um erro
@@ -190,20 +190,20 @@ também podemos tirar vantagem da JSR-303 nesse cenário, usaremos os validadore
     vamos alterar nosso validador    
 </p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="err">@</span><span class="nx">Component</span>
-<span class="kr">public</span> <span class="kr">class</span> <span class="nx">UniqueUsernameValidator</span> <span class="kr">implements</span> <span class="nx">ConstraintValidator</span><span class="o">&lt;</span><span class="nx">UniqueUsername</span><span class="p">,</span> <span class="nx">User</span><span class="o">&gt;</span> <span class="p">{</span>
+<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="p">@</span><span class="nd">Component</span>
+<span class="kr">public</span> <span class="kd">class</span> <span class="nx">UniqueUsernameValidator</span> <span class="kr">implements</span> <span class="nx">ConstraintValidator</span><span class="o">&lt;</span><span class="nx">UniqueUsername</span><span class="p">,</span> <span class="nx">User</span><span class="o">&gt;</span> <span class="p">{</span>
 
     <span class="kr">private</span> <span class="nx">UserRepository</span> <span class="nx">userRepository</span><span class="p">;</span>
 
-    <span class="err">@</span><span class="nx">Autowired</span>
+    <span class="p">@</span><span class="nd">Autowired</span>
     <span class="kr">public</span> <span class="nx">UniqueUsernameValidator</span><span class="p">(</span><span class="nx">UserRepository</span> <span class="nx">userRepository</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">userRepository</span> <span class="o">=</span> <span class="nx">userRepository</span><span class="p">;</span>
     <span class="p">}</span>
 
-    <span class="err">@</span><span class="nx">Override</span>
-    <span class="kr">public</span> <span class="kr">boolean</span> <span class="nx">isValid</span><span class="p">(</span><span class="nx">User</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">ConstraintValidatorContext</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
+    <span class="p">@</span><span class="nd">Override</span>
+    <span class="kr">public</span> <span class="nx">boolean</span> <span class="nx">isValid</span><span class="p">(</span><span class="nx">User</span> <span class="nx">value</span><span class="p">,</span> <span class="nx">ConstraintValidatorContext</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">isEmpty</span><span class="p">(</span><span class="nx">value</span><span class="p">)){</span>
-            <span class="kr">boolean</span> <span class="nx">exists</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+            <span class="nx">boolean</span> <span class="nx">exists</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
             <span class="k">if</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nx">getId</span><span class="p">()</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
                 <span class="nx">exists</span> <span class="o">=</span> <span class="nx">userRepository</span><span class="p">.</span><span class="nx">existsByUserNameEqualsAndIdNot</span><span class="p">(</span><span class="nx">value</span><span class="p">.</span><span class="nx">getUserName</span><span class="p">()</span> <span class="p">,</span> <span class="nx">value</span><span class="p">.</span><span class="nx">getId</span><span class="p">());</span>
             <span class="p">}</span><span class="k">else</span> <span class="p">{</span>
@@ -212,7 +212,7 @@ também podemos tirar vantagem da JSR-303 nesse cenário, usaremos os validadore
             <span class="k">if</span><span class="p">(</span><span class="nx">exists</span><span class="p">){</span>
                 <span class="nx">context</span><span class="p">.</span><span class="nx">disableDefaultConstraintViolation</span><span class="p">();</span>
                 <span class="nx">context</span><span class="p">.</span><span class="nx">buildConstraintViolationWithTemplate</span><span class="p">(</span><span class="nx">UniqueUsername</span><span class="p">.</span><span class="nx">MESSAGE</span><span class="p">)</span>
-                        <span class="p">.</span><span class="nx">addPropertyNode</span><span class="p">(</span><span class="s2">"userName"</span><span class="p">)</span>
+                        <span class="p">.</span><span class="nx">addPropertyNode</span><span class="p">(</span><span class="dl">"</span><span class="s2">userName</span><span class="dl">"</span><span class="p">)</span>
                         <span class="p">.</span><span class="nx">addConstraintViolation</span><span class="p">();</span>
                 <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
             <span class="p">}</span>
@@ -232,21 +232,21 @@ e usamos:</p>
 
     <figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="c1">// iniciamos o builder com a mensagem padrão</span>
 <span class="nx">context</span><span class="p">.</span><span class="nx">buildConstraintViolationWithTemplate</span><span class="p">(</span><span class="nx">UniqueUsername</span><span class="p">.</span><span class="nx">MESSAGE</span><span class="p">)</span> 
-        <span class="p">.</span><span class="nx">addPropertyNode</span><span class="p">(</span><span class="s2">"userName"</span><span class="p">)</span><span class="c1">// Marcamos o atributo violado</span>
+        <span class="p">.</span><span class="nx">addPropertyNode</span><span class="p">(</span><span class="dl">"</span><span class="s2">userName</span><span class="dl">"</span><span class="p">)</span><span class="c1">// Marcamos o atributo violado</span>
         <span class="p">.</span><span class="nx">addConstraintViolation</span><span class="p">();</span> <span class="c1">// adicionamos a violação manualmente</span></code></pre></figure>
 
 <p>Para que tudo funcione como esperado, também temos que atualizar nossa anotação:</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Documented</span>
-<span class="nd">@Constraint</span><span class="o">(</span><span class="n">validatedBy</span> <span class="o">=</span> <span class="n">UniqueUsernameValidator</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
-<span class="nd">@Target</span><span class="o">({</span> <span class="n">ElementType</span><span class="o">.</span><span class="na">TYPE</span> <span class="o">})</span>
-<span class="nd">@Retention</span><span class="o">(</span><span class="n">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
-<span class="kd">public</span> <span class="nd">@interface</span> <span class="n">UniqueUsername</span> <span class="o">{</span>
+<span class="nd">@Constraint</span><span class="o">(</span><span class="n">validatedBy</span> <span class="o">=</span> <span class="nc">UniqueUsernameValidator</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@Target</span><span class="o">({</span> <span class="nc">ElementType</span><span class="o">.</span><span class="na">TYPE</span> <span class="o">})</span>
+<span class="nd">@Retention</span><span class="o">(</span><span class="nc">RetentionPolicy</span><span class="o">.</span><span class="na">RUNTIME</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nd">@interface</span> <span class="nc">UniqueUsername</span> <span class="o">{</span>
 
-    <span class="n">String</span> <span class="n">MESSAGE</span> <span class="o">=</span> <span class="s">"already in use"</span><span class="o">;</span>
-    <span class="n">String</span> <span class="nf">message</span><span class="o">()</span> <span class="k">default</span> <span class="n">MESSAGE</span><span class="o">;</span>
-    <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">groups</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
-    <span class="n">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="n">Payload</span><span class="o">&gt;[]</span> <span class="nf">payload</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+    <span class="nc">String</span> <span class="no">MESSAGE</span> <span class="o">=</span> <span class="s">"already in use"</span><span class="o">;</span>
+    <span class="nc">String</span> <span class="nf">message</span><span class="o">()</span> <span class="k">default</span> <span class="no">MESSAGE</span><span class="o">;</span>
+    <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">groups</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
+    <span class="nc">Class</span><span class="o">&lt;?</span> <span class="kd">extends</span> <span class="nc">Payload</span><span class="o">&gt;[]</span> <span class="nf">payload</span><span class="o">()</span> <span class="k">default</span> <span class="o">{};</span>
 
 <span class="o">}</span></code></pre></figure>
 
@@ -257,20 +257,20 @@ e usamos:</p>
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@UniqueUsername</span>
 <span class="nd">@Entity</span>
 <span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"USER"</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="nc">Serializable</span> <span class="o">{</span>
 
     <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">id</span><span class="o">;</span>
 
     <span class="nd">@NotBlank</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">fullName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">fullName</span><span class="o">;</span>
 
     <span class="nd">@NotBlank</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">preferredName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">preferredName</span><span class="o">;</span>
 
     <span class="nd">@NotBlank</span>
-    <span class="kd">private</span> <span class="n">String</span> <span class="n">userName</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">userName</span><span class="o">;</span>
     
     <span class="c1">// Getters/Setters</span>
 <span class="o">}</span></code></pre></figure>

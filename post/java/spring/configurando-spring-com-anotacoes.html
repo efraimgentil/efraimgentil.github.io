@@ -136,7 +136,7 @@
 
 <p>Com essas dependências já podemos iniciar nossa configuração do Spring MVC, para iniciar vamos criar a classe SpringCofing no pacote "me.efraimgentil.springannotationexample.config", como a seguir:</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springannotationexample</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springannotationexample.config</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
@@ -151,7 +151,7 @@
 
 <p>A próxima classe que vamos criar é a SpringMvcConfig, selecione o mesmo pacote da classe anterior, como a seguir:</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springannotationexample</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springannotationexample.config</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
@@ -164,13 +164,13 @@
 <span class="nd">@Configuration</span>
 <span class="nd">@EnableWebMvc</span>
 <span class="nd">@ComponentScan</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="o">{</span><span class="s">"me.efraimgentil.springannotationexample.controller"</span>  <span class="o">})</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringMvcConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringMvcConfig</span> <span class="kd">extends</span> <span class="nc">WebMvcConfigurerAdapter</span> <span class="o">{</span>
   
   <span class="nd">@Bean</span>
-  <span class="kd">public</span> <span class="n">InternalResourceViewResolver</span> <span class="nf">viewResolver</span><span class="o">()</span> <span class="o">{</span>
-    <span class="n">InternalResourceViewResolver</span> <span class="n">viewResolver</span>
-                         <span class="o">=</span> <span class="k">new</span> <span class="n">InternalResourceViewResolver</span><span class="o">();</span>
-    <span class="n">viewResolver</span><span class="o">.</span><span class="na">setViewClass</span><span class="o">(</span><span class="n">JstlView</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+  <span class="kd">public</span> <span class="nc">InternalResourceViewResolver</span> <span class="nf">viewResolver</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">InternalResourceViewResolver</span> <span class="n">viewResolver</span>
+                         <span class="o">=</span> <span class="k">new</span> <span class="nc">InternalResourceViewResolver</span><span class="o">();</span>
+    <span class="n">viewResolver</span><span class="o">.</span><span class="na">setViewClass</span><span class="o">(</span><span class="nc">JstlView</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
     <span class="n">viewResolver</span><span class="o">.</span><span class="na">setPrefix</span><span class="o">(</span><span class="s">"/WEB-INF/views/"</span><span class="o">);</span>
     <span class="n">viewResolver</span><span class="o">.</span><span class="na">setSuffix</span><span class="o">(</span><span class="s">".jsp"</span><span class="o">);</span>
     <span class="k">return</span> <span class="n">viewResolver</span><span class="o">;</span>
@@ -182,25 +182,25 @@
 
 <p>Agora precisamos criar o nosso inicializador, basicamente ele funciona como nosso arquivo web.xml, veja a seguir como fica a classe WebInitializer</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springannotationexample</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springannotationexample.config</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer</span><span class="o">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebInitializer</span> <span class="kd">extends</span> <span class="n">AbstractAnnotationConfigDispatcherServletInitializer</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebInitializer</span> <span class="kd">extends</span> <span class="nc">AbstractAnnotationConfigDispatcherServletInitializer</span> <span class="o">{</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getRootConfigClasses</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]{</span> <span class="n">SpringConfig</span><span class="o">.</span><span class="na">class</span> <span class="o">};</span>
+  <span class="kd">protected</span> <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getRootConfigClasses</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Class</span><span class="o">[]{</span> <span class="nc">SpringConfig</span><span class="o">.</span><span class="na">class</span> <span class="o">};</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getServletConfigClasses</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]{</span>  <span class="n">SpringMvcConfig</span><span class="o">.</span><span class="na">class</span> <span class="o">};</span>
+  <span class="kd">protected</span> <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getServletConfigClasses</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">Class</span><span class="o">[]{</span>  <span class="nc">SpringMvcConfig</span><span class="o">.</span><span class="na">class</span> <span class="o">};</span>
   <span class="o">}</span>
 
   <span class="nd">@Override</span>
-  <span class="kd">protected</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getServletMappings</span><span class="o">()</span> <span class="o">{</span>
-    <span class="k">return</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]{</span> <span class="s">"/"</span> <span class="o">};</span>
+  <span class="kd">protected</span> <span class="nc">String</span><span class="o">[]</span> <span class="nf">getServletMappings</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nc">String</span><span class="o">[]{</span> <span class="s">"/"</span> <span class="o">};</span>
   <span class="o">}</span>
 
 <span class="o">}</span></code></pre></figure>
@@ -212,7 +212,7 @@
 <p>Com isso temos nossa configuração do Spring MVC somente com anotações pronta, para testarmos vamos criar um Controller simples no pacote 
 "me.efraimgentil.springannotationexample.controller" como a seguir:</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springannotationexample</span><span class="o">.</span><span class="na">controller</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springannotationexample.controller</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
@@ -221,8 +221,8 @@
 <span class="nd">@Controller</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloController</span> <span class="o">{</span>
   
-  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span><span class="o">=</span> <span class="o">{</span><span class="s">"/"</span><span class="o">}</span> <span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">RequestMethod</span><span class="o">.</span><span class="na">GET</span> <span class="o">)</span>
-  <span class="kd">public</span> <span class="n">String</span> <span class="nf">hello</span><span class="o">(){</span>
+  <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span><span class="o">=</span> <span class="o">{</span><span class="s">"/"</span><span class="o">}</span> <span class="o">,</span> <span class="n">method</span> <span class="o">=</span> <span class="nc">RequestMethod</span><span class="o">.</span><span class="na">GET</span> <span class="o">)</span>
+  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">hello</span><span class="o">(){</span>
     <span class="k">return</span> <span class="s">"hello"</span><span class="o">;</span>
   <span class="o">}</span>
   
@@ -231,7 +231,7 @@
 <p>Esse controller cria uma rota na raiz da aplicação, então esse método será chamado quando fizermos um request para o endereço "http://localhost:8080/spring-annotation-example/", esse endereço pode variar dependendo da configuração do seu Tomcat. O método "hello" retorna a String "hello", como fizemos a configuração do InternalResourceViewResolver, o Spring vai buscar uma arquivo de nome "hello.jsp" na pasta que configuramos para o resolver, então dentro da pasta "WEB-INF/views/" crie o arquivo "hello.jsp", como a seguir por exemplo:</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="n">webapp</span>
-<span class="o">-</span> <span class="n">WEB</span><span class="o">-</span><span class="n">INF</span>
+<span class="o">-</span> <span class="no">WEB</span><span class="o">-</span><span class="no">INF</span>
 <span class="o">-</span> <span class="o">-</span> <span class="n">views</span>
 <span class="o">-</span> <span class="o">-</span> <span class="o">-</span> <span class="n">hello</span><span class="o">.</span><span class="na">jsp</span></code></pre></figure>
 

@@ -118,11 +118,11 @@ de aproveitar todas as vantagens do Framework, e ainda assim usar o bom e velho 
 <p>Para minha surpresa, a configuração e as mudanças necessárias, em um projeto Spring-Boot padrão, são bem simples, a seguir você pode ver a main class do projeto.</p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SpringBootApplication</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringBootDeployableApplication</span> <span class="kd">extends</span> <span class="n">SpringBootServletInitializer</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringBootDeployableApplication</span> <span class="kd">extends</span> <span class="nc">SpringBootServletInitializer</span> <span class="o">{</span>
     
     <span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="n">SpringApplicationBuilder</span> <span class="nf">configure</span><span class="o">(</span><span class="n">SpringApplicationBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">sources</span><span class="o">(</span><span class="n">SpringBootDeployableApplication</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+	<span class="kd">protected</span> <span class="nc">SpringApplicationBuilder</span> <span class="nf">configure</span><span class="o">(</span><span class="nc">SpringApplicationBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">sources</span><span class="o">(</span><span class="nc">SpringBootDeployableApplication</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 	<span class="o">}</span>
 
 <span class="o">}</span></code></pre></figure>
@@ -132,15 +132,15 @@ de aproveitar todas as vantagens do Framework, e ainda assim usar o bom e velho 
 </p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@SpringBootApplication</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringBootDeployableApplication</span> <span class="kd">extends</span> <span class="n">SpringBootServletInitializer</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringBootDeployableApplication</span> <span class="kd">extends</span> <span class="nc">SpringBootServletInitializer</span> <span class="o">{</span>
     
-    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">SpringBootDeployableApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="nc">SpringBootDeployableApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
 	<span class="o">}</span>
 
     <span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="n">SpringApplicationBuilder</span> <span class="nf">configure</span><span class="o">(</span><span class="n">SpringApplicationBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">sources</span><span class="o">(</span><span class="n">SpringBootDeployableApplication</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+	<span class="kd">protected</span> <span class="nc">SpringApplicationBuilder</span> <span class="nf">configure</span><span class="o">(</span><span class="nc">SpringApplicationBuilder</span> <span class="n">builder</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">builder</span><span class="o">.</span><span class="na">sources</span><span class="o">(</span><span class="nc">SpringBootDeployableApplication</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 	<span class="o">}</span>
 
 <span class="o">}</span></code></pre></figure>
@@ -150,7 +150,7 @@ de aproveitar todas as vantagens do Framework, e ainda assim usar o bom e velho 
 <figure class="highlight"><pre><code class="language-java" data-lang="java">    <span class="o">....</span>
     <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
 	<span class="o">&lt;</span><span class="n">artifactId</span><span class="o">&gt;</span><span class="n">spring</span><span class="o">-</span><span class="n">boot</span><span class="o">-</span><span class="n">deployable</span><span class="o">&lt;/</span><span class="n">artifactId</span><span class="o">&gt;</span>
-	<span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">0.0</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="n">SNAPSHOT</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
+	<span class="o">&lt;</span><span class="n">version</span><span class="o">&gt;</span><span class="mf">0.0</span><span class="o">.</span><span class="mi">1</span><span class="o">-</span><span class="no">SNAPSHOT</span><span class="o">&lt;/</span><span class="n">version</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">packaging</span><span class="o">&gt;</span><span class="n">war</span><span class="o">&lt;/</span><span class="n">packaging</span><span class="o">&gt;</span>
     <span class="o">....</span></code></pre></figure>
 

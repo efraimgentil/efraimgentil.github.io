@@ -130,18 +130,18 @@
 <p>Começaremos mapeando a classe <code>User</code></p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Entity</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="nc">Serializable</span> <span class="o">{</span>
 
   <span class="nd">@Id</span>
-  <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
-  <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+  <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
+  <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
 
   <span class="nd">@Column</span><span class="o">(</span><span class="n">length</span> <span class="o">=</span> <span class="mi">20</span><span class="o">,</span> <span class="n">nullable</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">username</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">username</span><span class="o">;</span>
 
-  <span class="nd">@OneToOne</span><span class="o">(</span><span class="n">cascade</span> <span class="o">=</span> <span class="n">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
+  <span class="nd">@OneToOne</span><span class="o">(</span><span class="n">cascade</span> <span class="o">=</span> <span class="nc">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
   <span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"user_profile_id"</span><span class="o">)</span>
-  <span class="kd">private</span> <span class="n">UserProfile</span> <span class="n">userProfile</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">UserProfile</span> <span class="n">userProfile</span><span class="o">;</span>
 
   <span class="kd">public</span> <span class="nf">User</span><span class="o">()</span> <span class="o">{</span>
   <span class="o">}</span>
@@ -164,17 +164,17 @@
 <p>Por fim, temos o mapeamento da classe <code>UserProfile</code></p>
 
 <figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@Entity</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserProfile</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserProfile</span> <span class="kd">implements</span> <span class="nc">Serializable</span> <span class="o">{</span>
 
   <span class="nd">@Id</span>
-  <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
-  <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+  <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
+  <span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
 
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
 
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">surName</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">surName</span><span class="o">;</span>
 
-  <span class="kd">private</span> <span class="n">String</span> <span class="n">email</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">String</span> <span class="n">email</span><span class="o">;</span>
 
   <span class="kd">public</span> <span class="nf">UserProfile</span><span class="o">()</span> <span class="o">{</span>
   <span class="o">}</span>
@@ -186,22 +186,22 @@
 
 <p>Podemos testar se está tudo corretamente mapeado, com o seguinte teste</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="nd">@RunWith</span><span class="o">(</span><span class="nc">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
 <span class="nd">@DataJpaTest</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">UniDirectionalIT</span> <span class="o">{</span>
 
   <span class="nd">@Autowired</span>
-  <span class="n">TestEntityManager</span> <span class="n">entityManager</span><span class="o">;</span>
+  <span class="nc">TestEntityManager</span> <span class="n">entityManager</span><span class="o">;</span>
 
   <span class="nd">@Test</span>
   <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doesCreateUserAndUserProfile</span><span class="o">(){</span>
-    <span class="n">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="n">User</span><span class="o">(</span><span class="s">"testname"</span><span class="o">,</span> <span class="k">new</span> <span class="n">UserProfile</span><span class="o">(</span><span class="s">"FirstName"</span> <span class="o">,</span> <span class="s">"SecondName"</span><span class="o">));</span>
-    <span class="n">Object</span> <span class="n">userId</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">persistAndGetId</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+    <span class="nc">User</span> <span class="n">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">User</span><span class="o">(</span><span class="s">"testname"</span><span class="o">,</span> <span class="k">new</span> <span class="nc">UserProfile</span><span class="o">(</span><span class="s">"FirstName"</span> <span class="o">,</span> <span class="s">"SecondName"</span><span class="o">));</span>
+    <span class="nc">Object</span> <span class="n">userId</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">persistAndGetId</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
     <span class="n">entityManager</span><span class="o">.</span><span class="na">flush</span><span class="o">();</span>
     <span class="n">entityManager</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span>
 
     <span class="c1">//clean first level cache, to guarantee that will hit the database again</span>
-    <span class="n">User</span> <span class="n">user1</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="n">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
+    <span class="nc">User</span> <span class="n">user1</span> <span class="o">=</span> <span class="n">entityManager</span><span class="o">.</span><span class="na">find</span><span class="o">(</span><span class="nc">User</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">userId</span><span class="o">);</span>
 
     <span class="n">assertThat</span><span class="o">(</span><span class="n">user1</span><span class="o">).</span><span class="na">isNotNull</span><span class="o">();</span>
     <span class="n">assertThat</span><span class="o">(</span><span class="n">user1</span><span class="o">.</span><span class="na">getUserProfile</span><span class="o">()).</span><span class="na">isNotNull</span><span class="o">();</span>

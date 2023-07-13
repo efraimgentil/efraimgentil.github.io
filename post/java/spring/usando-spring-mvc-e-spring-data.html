@@ -171,7 +171,7 @@
 
 <p>Vamos começar configurando nosso projeto, vamos criar a classe SpringConfig, no pacote "me.efraimgentil.springmvcanddata.config", essa classe irá contér as configurações básicas de beans do Spring</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springmvcanddata.config</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
@@ -186,7 +186,7 @@
 
 <p>Em seguida temos a configuração do Spring MVC, para gerenciar nossas rotas</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springmvcanddata.config</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.context.annotation.ComponentScan</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
@@ -196,7 +196,7 @@
 <span class="nd">@Configuration</span>
 <span class="nd">@EnableWebMvc</span>
 <span class="nd">@ComponentScan</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"me.efraimgentil.springmvcanddata.controller"</span> <span class="o">})</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringMvcConfig</span> <span class="kd">extends</span> <span class="n">WebMvcConfigurerAdapter</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringMvcConfig</span> <span class="kd">extends</span> <span class="nc">WebMvcConfigurerAdapter</span> <span class="o">{</span>
 
 <span class="o">}</span></code></pre></figure>
 
@@ -204,7 +204,7 @@
 
 <p>Vamos configurar agora nossa base de dados, controle transacional e os repositórios com Spring Data</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springmvcanddata.config</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.Properties</span><span class="o">;</span>
 
@@ -228,8 +228,8 @@
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">PersistenceConfig</span> <span class="o">{</span>
 
 	<span class="nd">@Bean</span>
-	<span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">datasource</span><span class="o">()</span> <span class="o">{</span>
-		<span class="n">DriverManagerDataSource</span> <span class="n">ds</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DriverManagerDataSource</span><span class="o">();</span>
+	<span class="kd">public</span> <span class="nc">DataSource</span> <span class="nf">datasource</span><span class="o">()</span> <span class="o">{</span>
+		<span class="nc">DriverManagerDataSource</span> <span class="n">ds</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">DriverManagerDataSource</span><span class="o">();</span>
 		<span class="n">ds</span><span class="o">.</span><span class="na">setDriverClassName</span><span class="o">(</span> <span class="s">"org.h2.Driver"</span><span class="o">);</span>
 		<span class="n">ds</span><span class="o">.</span><span class="na">setUrl</span><span class="o">(</span><span class="s">"jdbc:h2:mem:data;DB_CLOSE_DELAY=-1"</span><span class="o">);</span>
 		<span class="n">ds</span><span class="o">.</span><span class="na">setUsername</span><span class="o">(</span><span class="s">"sa"</span><span class="o">);</span>
@@ -238,12 +238,12 @@
 	<span class="o">}</span>
 	
 	<span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span><span class="o">=</span> <span class="s">"entityManagerFactory"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="n">LocalContainerEntityManagerFactoryBean</span>  <span class="nf">entityManagerFactoryBean</span><span class="o">(</span><span class="n">DataSource</span> <span class="n">ds</span> <span class="o">)</span> <span class="o">{</span>
-		<span class="n">LocalContainerEntityManagerFactoryBean</span>  <span class="n">emfb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="o">();</span>
+	<span class="kd">public</span> <span class="nc">LocalContainerEntityManagerFactoryBean</span>  <span class="nf">entityManagerFactoryBean</span><span class="o">(</span><span class="nc">DataSource</span> <span class="n">ds</span> <span class="o">)</span> <span class="o">{</span>
+		<span class="nc">LocalContainerEntityManagerFactoryBean</span>  <span class="n">emfb</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">LocalContainerEntityManagerFactoryBean</span> <span class="o">();</span>
 		<span class="n">emfb</span><span class="o">.</span><span class="na">setDataSource</span><span class="o">(</span><span class="n">ds</span><span class="o">);</span>
 		<span class="n">emfb</span><span class="o">.</span><span class="na">setPackagesToScan</span><span class="o">(</span><span class="s">"me.efraimgentil.springmvcanddata.domain"</span><span class="o">);</span>
-		<span class="n">emfb</span><span class="o">.</span><span class="na">setPersistenceProviderClass</span><span class="o">(</span><span class="n">HibernatePersistenceProvider</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
-		<span class="n">Properties</span> <span class="n">jpaProterties</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+		<span class="n">emfb</span><span class="o">.</span><span class="na">setPersistenceProviderClass</span><span class="o">(</span><span class="nc">HibernatePersistenceProvider</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+		<span class="nc">Properties</span> <span class="n">jpaProterties</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Properties</span><span class="o">();</span>
 		<span class="n">jpaProterties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"hibernate.dialect"</span><span class="o">,</span> <span class="s">"org.hibernate.dialect.H2Dialect"</span><span class="o">);</span>
 		<span class="n">jpaProterties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"hibernate.format_sql"</span><span class="o">,</span> <span class="kc">true</span> <span class="o">);</span>
 		<span class="n">jpaProterties</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"hibernate.show_sql"</span><span class="o">,</span> <span class="kc">true</span><span class="o">);</span>
@@ -253,8 +253,8 @@
 	<span class="o">}</span>
 	
 	<span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"transactionManager"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="n">JpaTransactionManager</span> <span class="nf">transactionmanager</span><span class="o">(</span><span class="n">EntityManagerFactory</span> <span class="n">emf</span><span class="o">){</span>
-		<span class="n">JpaTransactionManager</span> <span class="n">transactionManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JpaTransactionManager</span><span class="o">();</span>
+	<span class="kd">public</span> <span class="nc">JpaTransactionManager</span> <span class="nf">transactionmanager</span><span class="o">(</span><span class="nc">EntityManagerFactory</span> <span class="n">emf</span><span class="o">){</span>
+		<span class="nc">JpaTransactionManager</span> <span class="n">transactionManager</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">JpaTransactionManager</span><span class="o">();</span>
 		<span class="n">transactionManager</span><span class="o">.</span><span class="na">setEntityManagerFactory</span><span class="o">(</span> <span class="n">emf</span> <span class="o">);</span>
 		<span class="k">return</span> <span class="n">transactionManager</span><span class="o">;</span>
 	<span class="o">}</span>
@@ -273,67 +273,67 @@
 
 <p>Com isso vamos finalizar a configuração criando nosso WebInitializer como a seguir</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springmvcanddata.config</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer</span><span class="o">;</span>
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebInitializer</span> <span class="kd">extends</span> <span class="n">AbstractAnnotationConfigDispatcherServletInitializer</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebInitializer</span> <span class="kd">extends</span> <span class="nc">AbstractAnnotationConfigDispatcherServletInitializer</span> <span class="o">{</span>
 	<span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getRootConfigClasses</span><span class="o">()</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="n">SpringConfig</span><span class="o">.</span><span class="na">class</span> <span class="o">,</span> <span class="n">PersistenceConfig</span><span class="o">.</span><span class="na">class</span>  <span class="o">};</span>
+	<span class="kd">protected</span> <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getRootConfigClasses</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nc">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="nc">SpringConfig</span><span class="o">.</span><span class="na">class</span> <span class="o">,</span> <span class="nc">PersistenceConfig</span><span class="o">.</span><span class="na">class</span>  <span class="o">};</span>
 	<span class="o">}</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="n">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getServletConfigClasses</span><span class="o">()</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="k">new</span> <span class="n">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="n">SpringMvcConfig</span><span class="o">.</span><span class="na">class</span>  <span class="o">};</span>
+	<span class="kd">protected</span> <span class="nc">Class</span><span class="o">&lt;?&gt;[]</span> <span class="n">getServletConfigClasses</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nc">Class</span><span class="o">[]</span> <span class="o">{</span> <span class="nc">SpringMvcConfig</span><span class="o">.</span><span class="na">class</span>  <span class="o">};</span>
 	<span class="o">}</span>
 
 	<span class="nd">@Override</span>
-	<span class="kd">protected</span> <span class="n">String</span><span class="o">[]</span> <span class="nf">getServletMappings</span><span class="o">()</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="k">new</span> <span class="n">String</span><span class="o">[]</span> <span class="o">{</span> <span class="s">"/"</span> <span class="o">};</span>
+	<span class="kd">protected</span> <span class="nc">String</span><span class="o">[]</span> <span class="nf">getServletMappings</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nc">String</span><span class="o">[]</span> <span class="o">{</span> <span class="s">"/"</span> <span class="o">};</span>
 	<span class="o">}</span>
 <span class="o">}</span></code></pre></figure>
 
 <p>Com isso temos nosso projeto configurado e pronto para rodar, agora vamos criar nossa entidade User e nosso repositório UserRepository como a seguir:</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">domain</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springmvcanddata.domain</span><span class="o">;</span>
 
 <span class="c1">// imports</span>
 
 <span class="nd">@Entity</span>
 <span class="nd">@Table</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"user"</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="n">Serializable</span> <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">User</span> <span class="kd">implements</span> <span class="nc">Serializable</span> <span class="o">{</span>
 	
 	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">long</span> <span class="n">serialVersionUID</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5613292949395788401L</span><span class="o">;</span>
 
 	<span class="nd">@Id</span>
-	<span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
-	<span class="kd">private</span> <span class="n">Integer</span> <span class="n">id</span><span class="o">;</span>
+	<span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
+	<span class="kd">private</span> <span class="nc">Integer</span> <span class="n">id</span><span class="o">;</span>
 	
-	<span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
 	
 	<span class="nd">@JsonIgnore</span>
 	<span class="kd">private</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span><span class="o">;</span>
 	
-	<span class="kd">private</span> <span class="n">String</span> <span class="n">role</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">role</span><span class="o">;</span>
 	
-	<span class="kd">private</span> <span class="n">Date</span> <span class="n">createdAt</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">Date</span> <span class="n">createdAt</span><span class="o">;</span>
 
 	<span class="kd">public</span> <span class="nf">User</span><span class="o">()</span> <span class="o">{</span>	<span class="o">}</span>
 	
-	<span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
 		<span class="kd">super</span><span class="o">();</span>
 		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
 		<span class="k">this</span><span class="o">.</span><span class="na">password</span> <span class="o">=</span> <span class="n">password</span><span class="o">;</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">createdAt</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Date</span><span class="o">();</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">createdAt</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Date</span><span class="o">();</span>
 	<span class="o">}</span>
 	
-	<span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">,</span> <span class="n">String</span> <span class="n">role</span> <span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">,</span> <span class="nc">String</span> <span class="n">role</span> <span class="o">)</span> <span class="o">{</span>
 		<span class="k">this</span><span class="o">(</span> <span class="n">name</span> <span class="o">,</span> <span class="n">password</span> <span class="o">);</span>
 		<span class="k">this</span><span class="o">.</span><span class="na">role</span> <span class="o">=</span> <span class="n">role</span><span class="o">;</span>
 	<span class="o">}</span>
 
-	<span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">,</span> <span class="n">String</span> <span class="n">role</span> <span class="o">,</span> <span class="kt">boolean</span> <span class="n">active</span> <span class="o">)</span> <span class="o">{</span>
+	<span class="kd">public</span> <span class="nf">User</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">char</span><span class="o">[]</span> <span class="n">password</span> <span class="o">,</span> <span class="nc">String</span> <span class="n">role</span> <span class="o">,</span> <span class="kt">boolean</span> <span class="n">active</span> <span class="o">)</span> <span class="o">{</span>
 		<span class="k">this</span><span class="o">(</span> <span class="n">name</span> <span class="o">,</span> <span class="n">password</span> <span class="o">,</span> <span class="n">role</span><span class="o">);</span>
 		<span class="k">this</span><span class="o">.</span><span class="na">active</span> <span class="o">=</span> <span class="n">active</span><span class="o">;</span>
 	<span class="o">}</span>
@@ -341,14 +341,14 @@
 	<span class="cm">/* gets sets */</span>
 <span class="o">}</span></code></pre></figure>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">repository</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springmvcanddata.repository</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaSpecificationExecutor</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">me.efraimgentil.springmvcanddata.domain.User</span><span class="o">;</span>
 
-<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">User</span><span class="o">,</span> <span class="n">Integer</span><span class="o">&gt;,</span> <span class="n">JpaSpecificationExecutor</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span>  <span class="o">{</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">UserRepository</span> <span class="kd">extends</span> <span class="nc">JpaRepository</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">,</span> <span class="nc">Integer</span><span class="o">&gt;,</span> <span class="nc">JpaSpecificationExecutor</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span>  <span class="o">{</span>
 
 <span class="o">}</span></code></pre></figure>
 
@@ -356,7 +356,7 @@
 
 <p>Ok agora vamos criar nosso controller, que irá servir nossa entidade como JSON, veja a seguir</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">controller</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springmvcanddata.controller</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 
@@ -379,35 +379,35 @@
 <span class="nd">@RestController</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
 	
-	<span class="nd">@Autowired</span> <span class="n">UserRepository</span> <span class="n">repository</span><span class="o">;</span>
+	<span class="nd">@Autowired</span> <span class="nc">UserRepository</span> <span class="n">repository</span><span class="o">;</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allUsers</span><span class="o">(){</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">allUsers</span><span class="o">(){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
 	<span class="o">}</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/{id}"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">User</span> <span class="nf">user</span><span class="o">(</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="n">Integer</span> <span class="n">id</span> <span class="o">){</span>
+	<span class="kd">public</span> <span class="nc">User</span> <span class="nf">user</span><span class="o">(</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Integer</span> <span class="n">id</span> <span class="o">){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
 	<span class="o">}</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/active"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsers</span><span class="o">(</span> <span class="o">){</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsers</span><span class="o">(</span> <span class="o">){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> 
-				<span class="n">where</span><span class="o">(</span> <span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">query</span><span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">),</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">);</span> <span class="o">}</span> <span class="o">)</span> <span class="o">);</span>
+				<span class="n">where</span><span class="o">(</span> <span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">query</span><span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">),</span> <span class="nc">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">);</span> <span class="o">}</span> <span class="o">)</span> <span class="o">);</span>
 	<span class="o">}</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/with-role/{role}"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allUsersWithRole</span><span class="o">(</span> <span class="kd">final</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="n">String</span> <span class="n">role</span> <span class="o">){</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">allUsersWithRole</span><span class="o">(</span> <span class="kd">final</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">role</span> <span class="o">){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> 
 				<span class="n">where</span><span class="o">(</span> <span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">query</span><span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"role"</span><span class="o">),</span> <span class="n">role</span> <span class="o">);</span> <span class="o">}</span> <span class="o">)</span> <span class="o">);</span>
 	<span class="o">}</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/active/with-role/{role}"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsersWithRole</span><span class="o">(</span> <span class="kd">final</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="n">String</span> <span class="n">role</span> <span class="o">){</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsersWithRole</span><span class="o">(</span> <span class="kd">final</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">role</span> <span class="o">){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> 
-				<span class="n">where</span><span class="o">(</span> <span class="o">(</span><span class="n">Root</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="n">root</span><span class="o">,</span> <span class="n">CriteriaQuery</span><span class="o">&lt;?&gt;</span> <span class="n">query</span><span class="o">,</span> <span class="n">CriteriaBuilder</span> <span class="n">cb</span><span class="o">)</span> 
-						<span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">),</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">);</span> <span class="o">}</span> <span class="o">)</span>
+				<span class="n">where</span><span class="o">(</span> <span class="o">(</span><span class="nc">Root</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="n">root</span><span class="o">,</span> <span class="nc">CriteriaQuery</span><span class="o">&lt;?&gt;</span> <span class="n">query</span><span class="o">,</span> <span class="nc">CriteriaBuilder</span> <span class="n">cb</span><span class="o">)</span> 
+						<span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">),</span> <span class="nc">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">);</span> <span class="o">}</span> <span class="o">)</span>
 				 <span class="o">.</span><span class="na">and</span><span class="o">(</span> <span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="n">query</span><span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span> <span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"role"</span><span class="o">),</span> <span class="n">role</span> <span class="o">);</span> <span class="o">}</span>  <span class="o">)</span>
 				<span class="o">);</span>
 	<span class="o">}</span>
@@ -422,7 +422,7 @@
 
 <p>Perceba que é bem prático utilizar as Specifications, porém como pode ser visto no método allActiveUsersWithRole, com mais critérios para consulta, fica mais complexo ler e entender o que está acontecendo, por isso vamos criar uma classe chamada UserSpecs como a seguir</p>
 
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="n">me</span><span class="o">.</span><span class="na">efraimgentil</span><span class="o">.</span><span class="na">springmvcanddata</span><span class="o">.</span><span class="na">domain</span><span class="o">.</span><span class="na">specs</span><span class="o">;</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kn">package</span> <span class="nn">me.efraimgentil.springmvcanddata.domain.specs</span><span class="o">;</span>
 
 <span class="kn">import</span> <span class="nn">org.springframework.data.jpa.domain.Specification</span><span class="o">;</span>
 
@@ -430,13 +430,13 @@
 
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserSpecs</span> <span class="o">{</span>
 	
-	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Specification</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">active</span><span class="o">(){</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">Specification</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">active</span><span class="o">(){</span>
 		<span class="k">return</span> <span class="o">(</span><span class="n">root</span> <span class="o">,</span> <span class="n">query</span> <span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
-			<span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">),</span> <span class="n">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">);</span>
+			<span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">),</span> <span class="nc">Boolean</span><span class="o">.</span><span class="na">TRUE</span> <span class="o">);</span>
 		<span class="o">};</span>
 	<span class="o">}</span>
 	
-	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Specification</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">withRole</span><span class="o">(</span><span class="kd">final</span> <span class="n">String</span> <span class="n">role</span><span class="o">){</span>
+	<span class="kd">public</span> <span class="kd">static</span> <span class="nc">Specification</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">withRole</span><span class="o">(</span><span class="kd">final</span> <span class="nc">String</span> <span class="n">role</span><span class="o">){</span>
 		<span class="k">return</span> <span class="o">(</span><span class="n">root</span> <span class="o">,</span> <span class="n">query</span> <span class="o">,</span> <span class="n">cb</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">{</span>
 			<span class="k">return</span> <span class="n">cb</span><span class="o">.</span><span class="na">equal</span><span class="o">(</span> <span class="n">cb</span><span class="o">.</span><span class="na">upper</span><span class="o">(</span> <span class="n">root</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"active"</span><span class="o">)</span> <span class="o">),</span> <span class="n">role</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">()</span> <span class="o">);</span>
 		<span class="o">};</span>
@@ -455,30 +455,30 @@
 <span class="nd">@RestController</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
 	
-	<span class="nd">@Autowired</span> <span class="n">UserRepository</span> <span class="n">repository</span><span class="o">;</span>
+	<span class="nd">@Autowired</span> <span class="nc">UserRepository</span> <span class="n">repository</span><span class="o">;</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allUsers</span><span class="o">(){</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">allUsers</span><span class="o">(){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
 	<span class="o">}</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/{id}"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">User</span> <span class="nf">user</span><span class="o">(</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="n">Integer</span> <span class="n">id</span> <span class="o">){</span>
+	<span class="kd">public</span> <span class="nc">User</span> <span class="nf">user</span><span class="o">(</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Integer</span> <span class="n">id</span> <span class="o">){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findOne</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
 	<span class="o">}</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/active"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsers</span><span class="o">(</span> <span class="o">){</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsers</span><span class="o">(</span> <span class="o">){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> <span class="n">active</span><span class="o">()</span> <span class="o">);</span>
 	<span class="o">}</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/with-role/{role}"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allUsersWithRole</span><span class="o">(</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="n">String</span> <span class="n">role</span> <span class="o">){</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">allUsersWithRole</span><span class="o">(</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">role</span> <span class="o">){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> <span class="n">withRole</span><span class="o">(</span> <span class="n">role</span> <span class="o">)</span> <span class="o">);</span>
 	<span class="o">}</span>
 	
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="o">{</span> <span class="s">"/active/with-role/{role}"</span> <span class="o">})</span>
-	<span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsersWithRole</span><span class="o">(</span> <span class="kd">final</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="n">String</span> <span class="n">role</span> <span class="o">){</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">User</span><span class="o">&gt;</span> <span class="nf">allActiveUsersWithRole</span><span class="o">(</span> <span class="kd">final</span> <span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"role"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">role</span> <span class="o">){</span>
 		<span class="k">return</span> <span class="n">repository</span><span class="o">.</span><span class="na">findAll</span><span class="o">(</span> <span class="n">where</span><span class="o">(</span> <span class="n">active</span><span class="o">()</span> <span class="o">).</span><span class="na">and</span><span class="o">(</span> <span class="n">withRole</span><span class="o">(</span><span class="n">role</span><span class="o">)</span> <span class="o">)</span> <span class="o">);</span>
 	<span class="o">}</span>
 	
